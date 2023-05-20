@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 import static com.example.demo.model.Dimension.*;
@@ -29,7 +31,7 @@ public class GameBoard {
 
 
     public GameBoard(int ballNumber, double windRange, double rotateSpeed,
-                     int iceProgressTime, int numberOfDefaultBalls, boolean isTwosomeGame) {
+                     int iceProgressTime, int numberOfDefaultBalls, boolean isTwosomeGame, double stopDistance, boolean isBlackAndWhite) {
         this.magicForceDegree = 0;
         this.ballNumber = ballNumber;
         this.wind = new Wind(windRange);
@@ -47,16 +49,22 @@ public class GameBoard {
 
         this.defaultBalls = new Ball[numberOfDefaultBalls];
         for (int i = 0; i < numberOfDefaultBalls; i++) {
+
             this.defaultBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                    numberOfDefaultBalls, i, rotateSpeed);
+                    numberOfDefaultBalls, i, rotateSpeed, stopDistance, Color.BLACK);
             allBalls.add(this.defaultBalls[i]);
         }
 
 
         this.firstOpponentGameBalls = new Ball[ballNumber];
         for (int i = 0; i < ballNumber; i++) {
+            Color color;
+            if (isBlackAndWhite)
+                color = Color.BLACK;
+            else
+                color = Color.BLUE;
             firstOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                    rotateSpeed, ballNumber - i, true);
+                    rotateSpeed, ballNumber - i, true, stopDistance, color);
             allBalls.add(this.firstOpponentGameBalls[i]);
         }
         firstOpponentGameBalls[0].setReadyToLaunch();
@@ -64,8 +72,13 @@ public class GameBoard {
         if (isTwosomeGame) {
             this.secondOpponentGameBalls = new Ball[ballNumber];
             for (int i = 0; i < ballNumber; i++) {
+                Color color;
+                if (isBlackAndWhite)
+                    color = Color.BLACK;
+                else
+                    color = Color.GOLD;
                 secondOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                        rotateSpeed, ballNumber - i, false);
+                        rotateSpeed, ballNumber - i, false, stopDistance, color);
                 allBalls.add(secondOpponentGameBalls[i]);
             }
             secondOpponentGameBalls[0].setReadyToLaunch();

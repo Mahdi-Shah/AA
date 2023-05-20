@@ -36,6 +36,10 @@ public class GameMenu extends Application {
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         root.setCenter(canvas);
+        stage.setHeight(HEIGHT);
+        stage.setWidth(WIDTH);
+        canvas.setHeight(HEIGHT);
+        canvas.setWidth(WIDTH);
 
         Scene scene = new Scene(root);
 
@@ -150,7 +154,7 @@ public class GameMenu extends Application {
     }
 
     public void drawBall(GraphicsContext gc, Ball ball) {
-        gc.setFill(Color.BLACK);
+        gc.setFill(ball.getColor());
         gc.fillOval(ball.getBallX() - ball.getBallRadius(),
                 ball.getBallY() - ball.getBallRadius(),
                 2 * ball.getBallRadius(),
@@ -167,6 +171,7 @@ public class GameMenu extends Application {
     }
 
     public void drawLine(GraphicsContext gc, Ball ball) {
+        gc.setFill(ball.getColor());
         gc.setLineWidth(controller.getLineWidth());
         gc.strokeLine(ball.getBallX(), ball.getBallY(), controller.getCircleCenterX(), controller.getCircleCenterY());
     }

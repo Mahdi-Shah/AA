@@ -2,6 +2,8 @@ package com.example.demo.view;
 
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+
 
 public class MainMenuController {
     private static MainMenuController menuController = null;
@@ -28,5 +30,10 @@ public class MainMenuController {
     public void playNewGame(Stage stage) throws Exception {
         GameMenu gameMenu = new GameMenu();
         gameMenu.start(stage);
+    }
+
+    public void goToSettingMenu(Stage stage) throws FileNotFoundException {
+        SettingMenu menu = new SettingMenu();
+        menu.start(stage);
     }
 }

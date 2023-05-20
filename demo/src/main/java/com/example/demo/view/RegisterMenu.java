@@ -26,9 +26,8 @@ public class RegisterMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        (new GameMenu()).start(primaryStage); // TODO: delete it
-//        setScene(primaryStage);
-//        primaryStage.show();
+        setScene(primaryStage);
+        primaryStage.show();
     }
 
     private void setScene(Stage stage) throws FileNotFoundException {
@@ -97,15 +96,11 @@ public class RegisterMenu extends Application {
 
         exitButton.setOnMouseClicked(mouseEvent -> RegisterMenuController.getInstance().exit(stage));
 
-        ToggleButton toggleButton = new ToggleButton("salam");
-        toggleButton.setSelected(false);
-
 
         vBox.getChildren().add(submitButton);
         vBox.getChildren().add(loginButton);
         vBox.getChildren().add(skipButton);
         vBox.getChildren().add(exitButton);
-        vBox.getChildren().add(toggleButton);
     }
 
 

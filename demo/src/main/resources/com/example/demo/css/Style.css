@@ -74,3 +74,142 @@
 .text-field .prompt-text {
   -fx-text-fill: #aaa;
 }
+
+/* style.css */
+
+
+/* Set style for the Settings title */
+.label-title {
+-fx-font-size: 24px;
+-fx-text-fill: #333;
+-fx-font-weight: bold;
+}
+
+/* Set style for the sliders */
+/* Set style for the sliders */
+
+/* Track */
+.slider .track {
+  -fx-background-color: #bdc3c7;
+  -fx-background-radius: 10px;
+  -fx-padding: 0.5px;
+}
+
+/* Thumb */
+.slider .thumb {
+  -fx-background-color: #1abc9c;
+  -fx-background-radius: 50%;
+  -fx-padding: 10px;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 4,0,0,1 );
+}
+
+/* Hover */
+.slider .thumb:hover {
+  -fx-background-color: #16a085;
+}
+
+/* Pressed */
+.slider .thumb:pressed {
+  -fx-background-color: #1abc9c;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 6,0,0,1 );
+}
+
+/* Set style for the slider labels */
+.slider-label {
+-fx-font-size: 15px;
+-fx-text-fill: #333;
+}
+
+/* Set style for the checkbox labels */
+.checkbox-label {
+-fx-font-size: 15px;
+-fx-text-fill: #ecf0f1;
+}
+
+/* Set style for the language choice box */
+/* Set style for the checkboxes */
+.checkbox {
+  -fx-font-size: 14px;
+  -fx-text-fill: #333;
+  -fx-alignment: center-left;
+}
+
+/* Box */
+.checkbox .box {
+  -fx-background-color: #fff;
+  -fx-background-radius: 3px;
+  -fx-border-width: 1px;
+  -fx-border-color: #bdc3c7;
+  -fx-padding: 2px;
+}
+
+/* Checked */
+.checkbox .box:selected {
+  -fx-background-color: #1abc9c;
+  -fx-border-color: #1abc9c;
+}
+
+/* Tick */
+.checkbox .box:selected .mark {
+  -fx-background-color: #fff;
+}
+
+/* Hover */
+.checkbox:hover .box {
+  -fx-border-color: #1abc9c;
+}
+
+/* Pressed */
+.checkbox:pressed .box {
+  -fx-background-color: #1abc9c;
+  -fx-border-color: #1abc9c;
+  -fx-text-fill: #fff;
+}
+
+/* Set style for the choice box */
+.choice-box .arrow {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-background-radius: 0;
+}
+
+/* Hover */
+.choice-box:hover .arrow {
+  -fx-background-color: #1abc9c;
+}
+
+/* Pressed */
+.choice-box:pressed .arrow {
+  -fx-background-color: #1abc9c;
+}
+
+/* Popup */
+.choice-box .cell {
+  -fx-background-color: #fff;
+  -fx-text-fill: #333;
+}
+
+/* Selected */
+.choice-box .cell:selected {
+  -fx-background-color: #1abc9c;
+  -fx-text-fill: #fff;
+}
+
+/* Set style for the back button */
+.button-back {
+-fx-background-color: #34495e;
+-fx-text-fill: #ecf0f1;
+-fx-font-size: 15px;
+-fx-padding: 10px 20px 10px 20px;
+-fx-border-color: #34495e;
+-fx-border-radius: 5px;
+}
+
+/* Set style for the back button on hover */
+.button-back:hover {
+-fx-background-color: #2c3e50;
+}
+
+.vbox {
+  -fx-background-color: radial-gradient(center 50% 50%, radius 85%, #E23A36, #2194F0);
+}

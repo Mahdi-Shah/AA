@@ -13,7 +13,16 @@ import com.google.gson.reflect.TypeToken;
 public class DataBase {
     private static ArrayList<User> users = new ArrayList<>();
 
-    private static GameBoard currentGame = new GameBoard(8, 1.2,0.07, 5, 1, true);
+    private static int ballNumber = 10;
+    private static double windRange = 1.5;
+    private static double rotateSpeed = 0.07;
+    private static int iceProgressTime = 5;
+    private static int numberOfDefaultBalls = 3;
+    private static boolean isTwosomeGame = true;
+    private static double stopDistance = 180;
+    private static boolean isBlackAndWhite = true;
+
+    private static GameBoard currentGame = new GameBoard(ballNumber, windRange,rotateSpeed, iceProgressTime, 1, isTwosomeGame, stopDistance, isBlackAndWhite);
 
     private static User currentUser;
 
@@ -58,12 +67,44 @@ public class DataBase {
         return currentGame;
     }
 
-    public static void setCurrentGame(GameBoard currentGame) {
-        DataBase.currentGame = currentGame;
+    public static void setCurrentGame() {
+        DataBase.currentGame = new GameBoard(ballNumber, windRange, rotateSpeed, iceProgressTime, numberOfDefaultBalls, isTwosomeGame, stopDistance, isBlackAndWhite);
     }
 
     public static void addUser(User user) throws IOException {
         users.add(user);
         writeDataToBase();
+    }
+
+    public static void setBallNumber(int ballNumber) {
+        DataBase.ballNumber = ballNumber;
+    }
+
+    public static void setWindRange(double windRange) {
+        DataBase.windRange = windRange;
+    }
+
+    public static void setRotateSpeed(double rotateSpeed) {
+        DataBase.rotateSpeed = rotateSpeed;
+    }
+
+    public static void setIceProgressTime(int iceProgressTime) {
+        DataBase.iceProgressTime = iceProgressTime;
+    }
+
+    public static void setNumberOfDefaultBalls(int numberOfDefaultBalls) {
+        DataBase.numberOfDefaultBalls = numberOfDefaultBalls;
+    }
+
+    public static void setIsTwosomeGame(boolean isTwosomeGame) {
+        DataBase.isTwosomeGame = isTwosomeGame;
+    }
+
+    public static void setStopDistance(double stopDistance) {
+        DataBase.stopDistance = stopDistance;
+    }
+
+    public static void setIsBlackAndWhite(boolean isBlackAndWhite) {
+        DataBase.isBlackAndWhite = isBlackAndWhite;
     }
 }

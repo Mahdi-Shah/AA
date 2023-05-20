@@ -93,6 +93,14 @@ public class MainMenu extends Application {
             }
         });
 
+        settingButton.setOnMouseClicked(event -> {
+            try {
+                MainMenuController.getInstance().goToSettingMenu(stage);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         exitButton.setOnMouseClicked(event -> {
             try {
                 MainMenuController.getInstance().exit(stage);

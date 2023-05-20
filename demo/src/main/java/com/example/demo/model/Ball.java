@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import javafx.scene.paint.Color;
+
 import static com.example.demo.model.Dimension.*;
 
 public class Ball {
@@ -28,9 +30,11 @@ public class Ball {
     private boolean visible;
     private final boolean defaultBall;
     private final boolean forFirstOpponent;
+    private final double stopDistance;
+    private final Color color;
 
     public Ball(double bigCircleX, double bigCircleY,
-                double ballRotateSpeed, int number, boolean forFirstOpponent) {
+                double ballRotateSpeed, int number, boolean forFirstOpponent, double stopDistance, Color color) {
         this.setVisible(false);
         this.bigCircleX = bigCircleX;
         this.bigCircleY = bigCircleY;
@@ -43,25 +47,29 @@ public class Ball {
         this.ballRadius = BALL_RADIUS;
         this.defaultBall = false;
         this.forFirstOpponent = forFirstOpponent;
+        this.stopDistance = stopDistance;
+        this.color = color;
     }
 
-    public Ball(double bigCircleX, double bigCircleY, int numBalls, int ballNumber, double ballRotateSpeed) {
+    public Ball(double bigCircleX, double bigCircleY, int numBalls, int ballNumber, double ballRotateSpeed, double stopDistance, Color color) {
         double angle = Math.toRadians(360.0 / numBalls * ballNumber);
         this.ballRadius = BALL_RADIUS;
         this.bigCircleX = bigCircleX;
         this.bigCircleY = bigCircleY;
-        this.ballX = bigCircleX + STOP_DISTANCE * Math.cos(angle);
-        this.ballY = bigCircleY + STOP_DISTANCE * Math.sin(angle);
+        this.ballX = bigCircleX + stopDistance * Math.cos(angle);
+        this.ballY = bigCircleY + stopDistance * Math.sin(angle);
         this.shot = false;
         this.visible = true;
         this.number = ballNumber;
         this.ballRotateSpeed = ballRotateSpeed;
         this.defaultBall = true;
         this.forFirstOpponent = true;
+        this.stopDistance = stopDistance;
+        this.color = color;
     }
 
     private boolean isConnected() {
-        if (Math.sqrt(Math.pow((ballX - bigCircleX), 2) + Math.pow((ballY - bigCircleY), 2)) <= STOP_DISTANCE) {
+        if (Math.sqrt(Math.pow((ballX - bigCircleX), 2) + Math.pow((ballY - bigCircleY), 2)) <= stopDistance) {
             isConnect = true;
             return true;
         }
@@ -123,7 +131,7 @@ public class Ball {
         if (!isReadyToLaunch()) {
             ballX = WIDTH / 2.0;
             if (forFirstOpponent)
-                ballY = HEIGHT - ballRadius;
+                ballY = HEIGHT - ballRadius - 80;
             else
                 ballY = ballRadius;
             this.setVisible(true);
@@ -164,5 +172,9 @@ public class Ball {
 
     public boolean isDefaultBall() {
         return defaultBall;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

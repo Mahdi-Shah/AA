@@ -61,9 +61,9 @@ public class GameController {
         if (gameBoard.isFourthFazeBegins())
             if (hasNotShotBall(isForFirstOpponent)) {
                 if (isToLeft) {
-                    if (gameBoard.getBall(isForFirstOpponent).getBallX() >= 20)
+                    if (gameBoard.getBall(isForFirstOpponent).getBallX() >= 22)
                         gameBoard.getBall(isForFirstOpponent).moveToLeft(true);
-                } else if (gameBoard.getBall(isForFirstOpponent).getBallX() <= WIDTH - 20)
+                } else if (gameBoard.getBall(isForFirstOpponent).getBallX() <= WIDTH - 40)
                     gameBoard.getBall(isForFirstOpponent).moveToLeft(false);
             }
     }
