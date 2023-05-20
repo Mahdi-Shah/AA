@@ -1,111 +1,120 @@
 package com.example.demo.view;
 
 
+import com.example.demo.model.DataBase;
+import com.example.demo.model.User;
 import javafx.application.Application;
-import javafx.geometry.Insets;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.io.FileNotFoundException;
+
+import java.time.LocalTime;
 import java.util.Objects;
 
-import static com.example.demo.view.SomeFields.*;
+import static com.example.demo.view.SomeFields.handleButtonColor;
+import static com.example.demo.view.SomeFields.setRegisterAndLoginBackground;
 
 public class ScoreboardMenu extends Application {
 
-    private int difficulty = 0;
-
     @Override
-    public void start(Stage stage) throws Exception {
-        setStage(stage);
-    }
+    public void start(Stage primaryStage) throws Exception {
 
-    private void setStage(Stage stage) throws FileNotFoundException {
-        stage.setScene(setScene(stage));
-        stage.setWidth(WIDTH);
-        stage.setHeight(HEIGHT);
-    }
+        TableView<User> table = new TableView<>();
 
-    private Scene setScene(Stage stage) throws FileNotFoundException {
-        VBox vBox = new VBox();
-        Scene scene = new Scene(vBox);
-        stage.setTitle("Main Menu");
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
-        setVBOX(vBox, stage);
-        return scene;
-    }
 
-    private void setVBOX(VBox vBox, Stage stage) throws FileNotFoundException {
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setMinHeight(HEIGHT);
-        vBox.setMinWidth(WIDTH);
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(20);
-        setRegisterAndLoginBackground(vBox);
-        addFormName(vBox, "Wellcome to Scoreboard menu");
-        addScoreboard(vBox);
-        addButtons(vBox, stage);
-    }
+        TableColumn<User, String> usernameCol = new TableColumn<>("Username");
+        TableColumn<User, Integer> scoreCol = new TableColumn<>("Score");
+        TableColumn<User, Integer> easyScoreCol = new TableColumn<>("easy");
+        TableColumn<User, Integer> middleScoreCol = new TableColumn<>("middle");
+        TableColumn<User, Integer> hardScoreCol = new TableColumn<>("hard");
+        TableColumn<User, Integer> timeCol = new TableColumn<>("Time");
+        TableColumn<User, Integer> easyTimeCol = new TableColumn<>("easy");
+        TableColumn<User, Integer> middleTimeCol = new TableColumn<>("middle");
+        TableColumn<User, Integer> hardTimeCol = new TableColumn<>("hard");
 
-    private void addButtons(VBox vBox, Stage stage) {
-        Button easyDifficultyButton = new Button("Sort by\neasy games");
-        handleButtonColor(easyDifficultyButton, 1);
 
-        Button middleDifficultyButton = new Button("Sort by\nmiddle games");
-        handleButtonColor(middleDifficultyButton, 2);
+        table.getColumns().addAll(usernameCol, scoreCol, easyScoreCol, middleScoreCol, hardScoreCol,
+                timeCol, easyTimeCol, middleTimeCol, hardTimeCol);
 
-        Button hardDifficultyButton = new Button("Sort by\nhard games");
-        handleButtonColor(hardDifficultyButton, 3);
+
+        ObservableList<User> data = FXCollections.observableArrayList(DataBase.getUsers());
+        table.setItems(data);
+
+
+        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+        usernameCol.setMinWidth(120);
+        scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
+        scoreCol.setMinWidth(70);
+        easyScoreCol.setCellValueFactory(new PropertyValueFactory<>("easyScore"));
+        middleScoreCol.setCellValueFactory(new PropertyValueFactory<>("middleScore"));
+        hardScoreCol.setCellValueFactory(new PropertyValueFactory<>("hardScore"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("averageTime"));
+        easyTimeCol.setCellValueFactory(new PropertyValueFactory<>("easyAverageTime"));
+        easyTimeCol.setCellValueFactory(new PropertyValueFactory<>("middleAverageTime"));
+        easyTimeCol.setCellValueFactory(new PropertyValueFactory<>("hardAverageTime"));
+        timeCol.setMinWidth(70);
+        easyScoreCol.setMinWidth(80);
+        middleScoreCol.setMinWidth(80);
+        hardScoreCol.setMinWidth(80);
+        easyTimeCol.setMinWidth(80);
+        middleTimeCol.setMinWidth(80);
+        hardTimeCol.setMinWidth(80);
+
+
+        table.setRowFactory(tv -> {
+            return new TableRow<User>() {
+                @Override
+                protected void updateItem(User user, boolean empty) {
+                    super.updateItem(user, empty);
+
+                    if (user == null || empty) {
+                        setStyle("");
+                    } else if (getIndex() == 0) {
+                        setStyle("-fx-background-color: gold;");
+                    } else if (getIndex() == 1) {
+                        setStyle("-fx-background-color: silver;");
+                    } else if (getIndex() == 2) {
+                        setStyle("-fx-background-color: #cd7f32;"); // Bronze color
+                    } else {
+                        setStyle("");
+                    }
+                }
+            };
+        });
 
         Button backButton = new Button("Back");
-        handleButtonColor(backButton, 4);
-
-        easyDifficultyButton.setOnMouseClicked(event -> {
-            this.difficulty = 1;
-            ScoreBoardMenuController.getInstance().setScoreBoardByDifficulty(this.difficulty,
-                    ((GridPane) ((ScrollPane) vBox.getChildren().get(1)).getContent()));
-        });
-
-        middleDifficultyButton.setOnMouseClicked(event -> {
-            this.difficulty = 2;
-            ScoreBoardMenuController.getInstance().setScoreBoardByDifficulty(this.difficulty,
-                    ((GridPane) ((ScrollPane) vBox.getChildren().get(1)).getContent()));
-        });
-
-        hardDifficultyButton.setOnMouseClicked(event -> {
-            this.difficulty = 3;
-            ScoreBoardMenuController.getInstance().setScoreBoardByDifficulty(this.difficulty,
-                    ((GridPane) ((ScrollPane) vBox.getChildren().get(1)).getContent()));
-        });
+        handleButtonColor(backButton, 1);
 
         backButton.setOnMouseClicked(event -> {
             try {
-                ScoreBoardMenuController.getInstance().back(stage);
+                ScoreBoardMenuController.getInstance().back(primaryStage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
-        HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setSpacing(15);
-        hBox.getChildren().add(easyDifficultyButton);
-        hBox.getChildren().add(middleDifficultyButton);
-        hBox.getChildren().add(hardDifficultyButton);
-        vBox.getChildren().add(hBox);
-        vBox.getChildren().add(backButton);
-    }
 
-    private void addScoreboard(VBox vBox) {
-        ScrollPane scrollPane = new ScrollPane();
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        ScoreBoardMenuController.getInstance().setScoreBoardByDifficulty(this.difficulty, gridPane);
-        scrollPane.setContent(gridPane);
-        vBox.getChildren().add(scrollPane);
+
+        table.getSortOrder().add(scoreCol);
+        table.getSortOrder().add(timeCol);
+        table.sort();
+
+
+        VBox root = new VBox();
+        root.setSpacing(30);
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().addAll(table, backButton);
+        Scene scene = new Scene(root, 400, 400);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
+        setRegisterAndLoginBackground(root);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

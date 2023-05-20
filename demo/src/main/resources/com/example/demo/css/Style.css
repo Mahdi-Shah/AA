@@ -213,3 +213,33 @@
 .vbox {
   -fx-background-color: radial-gradient(center 50% 50%, radius 85%, #E23A36, #2194F0);
 }
+
+/* Set font and font size for table */
+.table-view {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+}
+
+/* Set header font color and background color */
+.table-header-background {
+    -fx-background-color: #333;
+}
+
+.table-header .label {
+    -fx-text-fill: white;
+}
+
+/* Set alternating background color for rows */
+.table-row-cell:even {
+    -fx-background-color: #f0f0f0;
+}
+
+/* Set hover and selection colors for cells */
+.table-row-cell:hover {
+    -fx-background-color: #ddd;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #0072C6;
+    -fx-text-fill: white;
+}
