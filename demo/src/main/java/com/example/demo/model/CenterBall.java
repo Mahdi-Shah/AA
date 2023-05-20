@@ -12,17 +12,11 @@ public class CenterBall {
     private final double circleCenterX;
     private final double circleCenterY;
 
-    private final double radius;
-
-    public CenterBall(double radius) {
+    public CenterBall() {
         this.circleCenterX = WIDTH / 2;
         this.circleCenterY = HEIGHT / 2;
-        this.radius = radius;
     }
 
-    public double getRadius() {
-        return radius;
-    }
 
     public double getCircleCenterX() {
         return circleCenterX;

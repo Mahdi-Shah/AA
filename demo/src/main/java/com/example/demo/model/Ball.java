@@ -3,14 +3,9 @@ package com.example.demo.model;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import static com.example.demo.model.Dimension.HEIGHT;
-import static com.example.demo.model.Dimension.WIDTH;
+import static com.example.demo.model.Dimension.*;
 
 public class Ball {
-
-    private static final int BALL_RADIUS = 10;
-
-    private static final double BALL_SPEED = 5.0;
 
     private static final double BALL_ROTATE_SPEED = 0.05;
 
@@ -27,10 +22,6 @@ public class Ball {
 
     private final double bigCircleY;
 
-    private final double stopDistance;
-
-    private final double ballSpeed;
-
     private boolean shot;
 
     private boolean readyToLaunch;
@@ -38,25 +29,39 @@ public class Ball {
     private final int number;
 
     private boolean visible;
+    private final boolean defaultBall;
 
     public Ball(double bigCircleX, double bigCircleY,
-                double stopDistance, double ballRadius, double ballSpeed, double ballRotateSpeed, int number) {
+                double ballRotateSpeed, int number) {
         this.setVisible(false);
         this.bigCircleX = bigCircleX;
         this.bigCircleY = bigCircleY;
-        this.stopDistance = stopDistance;
-        this.ballRadius = ballRadius;
-        this.ballSpeed = ballSpeed;
         this.ballRotateSpeed = ballRotateSpeed;
         this.shot = false;
         this.isConnect = false;
         this.readyToLaunch = false;
         this.number = number;
         this.visible = false;
+        this.ballRadius = BALL_RADIUS;
+        this.defaultBall = false;
+    }
+
+    public Ball(double bigCircleX, double bigCircleY, int numBalls, int ballNumber, double ballRotateSpeed) {
+        double angle = Math.toRadians(360.0 / numBalls * ballNumber);
+        this.ballRadius = BALL_RADIUS;
+        this.bigCircleX = bigCircleX;
+        this.bigCircleY = bigCircleY;
+        this.ballX = bigCircleX + STOP_DISTANCE * Math.cos(angle);
+        this.ballY = bigCircleY + STOP_DISTANCE * Math.sin(angle);
+        this.shot = false;
+        this.visible = true;
+        this.number = ballNumber;
+        this.ballRotateSpeed = ballRotateSpeed;
+        this.defaultBall = true;
     }
 
     private boolean isConnected() {
-        if (Math.sqrt(Math.pow((ballX - bigCircleX), 2) + Math.pow((ballY - bigCircleY), 2)) <= stopDistance) {
+        if (Math.sqrt(Math.pow((ballX - bigCircleX), 2) + Math.pow((ballY - bigCircleY), 2)) <= STOP_DISTANCE) {
             isConnect = true;
             return true;
         }
@@ -64,7 +69,7 @@ public class Ball {
     }
 
     public void ballMoving(double windSpeed) {
-        if (!isConnect && !isConnected()) {
+        if (!isConnect && !isConnected() && !isDefaultBall()) {
             ballVelocityY += 0.01; // Add gravity
             ballX += ballVelocityX + windSpeed;
             ballY += ballVelocityY;
@@ -83,8 +88,8 @@ public class Ball {
 
     public void shootBall(double magicHandDegree) {
         this.shot = true;
-        ballVelocityX = ballSpeed * Math.sin(magicHandDegree / 180 * Math.PI);
-        ballVelocityY = -ballSpeed * Math.cos(magicHandDegree / 180 * Math.PI);
+        ballVelocityX = BALL_SPEED * Math.sin(magicHandDegree / 180 * Math.PI);
+        ballVelocityY = -BALL_SPEED * Math.cos(magicHandDegree / 180 * Math.PI);
         this.setVisible(true);
     }
 
@@ -116,8 +121,9 @@ public class Ball {
         if (!isReadyToLaunch()) {
             ballX = WIDTH / 2.0;
             ballY = HEIGHT - ballRadius;
+            //todo: DELETE THIS TWO
             ballVelocityX = 0.0;
-            ballVelocityY = -ballSpeed;
+            ballVelocityY = -BALL_SPEED;
             this.setVisible(true);
             this.readyToLaunch = true;
         }
@@ -152,5 +158,9 @@ public class Ball {
         if (toLeft)
             isToLeft = -10;
         this.ballX += isToLeft;
+    }
+
+    public boolean isDefaultBall() {
+        return defaultBall;
     }
 }

@@ -6,6 +6,9 @@ import javafx.scene.control.Alert;
 
 public class GameMenuController {
     private static GameMenuController menuController = null;
+    public Ball[] getDefaultBalls() {
+        return GameController.getInstance().getDefaultBalls();
+    }
 
     public static GameMenuController getInstance() {
         if (menuController == null)
@@ -92,5 +95,17 @@ public class GameMenuController {
 
     public void stopIceProgress() {
         GameController.getInstance().stopIceProgress();
+    }
+
+    public double getCircleCenterX() {
+        return GameController.getInstance().getCircleCenterX();
+    }
+
+    public double getCircleCenterY() {
+        return GameController.getInstance().getCircleCenterY();
+    }
+
+    public double getLineWidth() {
+        return GameController.getInstance().getLineWidth();
     }
 }

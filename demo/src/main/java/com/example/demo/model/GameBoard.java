@@ -2,20 +2,20 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 
-import static com.example.demo.model.Dimension.HEIGHT;
-import static com.example.demo.model.Dimension.WIDTH;
+import static com.example.demo.model.Dimension.*;
 
 public class GameBoard {
 
+    private ArrayList<Ball> allBalls;
+
     private final int ballNumber;
-    private final Ball[] balls;
+    private final Ball[] gameBalls;
     private final CenterBall centerBall;
     private final Wind wind;
     private final Time timer;
     private int ballsShot;
 
     private double magicForceDegree;
-    private final double ballRadius;
     private boolean twiceFazeBegins;
     private boolean thirdFazeBegins;
     private boolean fourthFazeBegins;
@@ -23,36 +23,55 @@ public class GameBoard {
     private int nextRotationSecond;
     private final double ballRotationSpeed;
     private final IceProgress iceProgress;
+    private Ball[] defaultBalls;
 
 
 
-    public GameBoard(int ballNumber, double windRange, double stopDistance,
-                     double ballSpeed, double ballRadius, double rotateSpeed, double bigCircleRadius, int iceProgressTime) {
+
+    public GameBoard(int ballNumber, double windRange, double rotateSpeed,
+                     int iceProgressTime, int numberOfDefaultBalls) {
         this.magicForceDegree = 0;
         this.ballNumber = ballNumber;
         this.wind = new Wind(windRange);
         this.timer = new Time();
         this.ballsShot = 0;
-        this.ballRadius = ballRadius;
         this.twiceFazeBegins = this.thirdFazeBegins = this.fourthFazeBegins = false;
         this.visibilityMode = true;
-        this.balls = new Ball[ballNumber];
-        this.centerBall = new CenterBall(bigCircleRadius);
+        this.centerBall = new CenterBall();
         this.nextRotationSecond = 0;
         this.ballRotationSpeed = rotateSpeed;
         this.iceProgress = new IceProgress(iceProgressTime, this);
-        for (int i = 0; i < ballNumber; i++)
-            balls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                    stopDistance, ballRadius, ballSpeed, rotateSpeed, ballNumber - i);
-        balls[0].setReadyToLaunch();
+        this.allBalls = new ArrayList<>();
+
+
+        this.defaultBalls = new Ball[numberOfDefaultBalls];
+        for (int i = 0; i < numberOfDefaultBalls; i++) {
+            this.defaultBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
+                    numberOfDefaultBalls, i, rotateSpeed);
+            allBalls.add(this.defaultBalls[i]);
+        }
+
+
+
+        this.gameBalls = new Ball[ballNumber];
+        for (int i = 0; i < ballNumber; i++) {
+            gameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
+                    rotateSpeed, ballNumber - i);
+            allBalls.add(this.gameBalls[i]);
+        }
+        gameBalls[0].setReadyToLaunch();
+    }
+
+    public CenterBall getCenterBall() {
+        return centerBall;
     }
 
     public double getWindSpeed() {
         return wind.getWindSpeed();
     }
 
-    public Ball[] getBalls() {
-        return balls;
+    public Ball[] getGameBalls() {
+        return gameBalls;
     }
 
     public int getNextRotationSecond() {
@@ -63,30 +82,32 @@ public class GameBoard {
         this.nextRotationSecond = nextRotationSecond;
     }
 
-    public CenterBall getCenterBall() {
-        return centerBall;
+    public Ball[] getDefaultBalls() {
+        return defaultBalls;
     }
 
     public Ball getBall() {
-        for (Ball ball : balls)
+        for (Ball ball : gameBalls)
             if (!ball.isShot() && ball.isReadyToLaunch())
                 return ball;
         return null;
     }
 
     public void moveBalls() {
-        for (Ball ball : balls)
+        for (Ball ball : gameBalls)
             if (ball.isShot())
                 ball.ballMoving(getWindSpeed());
+        for (Ball ball : defaultBalls)
+            ball.ballMoving(getWindSpeed());
     }
 
     private boolean hasIntersectedBalls() {
-        for (Ball ball1 : balls) {
+        for (Ball ball1 : gameBalls) {
             if (ball1.isShot())
-                for (Ball ball2 : balls) {
+                for (Ball ball2 : allBalls) {
                     if (ball1.equals(ball2))
                         continue;
-                    if (!ball2.isShot())
+                    if (!ball2.isShot() && !ball2.isDefaultBall())
                         continue;
                     if (distanceBetweenTwoBalls(ball1, ball2) < ball1.getBallRadius() + ball2.getBallRadius())
                         return true;
@@ -96,7 +117,7 @@ public class GameBoard {
     }
 
     public void setBallsRadius(double ballRadius) {
-        for (Ball ball : balls) {
+        for (Ball ball : allBalls) {
             ball.setBallRadius(ballRadius);
         }
     }
@@ -106,7 +127,7 @@ public class GameBoard {
     }
 
     private boolean hasCollapseBall() {
-        for (Ball ball : balls)
+        for (Ball ball : gameBalls)
             if (ball.getBallY() > HEIGHT || ball.getBallY() < 0 ||
                     ball.getBallX() > WIDTH || ball.getBallX() < 0) {
                 return true;
@@ -119,7 +140,7 @@ public class GameBoard {
     }
 
     public boolean isWin() {
-        for (Ball ball : balls)
+        for (Ball ball : gameBalls)
             if (!ball.isConnect())
                 return false;
         return true;
@@ -146,7 +167,7 @@ public class GameBoard {
     }
 
     private void setBallsSpeed(double v) {
-        for (Ball ball : balls) {
+        for (Ball ball : allBalls) {
             ball.setBallRotateSpeed(v);
         }
     }
@@ -176,7 +197,7 @@ public class GameBoard {
     }
 
     public double getBallRadius() {
-        return ballRadius;
+        return BALL_RADIUS;
     }
 
     public void shootBall() {
@@ -185,7 +206,7 @@ public class GameBoard {
         Ball thisBall = getBall();
         thisBall.shootBall(this.magicForceDegree);
         thisBall.setVisible(this.visibilityMode);
-        for (Ball ball : balls)
+        for (Ball ball : gameBalls)
             if (!ball.isShot()) {
                 ball.setReadyToLaunch();
                 return;
@@ -194,7 +215,7 @@ public class GameBoard {
     }
 
     public void getReverse() {
-        for (Ball ball : balls) {
+        for (Ball ball : allBalls) {
             ball.setBallRotateSpeed(ball.getBallRotateSpeed() * -1);
         }
     }
@@ -222,8 +243,8 @@ public class GameBoard {
 
     public void setVisible(boolean visibility) {
         this.visibilityMode = visibility;
-        for (Ball ball : balls) {
-            if (ball.isShot())
+        for (Ball ball : allBalls) {
+            if (ball.isShot() || ball.isDefaultBall())
                 ball.setVisible(visibility);
         }
     }

@@ -6,6 +6,8 @@ import com.example.demo.model.GameBoard;
 
 import java.util.Random;
 
+import static com.example.demo.model.Dimension.BIG_CIRCLE_RADIUS;
+import static com.example.demo.model.Dimension.LINE_WIDTH;
 import static com.example.demo.view.SomeFields.WIDTH;
 
 public class GameController {
@@ -21,7 +23,7 @@ public class GameController {
 
     public boolean hasNotShotBall() {
         GameBoard gameBoard = DataBase.getCurrentGame();
-        for (Ball ball : gameBoard.getBalls())
+        for (Ball ball : gameBoard.getGameBalls())
             if (!ball.isShot())
                 return true;
         return false;
@@ -60,11 +62,11 @@ public class GameController {
     }
 
     public double getBigBallRadius() {
-        return DataBase.getCurrentGame().getCenterBall().getRadius();
+        return BIG_CIRCLE_RADIUS;
     }
 
     public Ball[] getBalls() {
-        return DataBase.getCurrentGame().getBalls();
+        return DataBase.getCurrentGame().getGameBalls();
     }
 
     public void doFazesFunctions() {
@@ -155,6 +157,22 @@ public class GameController {
 
     public void stopIceProgress() {
         DataBase.getCurrentGame().stopIceProgress();
+    }
+
+    public Ball[] getDefaultBalls() {
+        return DataBase.getCurrentGame().getDefaultBalls();
+    }
+
+    public double getCircleCenterX() {
+        return DataBase.getCurrentGame().getCenterBall().getCircleCenterX();
+    }
+
+    public double getCircleCenterY() {
+        return DataBase.getCurrentGame().getCenterBall().getCircleCenterY();
+    }
+
+    public double getLineWidth() {
+        return LINE_WIDTH;
     }
 }
 

@@ -95,7 +95,7 @@ public class GameMenu extends Application {
 
     private void functionList(GraphicsContext gc, long now, ProgressIndicator progressIndicator) {
         graphicsContextFunctions(gc);
-        logicFunctions(now ,progressIndicator);
+        logicFunctions(now, progressIndicator);
     }
 
     private void logicFunctions(long now, ProgressIndicator progressIndicator) {
@@ -111,42 +111,58 @@ public class GameMenu extends Application {
         gc.clearRect(0, 0, WIDTH, HEIGHT);
         writeDetails(gc);
         drawCenterCircle(gc);
-        drawBalls(gc);
+        drawGameBalls(gc);
+        drawDefaultBalls(gc);
     }
 
     private void drawCenterCircle(GraphicsContext graphicsContext) {
         graphicsContext.setFill(Color.BLACK);
-        graphicsContext.fillOval(WIDTH / 2 - controller.getBigBallRadius(),
-                HEIGHT / 2 - controller.getBigBallRadius(),
+        graphicsContext.fillOval(controller.getCircleCenterX() - controller.getBigBallRadius(),
+                controller.getCircleCenterY() - controller.getBigBallRadius(),
                 2 * controller.getBigBallRadius(),
                 2 * controller.getBigBallRadius());
     }
 
-    private void drawBalls(GraphicsContext context) {
+    private void drawGameBalls(GraphicsContext context) {
         for (Ball ball : controller.getBalls())
             if ((ball.isShot() || ball.isReadyToLaunch()) && ball.isVisible()) {
                 if (ball.isConnect()) {
-                    double centerX = ball.getBallX();
-                    double centerY = ball.getBallY();
-                    double circleCenterX = WIDTH / 2;
-                    double circleCenterY = HEIGHT / 2;
-                    double lineWidth = 5.0; // Change this value to adjust line width
-                    context.setLineWidth(lineWidth);
-                    context.strokeLine(centerX, centerY, circleCenterX, circleCenterY);
+                    drawLine(context, ball);
                 }
-                context.setFill(Color.BLACK);
-                context.fillOval(ball.getBallX() - ball.getBallRadius(),
-                        ball.getBallY() - ball.getBallRadius(),
-                        2 * ball.getBallRadius(),
-                        2 * ball.getBallRadius());
-                context.setFill(Color.WHITE);
-                if (ball.getNumber() > 9)
-                    context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 11, ball.getBallY() + 7);
-                else
-                    context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 5, ball.getBallY() + 7);
+                drawBall(context, ball);
+                writeNumberOnBall(context, ball);
             }
     }
 
+    private void drawDefaultBalls(GraphicsContext gc) {
+        for (Ball ball : controller.getDefaultBalls()) {
+            if (ball.isVisible()) {
+                drawLine(gc, ball);
+                drawBall(gc, ball);
+            }
+        }
+    }
+
+    public void drawBall(GraphicsContext gc, Ball ball) {
+        gc.setFill(Color.BLACK);
+        gc.fillOval(ball.getBallX() - ball.getBallRadius(),
+                ball.getBallY() - ball.getBallRadius(),
+                2 * ball.getBallRadius(),
+                2 * ball.getBallRadius());
+    }
+
+    public void writeNumberOnBall(GraphicsContext context, Ball ball) {
+        context.setFill(Color.WHITE);
+        if (ball.getNumber() > 9)
+            context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 11, ball.getBallY() + 7);
+        else
+            context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 5, ball.getBallY() + 7);
+    }
+
+    public void drawLine(GraphicsContext gc, Ball ball) {
+        gc.setLineWidth(controller.getLineWidth());
+        gc.strokeLine(ball.getBallX(), ball.getBallY(), controller.getCircleCenterX(), controller.getCircleCenterY());
+    }
 
 
     private void writeDetails(GraphicsContext context) {
@@ -157,7 +173,6 @@ public class GameMenu extends Application {
                 String.format("%02d", controller.getSeconds()), 10, 60);
         context.fillText("Magic Force Degree : " + String.format("%02.2f", controller.getMagicForceDegree()) + "°", 10, 90);
     }
-
 
 
     private void checkGameOver(BorderPane root, GraphicsContext gc) {

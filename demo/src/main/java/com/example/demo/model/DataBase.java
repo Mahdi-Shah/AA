@@ -13,7 +13,7 @@ import com.google.gson.reflect.TypeToken;
 public class DataBase {
     private static ArrayList<User> users = new ArrayList<>();
 
-    private static GameBoard currentGame = new GameBoard(12, 1.2, 200, 15, 15, 0.07, 120, 5);
+    private static GameBoard currentGame = new GameBoard(6, 1.2,0.07, 5, 1);
 
     private static User currentUser;
 
