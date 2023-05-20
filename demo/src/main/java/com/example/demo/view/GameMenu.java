@@ -65,7 +65,6 @@ public class GameMenu extends Application {
                     checkGameOver(root, gc);
                     stop();
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-                        Stage stage = (Stage) root.getScene().getWindow();
                         stage.close();
                     }));
                     timeline.play();
@@ -75,16 +74,22 @@ public class GameMenu extends Application {
                     if (event.getCode() == KeyCode.ESCAPE) {
                         controller.stopTimer();
                         stop();
-                    } else if (event.getCode() == KeyCode.A) {
+                    } else if (event.getCode() == KeyCode.P) {
                         start();
                     } else if (event.getCode() == KeyCode.SPACE) {
-                        controller.shootBall();
+                        controller.shootBall(true);
                     } else if (event.getCode() == KeyCode.LEFT) {
-                        controller.moveToLeft();
+                        controller.moveToLeft(true);
                     } else if (event.getCode() == KeyCode.RIGHT) {
-                        controller.moveToRight();
+                        controller.moveToRight(true);
                     } else if (event.getCode() == KeyCode.TAB) {
                         controller.startIceProgress();
+                    } else if (event.getCode() == KeyCode.ENTER) {
+                        controller.shootBall(false);
+                    } else if (event.getCode() == KeyCode.A) {
+                        controller.moveToLeft(false);
+                    } else if (event.getCode() == KeyCode.D) {
+                        controller.moveToRight(false);
                     }
                 });
 
@@ -100,7 +105,8 @@ public class GameMenu extends Application {
 
     private void logicFunctions(long now, ProgressIndicator progressIndicator) {
         controller.setTimer(now);
-        controller.getReadyToLaunch();
+        controller.getReadyToLaunch(true);
+        controller.getReadyToLaunch(false);
         controller.moveBalls();
         controller.doFazesFunctions();
         progressIndicator.setProgress(controller.getIceProgressPercent());
@@ -125,7 +131,7 @@ public class GameMenu extends Application {
 
     private void drawGameBalls(GraphicsContext context) {
         for (Ball ball : controller.getBalls())
-            if ((ball.isShot() || ball.isReadyToLaunch()) && ball.isVisible()) {
+            if ((ball.isShot() || ball.isReadyToLaunch()) && ball.isVisible() && !ball.isDefaultBall()) {
                 if (ball.isConnect()) {
                     drawLine(context, ball);
                 }
@@ -152,11 +158,12 @@ public class GameMenu extends Application {
     }
 
     public void writeNumberOnBall(GraphicsContext context, Ball ball) {
+        context.setFont(Font.font(16));
         context.setFill(Color.WHITE);
         if (ball.getNumber() > 9)
-            context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 11, ball.getBallY() + 7);
+            context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 9, ball.getBallY() + 6);
         else
-            context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 5, ball.getBallY() + 7);
+            context.fillText(String.valueOf(ball.getNumber()), ball.getBallX() - 4, ball.getBallY() + 5);
     }
 
     public void drawLine(GraphicsContext gc, Ball ball) {

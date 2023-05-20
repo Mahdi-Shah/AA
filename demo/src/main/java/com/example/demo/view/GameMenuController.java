@@ -4,6 +4,8 @@ import com.example.demo.controller.GameController;
 import com.example.demo.model.Ball;
 import javafx.scene.control.Alert;
 
+import java.util.ArrayList;
+
 public class GameMenuController {
     private static GameMenuController menuController = null;
     public Ball[] getDefaultBalls() {
@@ -16,25 +18,25 @@ public class GameMenuController {
         return menuController;
     }
 
-    public void shootBall() {
-        if (GameController.getInstance().hasNotShotBall())
-            GameController.getInstance().shootBall();
+    public void shootBall(boolean forFirstOpponent) {
+        if (GameController.getInstance().hasNotShotBall(forFirstOpponent))
+            GameController.getInstance().shootBall(forFirstOpponent);
         else {
             (new Alert(Alert.AlertType.ERROR, "You haven't another ball")).show();
         }
     }
 
-    public void getReadyToLaunch() {
-        if (GameController.getInstance().hasNotShotBall())
-            GameController.getInstance().getReadyToLaunch();
+    public void getReadyToLaunch(boolean isForFirstOpponent) {
+        if (GameController.getInstance().hasNotShotBall(isForFirstOpponent))
+            GameController.getInstance().getReadyToLaunch(isForFirstOpponent);
     }
 
-    public void moveToLeft() {
-        GameController.getInstance().moveToLeft(true);
+    public void moveToLeft(boolean forFirstOpponent) {
+        GameController.getInstance().moveToLeft(true, forFirstOpponent);
     }
 
-    public void moveToRight() {
-        GameController.getInstance().moveToLeft(false);
+    public void moveToRight(boolean forFirstOpponent) {
+        GameController.getInstance().moveToLeft(false, forFirstOpponent);
     }
 
     public void setTimer(long now) {
@@ -50,10 +52,10 @@ public class GameMenuController {
     }
 
     public double getBigBallRadius() {
-        return GameController.getInstance().getBigBallRadius();
+        return GameController.getInstance().getBigCircleRadius();
     }
 
-    public Ball[] getBalls() {
+    public ArrayList<Ball> getBalls() {
         return GameController.getInstance().getBalls();
     }
 

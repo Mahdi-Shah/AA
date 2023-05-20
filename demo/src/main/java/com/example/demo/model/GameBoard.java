@@ -6,10 +6,12 @@ import static com.example.demo.model.Dimension.*;
 
 public class GameBoard {
 
-    private ArrayList<Ball> allBalls;
+    private final ArrayList<Ball> allBalls;
 
     private final int ballNumber;
-    private final Ball[] gameBalls;
+    private final boolean isTwosomeGame;
+    private final Ball[] firstOpponentGameBalls;
+    private Ball[] secondOpponentGameBalls;
     private final CenterBall centerBall;
     private final Wind wind;
     private final Time timer;
@@ -23,13 +25,11 @@ public class GameBoard {
     private int nextRotationSecond;
     private final double ballRotationSpeed;
     private final IceProgress iceProgress;
-    private Ball[] defaultBalls;
-
-
+    private final Ball[] defaultBalls;
 
 
     public GameBoard(int ballNumber, double windRange, double rotateSpeed,
-                     int iceProgressTime, int numberOfDefaultBalls) {
+                     int iceProgressTime, int numberOfDefaultBalls, boolean isTwosomeGame) {
         this.magicForceDegree = 0;
         this.ballNumber = ballNumber;
         this.wind = new Wind(windRange);
@@ -42,6 +42,7 @@ public class GameBoard {
         this.ballRotationSpeed = rotateSpeed;
         this.iceProgress = new IceProgress(iceProgressTime, this);
         this.allBalls = new ArrayList<>();
+        this.isTwosomeGame = isTwosomeGame;
 
 
         this.defaultBalls = new Ball[numberOfDefaultBalls];
@@ -52,14 +53,23 @@ public class GameBoard {
         }
 
 
-
-        this.gameBalls = new Ball[ballNumber];
+        this.firstOpponentGameBalls = new Ball[ballNumber];
         for (int i = 0; i < ballNumber; i++) {
-            gameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                    rotateSpeed, ballNumber - i);
-            allBalls.add(this.gameBalls[i]);
+            firstOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
+                    rotateSpeed, ballNumber - i, true);
+            allBalls.add(this.firstOpponentGameBalls[i]);
         }
-        gameBalls[0].setReadyToLaunch();
+        firstOpponentGameBalls[0].setReadyToLaunch();
+
+        if (isTwosomeGame) {
+            this.secondOpponentGameBalls = new Ball[ballNumber];
+            for (int i = 0; i < ballNumber; i++) {
+                secondOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
+                        rotateSpeed, ballNumber - i, false);
+                allBalls.add(secondOpponentGameBalls[i]);
+            }
+            secondOpponentGameBalls[0].setReadyToLaunch();
+        }
     }
 
     public CenterBall getCenterBall() {
@@ -70,8 +80,8 @@ public class GameBoard {
         return wind.getWindSpeed();
     }
 
-    public Ball[] getGameBalls() {
-        return gameBalls;
+    public Ball[] getFirstOpponentGameBalls() {
+        return firstOpponentGameBalls;
     }
 
     public int getNextRotationSecond() {
@@ -86,15 +96,32 @@ public class GameBoard {
         return defaultBalls;
     }
 
-    public Ball getBall() {
-        for (Ball ball : gameBalls)
+    public Ball getBall(boolean forFirstOpponent) {
+        Ball[] ballPool;
+        if (forFirstOpponent)
+            ballPool = firstOpponentGameBalls;
+        else
+            ballPool = secondOpponentGameBalls;
+        for (Ball ball : ballPool)
             if (!ball.isShot() && ball.isReadyToLaunch())
                 return ball;
         return null;
     }
 
+    public Ball setBallReadyToLaunch(boolean forFirstOpponent) {
+        Ball[] ballPool;
+        if (forFirstOpponent)
+            ballPool = firstOpponentGameBalls;
+        else
+            ballPool = secondOpponentGameBalls;
+        for (Ball ball : ballPool)
+            if (!ball.isShot())
+                return ball;
+        return null;
+    }
+
     public void moveBalls() {
-        for (Ball ball : gameBalls)
+        for (Ball ball : allBalls)
             if (ball.isShot())
                 ball.ballMoving(getWindSpeed());
         for (Ball ball : defaultBalls)
@@ -102,7 +129,7 @@ public class GameBoard {
     }
 
     private boolean hasIntersectedBalls() {
-        for (Ball ball1 : gameBalls) {
+        for (Ball ball1 : allBalls) {
             if (ball1.isShot())
                 for (Ball ball2 : allBalls) {
                     if (ball1.equals(ball2))
@@ -127,7 +154,7 @@ public class GameBoard {
     }
 
     private boolean hasCollapseBall() {
-        for (Ball ball : gameBalls)
+        for (Ball ball : allBalls)
             if (ball.getBallY() > HEIGHT || ball.getBallY() < 0 ||
                     ball.getBallX() > WIDTH || ball.getBallX() < 0) {
                 return true;
@@ -140,7 +167,7 @@ public class GameBoard {
     }
 
     public boolean isWin() {
-        for (Ball ball : gameBalls)
+        for (Ball ball : firstOpponentGameBalls)
             if (!ball.isConnect())
                 return false;
         return true;
@@ -200,17 +227,23 @@ public class GameBoard {
         return BALL_RADIUS;
     }
 
-    public void shootBall() {
+    public void shootBall(boolean firstOpponentShoot) {
         iceProgress.addIceProgressPercent();
         ballsShot++;
-        Ball thisBall = getBall();
+        Ball thisBall = getBall(firstOpponentShoot);
         thisBall.shootBall(this.magicForceDegree);
         thisBall.setVisible(this.visibilityMode);
-        for (Ball ball : gameBalls)
+        for (Ball ball : firstOpponentGameBalls)
             if (!ball.isShot()) {
                 ball.setReadyToLaunch();
                 return;
             }
+        if (!firstOpponentShoot)
+            for (Ball ball : secondOpponentGameBalls)
+                if (!ball.isShot()) {
+                    ball.setReadyToLaunch();
+                    return;
+                }
 
     }
 
@@ -264,5 +297,17 @@ public class GameBoard {
 
     public void stopIceProgress() {
         iceProgress.stopIceProgress();
+    }
+
+    public boolean isTwosomeGame() {
+        return isTwosomeGame;
+    }
+
+    public Ball[] getSecondOpponentGameBalls() {
+        return secondOpponentGameBalls;
+    }
+
+    public ArrayList<Ball> getAllBalls() {
+        return allBalls;
     }
 }

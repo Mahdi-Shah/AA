@@ -4,6 +4,7 @@ import com.example.demo.model.Ball;
 import com.example.demo.model.DataBase;
 import com.example.demo.model.GameBoard;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static com.example.demo.model.Dimension.BIG_CIRCLE_RADIUS;
@@ -21,31 +22,49 @@ public class GameController {
         return controller;
     }
 
-    public boolean hasNotShotBall() {
+    public boolean hasNotShotBall(boolean forFirstOpponent) {
+        if (!forFirstOpponent && !DataBase.getCurrentGame().isTwosomeGame())
+            return false;
+        Ball[] ballPool;
         GameBoard gameBoard = DataBase.getCurrentGame();
-        for (Ball ball : gameBoard.getGameBalls())
+        if (forFirstOpponent)
+            ballPool = gameBoard.getFirstOpponentGameBalls();
+        else {
+            if (gameBoard.isTwosomeGame())
+                ballPool = gameBoard.getSecondOpponentGameBalls();
+            else
+                return false;
+        }
+
+        for (Ball ball : ballPool)
             if (!ball.isShot())
                 return true;
         return false;
     }
 
-    public void shootBall() {
-        DataBase.getCurrentGame().shootBall();
+    public void shootBall(boolean firstOpponentShoot) {
+        if (!firstOpponentShoot && !DataBase.getCurrentGame().isTwosomeGame())
+            return;
+        DataBase.getCurrentGame().shootBall(firstOpponentShoot);
     }
 
-    public void getReadyToLaunch() {
-        DataBase.getCurrentGame().getBall().setReadyToLaunch();
+    public void getReadyToLaunch(boolean isForFirstOpponent) {
+        if (!isForFirstOpponent && !DataBase.getCurrentGame().isTwosomeGame())
+            return;
+        DataBase.getCurrentGame().setBallReadyToLaunch(isForFirstOpponent).setReadyToLaunch();
     }
 
-    public void moveToLeft(boolean isToLeft) {
+    public void moveToLeft(boolean isToLeft, boolean isForFirstOpponent) {
+        if (!isForFirstOpponent && !DataBase.getCurrentGame().isTwosomeGame())
+            return;
         GameBoard gameBoard = DataBase.getCurrentGame();
         if (gameBoard.isFourthFazeBegins())
-            if (hasNotShotBall()) {
+            if (hasNotShotBall(isForFirstOpponent)) {
                 if (isToLeft) {
-                    if (gameBoard.getBall().getBallX() >= 0)
-                        gameBoard.getBall().moveToLeft(true);
-                } else if (gameBoard.getBall().getBallX() <= WIDTH)
-                    gameBoard.getBall().moveToLeft(false);
+                    if (gameBoard.getBall(isForFirstOpponent).getBallX() >= 20)
+                        gameBoard.getBall(isForFirstOpponent).moveToLeft(true);
+                } else if (gameBoard.getBall(isForFirstOpponent).getBallX() <= WIDTH - 20)
+                    gameBoard.getBall(isForFirstOpponent).moveToLeft(false);
             }
     }
 
@@ -61,12 +80,12 @@ public class GameController {
         DataBase.getCurrentGame().moveBalls();
     }
 
-    public double getBigBallRadius() {
+    public double getBigCircleRadius() {
         return BIG_CIRCLE_RADIUS;
     }
 
-    public Ball[] getBalls() {
-        return DataBase.getCurrentGame().getGameBalls();
+    public ArrayList<Ball> getBalls() {
+        return DataBase.getCurrentGame().getAllBalls();
     }
 
     public void doFazesFunctions() {

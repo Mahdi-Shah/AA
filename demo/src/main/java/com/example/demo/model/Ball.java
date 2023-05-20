@@ -1,8 +1,5 @@
 package com.example.demo.model;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-
 import static com.example.demo.model.Dimension.*;
 
 public class Ball {
@@ -30,9 +27,10 @@ public class Ball {
 
     private boolean visible;
     private final boolean defaultBall;
+    private final boolean forFirstOpponent;
 
     public Ball(double bigCircleX, double bigCircleY,
-                double ballRotateSpeed, int number) {
+                double ballRotateSpeed, int number, boolean forFirstOpponent) {
         this.setVisible(false);
         this.bigCircleX = bigCircleX;
         this.bigCircleY = bigCircleY;
@@ -44,6 +42,7 @@ public class Ball {
         this.visible = false;
         this.ballRadius = BALL_RADIUS;
         this.defaultBall = false;
+        this.forFirstOpponent = forFirstOpponent;
     }
 
     public Ball(double bigCircleX, double bigCircleY, int numBalls, int ballNumber, double ballRotateSpeed) {
@@ -58,6 +57,7 @@ public class Ball {
         this.number = ballNumber;
         this.ballRotateSpeed = ballRotateSpeed;
         this.defaultBall = true;
+        this.forFirstOpponent = true;
     }
 
     private boolean isConnected() {
@@ -70,7 +70,6 @@ public class Ball {
 
     public void ballMoving(double windSpeed) {
         if (!isConnect && !isConnected() && !isDefaultBall()) {
-            ballVelocityY += 0.01; // Add gravity
             ballX += ballVelocityX + windSpeed;
             ballY += ballVelocityY;
         } else {
@@ -88,8 +87,11 @@ public class Ball {
 
     public void shootBall(double magicHandDegree) {
         this.shot = true;
-        ballVelocityX = BALL_SPEED * Math.sin(magicHandDegree / 180 * Math.PI);
-        ballVelocityY = -BALL_SPEED * Math.cos(magicHandDegree / 180 * Math.PI);
+        ballVelocityX = BALL_SPEED * Math.sin(magicHandDegree * 2 / 360);
+        if (forFirstOpponent)
+            ballVelocityY = -BALL_SPEED * Math.cos(magicHandDegree * 2 / 360);
+        else
+            ballVelocityY = BALL_SPEED * Math.cos(magicHandDegree * 2 / 360);
         this.setVisible(true);
     }
 
@@ -120,10 +122,10 @@ public class Ball {
     public void setReadyToLaunch() {
         if (!isReadyToLaunch()) {
             ballX = WIDTH / 2.0;
-            ballY = HEIGHT - ballRadius;
-            //todo: DELETE THIS TWO
-            ballVelocityX = 0.0;
-            ballVelocityY = -BALL_SPEED;
+            if (forFirstOpponent)
+                ballY = HEIGHT - ballRadius;
+            else
+                ballY = ballRadius;
             this.setVisible(true);
             this.readyToLaunch = true;
         }
