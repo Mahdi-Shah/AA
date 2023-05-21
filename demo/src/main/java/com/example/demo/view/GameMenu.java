@@ -2,6 +2,7 @@ package com.example.demo.view;
 
 
 import com.example.demo.model.Ball;
+import com.example.demo.model.DataBase;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -129,7 +130,6 @@ public class GameMenu extends Application {
         writeDetails(gc);
         drawCenterCircle(gc);
         drawGameBalls(gc);
-        drawDefaultBalls(gc);
     }
 
     private void drawCenterCircle(GraphicsContext graphicsContext) {
@@ -142,22 +142,14 @@ public class GameMenu extends Application {
 
     private void drawGameBalls(GraphicsContext context) {
         for (Ball ball : controller.getBalls())
-            if ((ball.isShot() || ball.isReadyToLaunch()) && ball.isVisible() && !ball.isDefaultBall()) {
+            if ((ball.isShot() || ball.isReadyToLaunch()) && ball.isVisible()) {
                 if (ball.isConnect()) {
                     drawLine(context, ball);
                 }
                 drawBall(context, ball);
-                writeNumberOnBall(context, ball);
+                if (!ball.isDefaultBall())
+                    writeNumberOnBall(context, ball);
             }
-    }
-
-    private void drawDefaultBalls(GraphicsContext gc) {
-        for (Ball ball : controller.getDefaultBalls()) {
-            if (ball.isVisible()) {
-                drawLine(gc, ball);
-                drawBall(gc, ball);
-            }
-        }
     }
 
     public void drawBall(GraphicsContext gc, Ball ball) {
@@ -186,10 +178,19 @@ public class GameMenu extends Application {
     private void writeDetails(GraphicsContext context) {
         context.setFill(Color.BLACK);
         context.setFont(Font.font(20));
-        context.fillText("Wind Speed: " + String.format("%.1f", controller.getWindSpeed()), 10, 30);
+        context.fillText("Wind Speed: " + String.format("%.1f", controller.getWindSpeed()), 10, 90);
         context.fillText("Time= " + String.format("%02d", controller.getMinutes()) + ":" +
-                String.format("%02d", controller.getSeconds()), 10, 60);
-        context.fillText("Magic Force Degree : " + String.format("%02.2f", controller.getMagicForceDegree()) + "°", 10, 90);
+                String.format("%02d", controller.getSeconds()), 10, 120);
+        context.fillText("Magic Force Degree : " + String.format("%02.2f", controller.getMagicForceDegree()) + "°", 10, 150);
+        context.fillText("First player\nballs remain = ", 10, 180);
+        context.setFill(controller.getFirstPlayerBallsRemainColor());
+        context.fillText(controller.getFirstPlayerBallsRemain(), 140, 206);
+        if (controller.isTwoSomeGame()) {
+            context.setFill(Color.BLACK);
+            context.fillText("Second player\nballs remain = ", 10, 240);
+            context.setFill(controller.getSecondPlayerBallsRemainColor());
+            context.fillText(controller.getSecondPlayerBallsRemain(), 140, 270);
+        }
     }
 
 

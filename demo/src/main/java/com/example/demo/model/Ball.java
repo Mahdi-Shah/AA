@@ -56,7 +56,7 @@ public class Ball {
         this.bigCircleY = bigCircleY;
         this.ballX = bigCircleX + stopDistance * Math.cos(angle);
         this.ballY = bigCircleY + stopDistance * Math.sin(angle);
-        this.shot = false;
+        this.shot = true;
         this.visible = true;
         this.number = ballNumber;
         this.ballRotateSpeed = ballRotateSpeed;
@@ -84,8 +84,8 @@ public class Ball {
             double newX = x * Math.cos(ballRotateSpeed) - y * Math.sin(ballRotateSpeed);
             double newY = x * Math.sin(ballRotateSpeed) + y * Math.cos(ballRotateSpeed);
 
-            ballX = newX + bigCircleX;
-            ballY = newY + bigCircleY;
+            this.ballX = newX + bigCircleX;
+            this.ballY = newY + bigCircleY;
 
         }
     }
@@ -93,10 +93,12 @@ public class Ball {
     public void shootBall(double magicHandDegree) {
         this.shot = true;
         ballVelocityX = BALL_SPEED * Math.sin(magicHandDegree * 2 / 360);
-        if (forFirstOpponent)
+        if (forFirstOpponent) {
             ballVelocityY = -BALL_SPEED * Math.cos(magicHandDegree * 2 / 360);
-        else
+        }
+        else {
             ballVelocityY = BALL_SPEED * Math.cos(magicHandDegree * 2 / 360);
+        }
         this.setVisible(true);
     }
 
@@ -173,5 +175,9 @@ public class Ball {
 
     public boolean isForFirstOpponent() {
         return forFirstOpponent;
+    }
+
+    public String toString() {
+        return "isShot:" + isShot() + " isConnect:" + isConnect + " number:" + getNumber() + " default:" + isDefaultBall() + " first:" + isForFirstOpponent() + " ballX:" + ballX;
     }
 }

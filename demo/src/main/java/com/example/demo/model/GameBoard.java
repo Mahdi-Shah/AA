@@ -6,14 +6,17 @@ import java.util.ArrayList;
 
 import static com.example.demo.model.Dimension.*;
 
-public class GameBoard implements Cloneable{
+public class GameBoard{
+
+    private int firstPlayerBallsRemain;
+    private int secondPlayerBallsRemain;
 
     private final ArrayList<Ball> allBalls;
 
     private final int ballNumber;
+
+    private final int defaultBallNumber;
     private final boolean isTwosomeGame;
-    private final Ball[] firstOpponentGameBalls;
-    private Ball[] secondOpponentGameBalls;
     private final CenterBall centerBall;
     private final Wind wind;
     private final Time timer;
@@ -27,7 +30,6 @@ public class GameBoard implements Cloneable{
     private int nextRotationSecond;
     private final double ballRotationSpeed;
     private final IceProgress iceProgress;
-    private final Ball[] defaultBalls;
 
 
     public GameBoard(int ballNumber, double windRange, double rotateSpeed,
@@ -45,33 +47,30 @@ public class GameBoard implements Cloneable{
         this.iceProgress = new IceProgress(iceProgressTime);
         this.allBalls = new ArrayList<>();
         this.isTwosomeGame = isTwosomeGame;
+        this.defaultBallNumber = numberOfDefaultBalls;
+        this.firstPlayerBallsRemain = this.secondPlayerBallsRemain = ballNumber;
 
 
-        this.defaultBalls = new Ball[numberOfDefaultBalls];
-        for (int i = 0; i < numberOfDefaultBalls; i++) {
-
-            this.defaultBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                    numberOfDefaultBalls, i, rotateSpeed, stopDistance, Color.BLACK);
-            allBalls.add(this.defaultBalls[i]);
-        }
-
-
-        this.firstOpponentGameBalls = new Ball[ballNumber];
         for (int i = 0; i < ballNumber; i++) {
-            firstOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                    rotateSpeed, ballNumber - i, true, stopDistance);
-            allBalls.add(this.firstOpponentGameBalls[i]);
+            allBalls.add(new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
+                    rotateSpeed, ballNumber - i, true, stopDistance));
         }
-        firstOpponentGameBalls[0].setReadyToLaunch();
+        allBalls.get(0).setReadyToLaunch();
+
+
+        for (int i = 0; i < numberOfDefaultBalls; i++) {
+            allBalls.add(new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
+                    numberOfDefaultBalls, i, rotateSpeed, stopDistance, Color.BLACK));
+        }
+
+
 
         if (isTwosomeGame) {
-            this.secondOpponentGameBalls = new Ball[ballNumber];
             for (int i = 0; i < ballNumber; i++) {
-                secondOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                        rotateSpeed, ballNumber - i, false, stopDistance);
-                allBalls.add(secondOpponentGameBalls[i]);
+                allBalls.add(new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
+                        rotateSpeed, ballNumber - i, false, stopDistance));
             }
-            secondOpponentGameBalls[0].setReadyToLaunch();
+            allBalls.get(ballNumber + defaultBallNumber).setReadyToLaunch();
         }
     }
 
@@ -83,10 +82,6 @@ public class GameBoard implements Cloneable{
         return wind.getWindSpeed();
     }
 
-    public Ball[] getFirstOpponentGameBalls() {
-        return firstOpponentGameBalls;
-    }
-
     public int getNextRotationSecond() {
         return nextRotationSecond;
     }
@@ -95,40 +90,44 @@ public class GameBoard implements Cloneable{
         this.nextRotationSecond = nextRotationSecond;
     }
 
-    public Ball[] getDefaultBalls() {
-        return defaultBalls;
-    }
-
     public Ball getBall(boolean forFirstOpponent) {
-        Ball[] ballPool;
-        if (forFirstOpponent)
-            ballPool = firstOpponentGameBalls;
-        else
-            ballPool = secondOpponentGameBalls;
-        for (Ball ball : ballPool)
-            if (!ball.isShot() && ball.isReadyToLaunch())
-                return ball;
+        if (forFirstOpponent) {
+            for (int i = 0; i < ballNumber; i++)
+                if (!allBalls.get(i).isShot() && allBalls.get(i).isReadyToLaunch())
+                    return allBalls.get(i);
+        } else {
+            if (isTwosomeGame) {
+                for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++) {
+                    if (!allBalls.get(i).isShot() && allBalls.get(i).isReadyToLaunch())
+                        return allBalls.get(i);
+                }
+            }
+        }
         return null;
     }
 
     public Ball setBallReadyToLaunch(boolean forFirstOpponent) {
-        Ball[] ballPool;
-        if (forFirstOpponent)
-            ballPool = firstOpponentGameBalls;
-        else
-            ballPool = secondOpponentGameBalls;
-        for (Ball ball : ballPool)
-            if (!ball.isShot())
-                return ball;
+        if (forFirstOpponent) {
+            for (int i = 0; i < ballNumber; i++)
+                if (!allBalls.get(i).isShot())
+                    return allBalls.get(i);
+        } else {
+            if (isTwosomeGame) {
+                for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++) {
+                    if (!allBalls.get(i).isShot())
+                        return allBalls.get(i);
+                }
+            }
+        }
         return null;
     }
 
     public void moveBalls() {
-        for (Ball ball : allBalls)
-            if (ball.isShot())
+        for (Ball ball : allBalls) {
+            if (ball.isShot() || ball.isDefaultBall()) {
                 ball.ballMoving(getWindSpeed());
-        for (Ball ball : defaultBalls)
-            ball.ballMoving(getWindSpeed());
+            }
+        }
     }
 
     private boolean hasIntersectedBalls() {
@@ -139,8 +138,9 @@ public class GameBoard implements Cloneable{
                         continue;
                     if (!ball2.isShot() && !ball2.isDefaultBall())
                         continue;
-                    if (distanceBetweenTwoBalls(ball1, ball2) < ball1.getBallRadius() + ball2.getBallRadius())
+                    if (distanceBetweenTwoBalls(ball1, ball2) < ball1.getBallRadius() + ball2.getBallRadius()) {
                         return true;
+                    }
                 }
         }
         return false;
@@ -166,12 +166,20 @@ public class GameBoard implements Cloneable{
     }
 
     public boolean isLost() {
-        return hasCollapseBall() || hasIntersectedBalls() || getMinutes() > 2;
+        return hasCollapseBall() || hasIntersectedBalls() || getMinutes() > 2 || secondPlayerWin();
+    }
+
+    private boolean secondPlayerWin() {
+        if (isTwosomeGame)
+            for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++)
+                if (!allBalls.get(i).isConnect())
+                    return false;
+        return true;
     }
 
     public boolean isWin() {
-        for (Ball ball : firstOpponentGameBalls)
-            if (!ball.isConnect())
+        for (int i = 0; i < ballNumber; i++)
+            if (!allBalls.get(i).isConnect())
                 return false;
         return true;
     }
@@ -231,23 +239,29 @@ public class GameBoard implements Cloneable{
     }
 
     public void shootBall(boolean firstOpponentShoot) {
+        if (firstOpponentShoot)
+            firstPlayerBallsRemain--;
+        else
+            secondPlayerBallsRemain--;
         iceProgress.addIceProgressPercent();
         ballsShot++;
         Ball thisBall = getBall(firstOpponentShoot);
         thisBall.shootBall(this.magicForceDegree);
         thisBall.setVisible(this.visibilityMode);
-        for (Ball ball : firstOpponentGameBalls)
-            if (!ball.isShot()) {
-                ball.setReadyToLaunch();
-                return;
-            }
-        if (!firstOpponentShoot)
-            for (Ball ball : secondOpponentGameBalls)
-                if (!ball.isShot()) {
-                    ball.setReadyToLaunch();
+        if (firstOpponentShoot) {
+            for (int i = 0; i < ballNumber; i++)
+                if (!allBalls.get(i).isShot()) {
+                    allBalls.get(i).setReadyToLaunch();
                     return;
                 }
-
+        } else {
+            if (isTwosomeGame)
+                for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++)
+                    if (!allBalls.get(i).isShot()) {
+                        allBalls.get(i).setReadyToLaunch();
+                        return;
+                    }
+        }
     }
 
     public void getReverse() {
@@ -314,16 +328,23 @@ public class GameBoard implements Cloneable{
         return isTwosomeGame;
     }
 
-    public Ball[] getSecondOpponentGameBalls() {
-        return secondOpponentGameBalls;
-    }
-
     public ArrayList<Ball> getAllBalls() {
         return allBalls;
     }
 
-    @Override
-    public GameBoard clone() throws CloneNotSupportedException {
-        return (GameBoard) super.clone();
+    public int getBallNumber() {
+        return ballNumber;
+    }
+
+    public int getDefaultBallNumber() {
+        return defaultBallNumber;
+    }
+
+    public int getFirstPlayerBallsRemain() {
+        return firstPlayerBallsRemain;
+    }
+
+    public int getSecondPlayerBallsRemain() {
+        return secondPlayerBallsRemain;
     }
 }

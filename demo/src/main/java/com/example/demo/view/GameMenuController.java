@@ -10,9 +10,6 @@ import java.util.ArrayList;
 
 public class GameMenuController {
     private static GameMenuController menuController = null;
-    public Ball[] getDefaultBalls() {
-        return GameController.getInstance().getDefaultBalls();
-    }
 
     public static GameMenuController getInstance() {
         if (menuController == null)
@@ -143,5 +140,25 @@ public class GameMenuController {
 
     public KeyCode getRightSecondKey() {
         return GameController.getInstance().getRightSecondKey();
+    }
+
+    public boolean isTwoSomeGame() {
+        return GameController.getInstance().isTwoSomeGame();
+    }
+
+    public Paint getFirstPlayerBallsRemainColor() {
+        return GameController.getInstance().getFirstPlayerBallsRemainColor();
+    }
+
+    public Paint getSecondPlayerBallsRemainColor() {
+        return GameController.getInstance().getSecondPlayerBallsRemainColor();
+    }
+
+    public String getFirstPlayerBallsRemain() {
+        return GameController.getInstance().getFirstPlayerBallsRemain();
+    }
+
+    public String getSecondPlayerBallsRemain() {
+        return GameController.getInstance().getSecondPlayerBallsRemain();
     }
 }

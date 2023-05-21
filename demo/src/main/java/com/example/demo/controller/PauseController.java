@@ -18,10 +18,10 @@ public class PauseController {
         DataBase.setCurrentGame();
     }
 
-    public void saveGame() throws CloneNotSupportedException, IOException {
+    public void saveGame() throws IOException {
         //TODO: fix it:
         if (DataBase.getCurrentUser() != null)
-            DataBase.getCurrentUser().setSavedGame(DataBase.getCurrentGame().clone());
+            DataBase.getCurrentUser().setSavedGame(DataBase.getCurrentGame());
         DataBase.writeDataToBase();
     }
 }

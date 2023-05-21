@@ -6,7 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import com.example.demo.view.RegisterMenu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.scene.input.KeyCode;
@@ -38,7 +40,7 @@ public class DataBase {
 
     public static void readDataFromBase() throws IOException {
         Gson gson = new Gson();
-        FileReader reader = new FileReader("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\UsersDataBase\\users.json");
+        FileReader reader = new FileReader(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/usersdatabase/users.json")).getFile());
         List<User> loadedUser = gson.fromJson(reader, new TypeToken<List<User>>() {}.getType());
         reader.close();
         if (loadedUser != null && !loadedUser.isEmpty())
@@ -48,7 +50,8 @@ public class DataBase {
     public static void writeDataToBase() throws IOException {
         Gson gson = new Gson();
         String json = gson.toJson(users);
-        FileWriter writer = new FileWriter("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\UsersDataBase\\users.json");
+        FileWriter writer = new FileWriter(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/usersdatabase/users.json")).getFile());
+        System.out.println(1);
         writer.write(json);
         writer.close();
     }
@@ -187,5 +190,12 @@ public class DataBase {
 
     public static void setIceKey(KeyCode iceKey) {
         DataBase.iceKey = iceKey;
+    }
+
+    public static User getUserByUserName(String name) {
+        for (User user : users)
+            if (user.getUsername().equals(name))
+                return user;
+        return null;
     }
 }

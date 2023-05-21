@@ -26,22 +26,20 @@ public class GameController {
     }
 
     public boolean hasNotShotBall(boolean forFirstOpponent) {
-        if (!forFirstOpponent && !DataBase.getCurrentGame().isTwosomeGame())
-            return false;
-        Ball[] ballPool;
         GameBoard gameBoard = DataBase.getCurrentGame();
-        if (forFirstOpponent)
-            ballPool = gameBoard.getFirstOpponentGameBalls();
-        else {
-            if (gameBoard.isTwosomeGame())
-                ballPool = gameBoard.getSecondOpponentGameBalls();
-            else
-                return false;
+        if (forFirstOpponent) {
+            for (int i = 0; i < gameBoard.getBallNumber(); i++) {
+                if (!gameBoard.getAllBalls().get(i).isShot())
+                    return true;
+            }
+        } else {
+            if (gameBoard.isTwosomeGame()) {
+                for (int i = gameBoard.getBallNumber() + gameBoard.getDefaultBallNumber(); i < gameBoard.getAllBalls().size(); i++) {
+                    if (!gameBoard.getAllBalls().get(i).isShot())
+                        return true;
+                }
+            }
         }
-
-        for (Ball ball : ballPool)
-            if (!ball.isShot())
-                return true;
         return false;
     }
 
@@ -181,10 +179,6 @@ public class GameController {
         DataBase.getCurrentGame().stopIceProgress();
     }
 
-    public Ball[] getDefaultBalls() {
-        return DataBase.getCurrentGame().getDefaultBalls();
-    }
-
     public double getCircleCenterX() {
         return DataBase.getCurrentGame().getCenterBall().getCircleCenterX();
     }
@@ -198,7 +192,7 @@ public class GameController {
     }
 
     public Paint getBallColor(Ball ball) {
-        if (DataBase.isBlackAndWhite())
+        if (DataBase.isBlackAndWhite() || ball.isDefaultBall())
             return Color.BLACK;
         else {
             if (ball.isForFirstOpponent())
@@ -234,6 +228,42 @@ public class GameController {
 
     public KeyCode getRightSecondKey() {
         return DataBase.getGoRightSecondOpponent();
+    }
+
+    public boolean isTwoSomeGame() {
+        return DataBase.getCurrentGame().isTwosomeGame();
+    }
+
+    public Paint getFirstPlayerBallsRemainColor() {
+        GameBoard gameBoard = DataBase.getCurrentGame();
+        if (gameBoard.getFirstPlayerBallsRemain() > 15)
+            return Color.PURPLE;
+        else if (gameBoard.getFirstPlayerBallsRemain() > 10)
+            return Color.RED;
+        else if (gameBoard.getFirstPlayerBallsRemain() > 5)
+            return Color.YELLOW;
+        else 
+            return Color.GREEN;
+    }
+
+    public Paint getSecondPlayerBallsRemainColor() {
+        GameBoard gameBoard = DataBase.getCurrentGame();
+        if (gameBoard.getSecondPlayerBallsRemain() > 15)
+            return Color.PURPLE;
+        else if (gameBoard.getSecondPlayerBallsRemain() > 10)
+            return Color.RED;
+        else if (gameBoard.getSecondPlayerBallsRemain() > 5)
+            return Color.YELLOW;
+        else
+            return Color.GREEN;
+    }
+
+    public String getFirstPlayerBallsRemain() {
+        return String.valueOf(DataBase.getCurrentGame().getFirstPlayerBallsRemain());
+    }
+
+    public String getSecondPlayerBallsRemain() {
+        return String.valueOf(DataBase.getCurrentGame().getSecondPlayerBallsRemain());
     }
 }
 
