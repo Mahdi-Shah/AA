@@ -180,4 +180,20 @@ public class Ball {
     public String toString() {
         return "isShot:" + isShot() + " isConnect:" + isConnect + " number:" + getNumber() + " default:" + isDefaultBall() + " first:" + isForFirstOpponent() + " ballX:" + ballX;
     }
+
+    public void setVelocityX(double v) {
+        this.ballVelocityX = v;
+    }
+
+    public void setVelocityY(double v) {
+        this.ballVelocityY = v;
+    }
+
+    public void setBallX(double ballX) {
+        this.ballX = ballX;
+    }
+
+    public void setBallY(double ballY) {
+        this.ballY = ballY;
+    }
 }

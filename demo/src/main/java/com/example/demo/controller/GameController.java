@@ -271,17 +271,21 @@ public class GameController {
     }
 
     public boolean isGameOver() {
-        if (isLost() || isWin()) {
+        if (isLost() || isWin() || DataBase.getCurrentGame().isGameOver()) {
             setVisible(true);
+            DataBase.getCurrentGame().setGameOver(true);
             return true;
         }
         return false;
     }
 
     public boolean isWin() {
+        if (DataBase.getCurrentGame().isWin())
+            return true;
         for (int i = 0; i < DataBase.getCurrentGame().getBallNumber(); i++)
             if (!DataBase.getCurrentGame().getAllBalls().get(i).isConnect())
                 return false;
+        DataBase.getCurrentGame().setWin(true);
         return true;
     }
 
@@ -299,7 +303,11 @@ public class GameController {
     }
 
     public boolean isLost() {
-        return hasCollapseBall() || hasIntersectedBalls() || getMinutes() > 2 || secondPlayerWin();
+        if (hasCollapseBall() || hasIntersectedBalls() || getMinutes() > 2 || secondPlayerWin() || DataBase.getCurrentGame().isLose()) {
+            DataBase.getCurrentGame().setLose(true);
+            return true;
+        }
+        return false;
     }
 
     private boolean secondPlayerWin() {
@@ -431,6 +439,26 @@ public class GameController {
         if (DataBase.getCurrentUser() == null)
             return false;
         return true;
+    }
+
+    public void moveWinGameBalls() {
+        for (Ball ball : controller.getBalls()) {
+            if (ball.isShot() || ball.isReadyToLaunch()) {
+                double deltaX = controller.getCircleCenterX() - ball.getBallX();
+                double deltaY = controller.getCircleCenterY() - ball.getBallY();
+                double angle = Math.atan2(deltaY, deltaX);
+                ball.setBallX(ball.getBallX() - OUTGOING_VELOCITY * Math.cos(angle));
+                ball.setBallY(ball.getBallY() - OUTGOING_VELOCITY * Math.sin(angle));
+            }
+        }
+    }
+
+    public void moveLostGameBalls() {
+        for (Ball ball : controller.getBalls()) {
+            if (ball.isShot() || ball.isReadyToLaunch()) {
+                ball.setBallY(ball.getBallY() + OUTGOING_VELOCITY);
+            }
+        }
     }
 }
 

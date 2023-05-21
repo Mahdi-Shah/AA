@@ -7,4 +7,5 @@ public interface Dimension {
     double BALL_SPEED = 15;
     double BIG_CIRCLE_RADIUS = 90;
     double LINE_WIDTH = 3;
+    double OUTGOING_VELOCITY = 30;
 }

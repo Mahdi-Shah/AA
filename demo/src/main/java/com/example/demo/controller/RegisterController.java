@@ -25,4 +25,8 @@ public class RegisterController {
             controller = new RegisterController();
         return controller;
     }
+
+    public void skip() {
+        DataBase.setCurrentGame();
+    }
 }

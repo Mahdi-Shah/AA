@@ -34,6 +34,9 @@ public class GameBoard{
     private final int difficulty;
     private int firstPlyerScore;
     private int secondPlayerScore;
+    private boolean gameOver;
+    private boolean win;
+    private boolean lose;
 
 
     public GameBoard(int ballNumber, double windRange, double rotateSpeed,
@@ -55,6 +58,9 @@ public class GameBoard{
         this.defaultBallNumber = numberOfDefaultBalls;
         this.firstPlayerBallsRemain = this.secondPlayerBallsRemain = ballNumber;
         this.yourRivalUsername = yourRivalUsername;
+        this.gameOver = false;
+        this.win = false;
+        this.lose = false;
 
 
         if (rotateSpeed >= 0.11 || ballNumber > 30) {
@@ -282,5 +288,29 @@ public class GameBoard{
 
     public String getYourRivalUsername() {
         return yourRivalUsername;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    public boolean isLose() {
+        return lose;
+    }
+
+    public void setLose(boolean lose) {
+        this.lose = lose;
     }
 }

@@ -96,7 +96,7 @@ public class RegisterMenu extends Application {
 
         skipButton.setOnMouseClicked(event -> {
             try {
-                (new GameMenu()).start(stage);
+                RegisterMenuController.getInstance().skip(stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

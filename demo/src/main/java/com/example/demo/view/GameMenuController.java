@@ -169,4 +169,12 @@ public class GameMenuController {
     public String getPlayerScore(boolean isFirstPlayer) {
         return GameController.getInstance().getPlayerScore(isFirstPlayer);
     }
+
+    public void moveWinGameBalls() {
+        GameController.getInstance().moveWinGameBalls();
+    }
+
+    public void moveLostGameBalls() {
+        GameController.getInstance().moveLostGameBalls();
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.demo.view;
 
+import com.example.demo.controller.GameController;
+import com.example.demo.controller.MainController;
 import com.example.demo.controller.RegisterController;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -69,6 +71,11 @@ public class RegisterMenuController {
         int number = random.nextInt(7) + 1;
         ImageView imageView = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\" + number + ".jpg");
         registerMenu.setImageView(imageView);
+    }
+
+    public void skip(Stage stage) throws Exception {
+        RegisterController.getInstance().skip();
+        (new GameMenu()).start(stage);
     }
 
     public static RegisterMenuController getInstance() {

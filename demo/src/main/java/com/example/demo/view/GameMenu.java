@@ -3,8 +3,6 @@ package com.example.demo.view;
 
 import com.example.demo.model.Ball;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -16,7 +14,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 
 import static com.example.demo.view.SomeFields.HEIGHT;
@@ -24,6 +21,7 @@ import static com.example.demo.view.SomeFields.WIDTH;
 
 
 public class GameMenu extends Application {
+    int timeLimitForShow = 1;
 
     final private GameMenuController controller = GameMenuController.getInstance();
 
@@ -62,20 +60,23 @@ public class GameMenu extends Application {
             @Override
             public void handle(long now) {
 
-                functionList(gc, now, progressIndicator);
-
                 if (controller.isGameOver()) {
                     checkGameOver(root, gc);
-                    stop();
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+                    if (controller.isWin())
+                        controller.moveWinGameBalls();
+                    else
+                        controller.moveLostGameBalls();
+                    timeLimitForShow++;
+                    if (timeLimitForShow > 120) {
+                        stop();
                         try {
                             (new ScoreMenu()).start(stage);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-                    }));
-                    timeline.play();
-                }
+                    }
+                } else
+                    functionList(gc, now, progressIndicator);
 
                 scene.setOnKeyPressed(event -> {
                     if (event.getCode() == GameMenuController.getInstance().getStopKey()) {
@@ -125,9 +126,10 @@ public class GameMenu extends Application {
 
     private void graphicsContextFunctions(GraphicsContext gc) {
         gc.clearRect(0, 0, WIDTH, HEIGHT);
-        writeDetails(gc);
-        drawCenterCircle(gc);
+        if (!controller.isGameOver())
+            writeDetails(gc);
         drawGameBalls(gc);
+        drawCenterCircle(gc);
     }
 
     private void drawCenterCircle(GraphicsContext graphicsContext) {

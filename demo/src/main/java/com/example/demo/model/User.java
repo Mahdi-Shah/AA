@@ -82,9 +82,9 @@ public class User {
     }
 
     public void addToGames(GameScore gameScore) {
+        gameScores.add(gameScore);
         if (gameScore.isWinner())
             averageTime = (averageTime * gameScores.size() + gameScore.getSeconds()) / (gameScores.size());
-        gameScores.add(gameScore);
         score += gameScore.getScore();
         switch (gameScore.getDifficulty()) {
             case 1 -> {
@@ -115,8 +115,7 @@ public class User {
     }
 
     public void setSavedGame(GameBoard savedGame) {
-        GameBoard gameBoard = savedGame;
-        this.savedGame = gameBoard;
+        this.savedGame = savedGame;
     }
 
     public int getRankByDifficulty(int difficult) {
