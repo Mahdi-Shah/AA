@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -93,6 +94,14 @@ public class RegisterMenu extends Application {
             }
         });
 
+        skipButton.setOnMouseClicked(event -> {
+            try {
+                (new GameMenu()).start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
         exitButton.setOnMouseClicked(mouseEvent -> RegisterMenuController.getInstance().exit(stage));
 
@@ -109,15 +118,18 @@ public class RegisterMenu extends Application {
         Label avatarLabel = new Label("Avatar:");
         avatarLabel.getStyleClass().add("label");
 
-        ImageView imageView1 = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\1.jpg");
-        ImageView imageView2 = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\2.jpg");
-        ImageView imageView3 = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\3.jpg");
-        ImageView imageView4 = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\4.jpg");
-        ImageView imageView5 = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\5.jpg");
-        ImageView imageView6 = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\6.jpg");
-        ImageView imageView7 = createImageView("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\Converted\\7.jpg");
+        Image icon = new Image(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/5.jpg")).toExternalForm());
+
+        ImageView imageView1 = createImageView(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/1.jpg")).toExternalForm());
+        ImageView imageView2 = createImageView(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/2.jpg")).toExternalForm());
+        ImageView imageView3 = createImageView(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/3.jpg")).toExternalForm());
+        ImageView imageView4 = createImageView(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/4.jpg")).toExternalForm());
+        ImageView imageView5 = createImageView(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/5.jpg")).toExternalForm());
+        ImageView imageView6 = createImageView(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/6.jpg")).toExternalForm());
+        ImageView imageView7 = createImageView(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/7.jpg")).toExternalForm());
 
 
+        stage.getIcons().add(icon);
         // Create a GridPane and add the ImageViews to it
         Button uploadButton = new Button("Upload\nAvatar");
         handleButtonColor(uploadButton, 5);

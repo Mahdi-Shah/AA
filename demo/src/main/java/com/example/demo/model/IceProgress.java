@@ -7,24 +7,15 @@ public class IceProgress {
     private final int iceProgressTime;
     private int whenIceProgressBegins;
     private boolean inIceProgressTime;
-    GameBoard gameBoard;
 
-    public IceProgress(int iceProgressTime, GameBoard gameBoard) {
+    public IceProgress(int iceProgressTime) {
         this.iceProgressTime = iceProgressTime;
         this.iceProgressPercent = 0;
         this.inIceProgressTime = false;
-        this.gameBoard = gameBoard;
     }
 
     public double getIceProgressPercent() {
         return iceProgressPercent;
-    }
-
-    public void startIceProgress() {
-        this.whenIceProgressBegins = gameBoard.getAllSeconds();
-        iceProgressPercent = 0;
-        gameBoard.setBallsIcySpeed();
-        this.inIceProgressTime = true;
     }
 
     public void addIceProgressPercent() {
@@ -33,11 +24,27 @@ public class IceProgress {
             this.iceProgressPercent = 1;
     }
 
-    public void stopIceProgress() {
-        if (inIceProgressTime)
-            if (gameBoard.getAllSeconds() - whenIceProgressBegins > this.iceProgressTime) {
-                this.gameBoard.setBallsNormalSpeed();
-                this.inIceProgressTime = false;
-            }
+    public void setIceProgressPercent(double iceProgressPercent) {
+        this.iceProgressPercent = iceProgressPercent;
+    }
+
+    public int getIceProgressTime() {
+        return iceProgressTime;
+    }
+
+    public int getWhenIceProgressBegins() {
+        return whenIceProgressBegins;
+    }
+
+    public void setWhenIceProgressBegins(int whenIceProgressBegins) {
+        this.whenIceProgressBegins = whenIceProgressBegins;
+    }
+
+    public boolean isInIceProgressTime() {
+        return inIceProgressTime;
+    }
+
+    public void setInIceProgressTime(boolean inIceProgressTime) {
+        this.inIceProgressTime = inIceProgressTime;
     }
 }

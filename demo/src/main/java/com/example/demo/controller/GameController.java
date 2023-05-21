@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.model.Ball;
 import com.example.demo.model.DataBase;
 import com.example.demo.model.GameBoard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -192,6 +195,45 @@ public class GameController {
 
     public double getLineWidth() {
         return LINE_WIDTH;
+    }
+
+    public Paint getBallColor(Ball ball) {
+        if (DataBase.isBlackAndWhite())
+            return Color.BLACK;
+        else {
+            if (ball.isForFirstOpponent())
+                return Color.BLUE;
+            else
+                return Color.GOLD;
+        }
+    }
+
+    public KeyCode getShootFirstKey() {
+        return DataBase.getShootBallFirstOpponent();
+    }
+
+    public KeyCode getLeftFirstKey() {
+        return DataBase.getGoLeftFirstOpponent();
+    }
+
+    public KeyCode getRightFirstKey() {
+        return DataBase.getGoRightFirstOpponent();
+    }
+
+    public KeyCode getIceKey() {
+        return DataBase.getIceKey();
+    }
+
+    public KeyCode getShootSecondKey() {
+        return DataBase.getShootBallSecondOpponent();
+    }
+
+    public KeyCode getLeftSecondKey() {
+        return DataBase.getGoLeftSecondOpponent();
+    }
+
+    public KeyCode getRightSecondKey() {
+        return DataBase.getGoRightSecondOpponent();
     }
 }
 

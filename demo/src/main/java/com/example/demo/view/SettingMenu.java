@@ -28,6 +28,10 @@ public class SettingMenu extends Application {
     private boolean isBlackAndWhite = false;
     private String language = "English";
 
+    private String keyName = "Stop";
+
+    private int mapsNumber = 1;
+
     @Override
     public void start(Stage stage) throws FileNotFoundException {
         Slider ballCountSlider = new Slider(0, 80, ballCount);
@@ -37,6 +41,8 @@ public class SettingMenu extends Application {
         CheckBox muteCheckBox = new CheckBox("Mute");
         CheckBox blackAndWhiteCheckBox = new CheckBox("Black & White");
         ChoiceBox<String> languageChoiceBox = new ChoiceBox<>();
+        ChoiceBox<String> keyChoiceBox = new ChoiceBox<>();
+        ChoiceBox<Integer> mapNumber = new ChoiceBox<>();
         Button submitButton = new Button("Submit");
         Button backButton = new Button("Back to Main Menu");
 
@@ -45,6 +51,15 @@ public class SettingMenu extends Application {
         languageChoiceBox.getItems().addAll("English", "فارسی");
         languageChoiceBox.getStyleClass().add("choice-box");
         languageChoiceBox.setValue(language);
+
+
+        keyChoiceBox.getItems().addAll("Stop", "Right (1st player)", "Left (1st player)",
+                "Right (2th player)", "Left (2th player)", "Shoot (1st player)", "Shoot (2th player)", "Freeze");
+        keyChoiceBox.getStyleClass().add("choice-box");
+        keyChoiceBox.setValue(keyName);
+
+        mapNumber.getItems().addAll(1, 2, 3);
+        mapNumber.setValue(2);
 
 
         ballCountSlider.setShowTickLabels(true);
@@ -91,6 +106,22 @@ public class SettingMenu extends Application {
         blackAndWhiteCheckBox.getStyleClass().add("checkbox");
         blackAndWhiteCheckBox.setOnAction(event -> isBlackAndWhite = blackAndWhiteCheckBox.isSelected());
 
+        languageChoiceBox.setOnAction(event -> {
+            language = languageChoiceBox.getValue();
+        });
+
+        keyChoiceBox.setOnAction(event -> {
+            keyName = keyChoiceBox.getValue();
+        });
+
+        keyChoiceBox.setOnKeyPressed(event -> {
+            SettingMenuController.getInstance().changeThisKey(keyName, event.getCode());
+        });
+
+        mapNumber.setOnAction(event -> {
+            mapsNumber = mapNumber.getValue();
+            SettingMenuController.getInstance().changeTheMap(mapsNumber);
+        });
 
         handleButtonColor(backButton, 1);
         backButton.setMinWidth(200);
@@ -104,7 +135,8 @@ public class SettingMenu extends Application {
 
         handleButtonColor(submitButton, 2);
         submitButton.setMinWidth(200);
-        submitButton.setOnMouseClicked(event -> SettingMenuController.getInstance().submit(ballCount, rotationSpeed, windSpeed, freezeTime, isMuted, isBlackAndWhite, language));
+        submitButton.setOnMouseClicked(event -> SettingMenuController.getInstance().submit(ballCount,
+                rotationSpeed, windSpeed, freezeTime, isMuted, isBlackAndWhite, language));
 
 
         Label ballCountLabel = new Label("Ball Count:");
@@ -128,7 +160,8 @@ public class SettingMenu extends Application {
         gridPane.addRow(3, freezeTimeLabel, freezeTimeSlider);
 
 
-        VBox vBox = new VBox(20, gridPane, muteCheckBox, blackAndWhiteCheckBox, languageChoiceBox, submitButton, backButton);
+        VBox vBox = new VBox(20, gridPane, muteCheckBox, blackAndWhiteCheckBox, languageChoiceBox,
+                keyChoiceBox,mapNumber, submitButton, backButton);
         vBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("vbox");
 

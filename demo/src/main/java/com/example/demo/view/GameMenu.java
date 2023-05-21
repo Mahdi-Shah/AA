@@ -69,7 +69,11 @@ public class GameMenu extends Application {
                     checkGameOver(root, gc);
                     stop();
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-                        stage.close();
+                        try {
+                            (new MainMenu()).start(stage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }));
                     timeline.play();
                 }
@@ -78,21 +82,24 @@ public class GameMenu extends Application {
                     if (event.getCode() == KeyCode.ESCAPE) {
                         controller.stopTimer();
                         stop();
-                    } else if (event.getCode() == KeyCode.P) {
-                        start();
-                    } else if (event.getCode() == KeyCode.SPACE) {
+                        try {
+                            (new PauseMenu()).start(stage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else if (event.getCode() == GameMenuController.getInstance().getShootFirstKey()) {
                         controller.shootBall(true);
-                    } else if (event.getCode() == KeyCode.LEFT) {
+                    } else if (event.getCode() == GameMenuController.getInstance().getLeftFirstKey()) {
                         controller.moveToLeft(true);
-                    } else if (event.getCode() == KeyCode.RIGHT) {
+                    } else if (event.getCode() == GameMenuController.getInstance().getRightFirstKey()) {
                         controller.moveToRight(true);
-                    } else if (event.getCode() == KeyCode.TAB) {
+                    } else if (event.getCode() == GameMenuController.getInstance().getIceKey()) {
                         controller.startIceProgress();
-                    } else if (event.getCode() == KeyCode.ENTER) {
+                    } else if (event.getCode() == GameMenuController.getInstance().getShootSecondKey()) {
                         controller.shootBall(false);
-                    } else if (event.getCode() == KeyCode.A) {
+                    } else if (event.getCode() == GameMenuController.getInstance().getLeftSecondKey()) {
                         controller.moveToLeft(false);
-                    } else if (event.getCode() == KeyCode.D) {
+                    } else if (event.getCode() == GameMenuController.getInstance().getRightSecondKey()) {
                         controller.moveToRight(false);
                     }
                 });
@@ -154,7 +161,7 @@ public class GameMenu extends Application {
     }
 
     public void drawBall(GraphicsContext gc, Ball ball) {
-        gc.setFill(ball.getColor());
+        gc.setFill(GameMenuController.getInstance().getBallColor(ball));
         gc.fillOval(ball.getBallX() - ball.getBallRadius(),
                 ball.getBallY() - ball.getBallRadius(),
                 2 * ball.getBallRadius(),
@@ -171,7 +178,6 @@ public class GameMenu extends Application {
     }
 
     public void drawLine(GraphicsContext gc, Ball ball) {
-        gc.setFill(ball.getColor());
         gc.setLineWidth(controller.getLineWidth());
         gc.strokeLine(ball.getBallX(), ball.getBallY(), controller.getCircleCenterX(), controller.getCircleCenterY());
     }

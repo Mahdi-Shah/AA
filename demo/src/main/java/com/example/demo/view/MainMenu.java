@@ -109,6 +109,14 @@ public class MainMenu extends Application {
             }
         });
 
+        continueButton.setOnMouseClicked(event -> {
+            try {
+                MainMenuController.getInstance().continueGame(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
         vBox.getChildren().add(newGameButton);
         vBox.getChildren().add(continueButton);

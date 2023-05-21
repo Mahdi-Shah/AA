@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.input.KeyCode;
 
 public class DataBase {
     private static ArrayList<User> users = new ArrayList<>();
@@ -20,9 +21,18 @@ public class DataBase {
     private static int numberOfDefaultBalls = 3;
     private static boolean isTwosomeGame = true;
     private static double stopDistance = 180;
-    private static boolean isBlackAndWhite = true;
+    private static boolean blackAndWhite = true;
 
-    private static GameBoard currentGame = new GameBoard(ballNumber, windRange,rotateSpeed, iceProgressTime, 1, isTwosomeGame, stopDistance, isBlackAndWhite);
+    private static KeyCode stopGameKeyCode = KeyCode.ESCAPE;
+    private static KeyCode goRightFirstOpponent = KeyCode.RIGHT;
+    private static KeyCode goLeftFirstOpponent = KeyCode.LEFT;
+    private static KeyCode goRightSecondOpponent = KeyCode.D;
+    private static KeyCode goLeftSecondOpponent = KeyCode.A;
+    private static KeyCode shootBallFirstOpponent = KeyCode.SPACE;
+    private static KeyCode shootBallSecondOpponent = KeyCode.ENTER;
+    private static KeyCode iceKey = KeyCode.TAB;
+
+    private static GameBoard currentGame = new GameBoard(ballNumber, windRange,rotateSpeed, iceProgressTime, 1, isTwosomeGame, stopDistance);
 
     private static User currentUser;
 
@@ -36,7 +46,6 @@ public class DataBase {
     }
 
     public static void writeDataToBase() throws IOException {
-        System.out.println(users.size());
         Gson gson = new Gson();
         String json = gson.toJson(users);
         FileWriter writer = new FileWriter("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\UsersDataBase\\users.json");
@@ -68,7 +77,7 @@ public class DataBase {
     }
 
     public static void setCurrentGame() {
-        DataBase.currentGame = new GameBoard(ballNumber, windRange, rotateSpeed, iceProgressTime, numberOfDefaultBalls, isTwosomeGame, stopDistance, isBlackAndWhite);
+        DataBase.currentGame = new GameBoard(ballNumber, windRange, rotateSpeed, iceProgressTime, numberOfDefaultBalls, isTwosomeGame, stopDistance);
     }
 
     public static void addUser(User user) throws IOException {
@@ -104,7 +113,79 @@ public class DataBase {
         DataBase.stopDistance = stopDistance;
     }
 
-    public static void setIsBlackAndWhite(boolean isBlackAndWhite) {
-        DataBase.isBlackAndWhite = isBlackAndWhite;
+    public static void setBlackAndWhite(boolean blackAndWhite) {
+        DataBase.blackAndWhite = blackAndWhite;
+    }
+
+    public static void setCurrentGame(GameBoard currentGame) {
+        DataBase.currentGame = currentGame;
+    }
+
+    public static boolean isBlackAndWhite() {
+        return blackAndWhite;
+    }
+
+    public static KeyCode getStopGameKeyCode() {
+        return stopGameKeyCode;
+    }
+
+    public static void setStopGameKeyCode(KeyCode stopGameKeyCode) {
+        DataBase.stopGameKeyCode = stopGameKeyCode;
+    }
+
+    public static KeyCode getGoRightFirstOpponent() {
+        return goRightFirstOpponent;
+    }
+
+    public static void setGoRightFirstOpponent(KeyCode goRightFirstOpponent) {
+        DataBase.goRightFirstOpponent = goRightFirstOpponent;
+    }
+
+    public static KeyCode getGoLeftFirstOpponent() {
+        return goLeftFirstOpponent;
+    }
+
+    public static void setGoLeftFirstOpponent(KeyCode goLeftFirstOpponent) {
+        DataBase.goLeftFirstOpponent = goLeftFirstOpponent;
+    }
+
+    public static KeyCode getGoRightSecondOpponent() {
+        return goRightSecondOpponent;
+    }
+
+    public static void setGoRightSecondOpponent(KeyCode goRightSecondOpponent) {
+        DataBase.goRightSecondOpponent = goRightSecondOpponent;
+    }
+
+    public static KeyCode getGoLeftSecondOpponent() {
+        return goLeftSecondOpponent;
+    }
+
+    public static void setGoLeftSecondOpponent(KeyCode goLeftSecondOpponent) {
+        DataBase.goLeftSecondOpponent = goLeftSecondOpponent;
+    }
+
+    public static KeyCode getShootBallFirstOpponent() {
+        return shootBallFirstOpponent;
+    }
+
+    public static void setShootBallFirstOpponent(KeyCode shootBallFirstOpponent) {
+        DataBase.shootBallFirstOpponent = shootBallFirstOpponent;
+    }
+
+    public static KeyCode getShootBallSecondOpponent() {
+        return shootBallSecondOpponent;
+    }
+
+    public static void setShootBallSecondOpponent(KeyCode shootBallSecondOpponent) {
+        DataBase.shootBallSecondOpponent = shootBallSecondOpponent;
+    }
+
+    public static KeyCode getIceKey() {
+        return iceKey;
+    }
+
+    public static void setIceKey(KeyCode iceKey) {
+        DataBase.iceKey = iceKey;
     }
 }

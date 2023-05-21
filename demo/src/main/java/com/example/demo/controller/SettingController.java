@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.DataBase;
+import javafx.scene.input.KeyCode;
 
 public class SettingController {
     private static SettingController controller = null;
@@ -18,12 +19,44 @@ public class SettingController {
         DataBase.setRotateSpeed(rotateSpeed);
         DataBase.setWindRange(windSpeed);
         DataBase.setIceProgressTime(freezeTime);
-        DataBase.setIsBlackAndWhite(isBlackAndWhite);
+        DataBase.setBlackAndWhite(isBlackAndWhite);
         DataBase.setCurrentGame();
         //TODO: setMute and setLanguage
 //        DataBase.setMute(isMuted);
 //        DataBase.setLanguage(language);
 
 
+    }
+
+    public void changeThisKeyTo(String keyName, KeyCode code) {
+        switch (keyName) {
+            case "Stop":
+                DataBase.setStopGameKeyCode(code);
+                break;
+            case "Right (1st player)":
+                DataBase.setGoRightFirstOpponent(code);
+                break;
+            case "Left (1st player)":
+                DataBase.setGoLeftFirstOpponent(code);
+                break;
+            case "Right (2th player)":
+                DataBase.setGoRightSecondOpponent(code);
+                break;
+            case "Left (2th player)":
+                DataBase.setGoLeftSecondOpponent(code);
+                break;
+            case "Shoot (1st player)":
+                DataBase.setShootBallFirstOpponent(code);
+            case "Shoot (2th player)":
+                DataBase.setShootBallSecondOpponent(code);
+            case "Freeze":
+                DataBase.setIceKey(code);
+        }
+    }
+
+    public void changeMap(int mapNumber) {
+        DataBase.setStopDistance(120 + mapNumber * 20);
+        DataBase.setNumberOfDefaultBalls(4 + mapNumber);
+        DataBase.setCurrentGame();
     }
 }

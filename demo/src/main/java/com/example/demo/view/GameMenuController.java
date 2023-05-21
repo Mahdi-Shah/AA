@@ -3,6 +3,8 @@ package com.example.demo.view;
 import com.example.demo.controller.GameController;
 import com.example.demo.model.Ball;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 
@@ -109,5 +111,37 @@ public class GameMenuController {
 
     public double getLineWidth() {
         return GameController.getInstance().getLineWidth();
+    }
+
+    public Paint getBallColor(Ball ball) {
+        return GameController.getInstance().getBallColor(ball);
+    }
+
+    public KeyCode getShootFirstKey() {
+        return GameController.getInstance().getShootFirstKey();
+    }
+
+    public KeyCode getLeftFirstKey() {
+        return GameController.getInstance().getLeftFirstKey();
+    }
+
+    public KeyCode getRightFirstKey() {
+        return GameController.getInstance().getRightFirstKey();
+    }
+
+    public KeyCode getIceKey() {
+        return GameController.getInstance().getIceKey();
+    }
+
+    public KeyCode getShootSecondKey() {
+        return GameController.getInstance().getShootSecondKey();
+    }
+
+    public KeyCode getLeftSecondKey() {
+        return GameController.getInstance().getLeftSecondKey();
+    }
+
+    public KeyCode getRightSecondKey() {
+        return GameController.getInstance().getRightSecondKey();
     }
 }

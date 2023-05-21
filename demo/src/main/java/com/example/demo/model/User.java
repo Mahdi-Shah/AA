@@ -29,7 +29,7 @@ public class User {
 
     private int hardAverageTime;
 
-//    GameBoard savedGame;
+    GameBoard savedGame;
 
     public User(String username, String password, ImageView avatar) {
         this.username = username;
@@ -38,7 +38,7 @@ public class User {
         gameScores = new ArrayList<>();
         score = easyScore = middleScore = hardScore = 0;
         averageTime = easyAverageTime = middleAverageTime = hardAverageTime = 0;
-//        savedGame = null;
+        savedGame = null;
     }
 
     public String getUsername() {
@@ -114,13 +114,14 @@ public class User {
         return gameScores;
     }
 
-//    public GameBoard getSavedGame() {
-//        return savedGame;
-//    }
-//
-//    public void setSavedGame(GameBoard savedGame) {
-//        this.savedGame = savedGame;
-//    }
+    public GameBoard getSavedGame() {
+        return savedGame;
+    }
+
+    public void setSavedGame(GameBoard savedGame) {
+        GameBoard gameBoard = savedGame;
+        this.savedGame = gameBoard;
+    }
 
     public int getRankByDifficulty(int difficult) {
         int rank = 1;

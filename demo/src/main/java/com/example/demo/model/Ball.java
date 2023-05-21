@@ -31,10 +31,9 @@ public class Ball {
     private final boolean defaultBall;
     private final boolean forFirstOpponent;
     private final double stopDistance;
-    private final Color color;
 
     public Ball(double bigCircleX, double bigCircleY,
-                double ballRotateSpeed, int number, boolean forFirstOpponent, double stopDistance, Color color) {
+                double ballRotateSpeed, int number, boolean forFirstOpponent, double stopDistance) {
         this.setVisible(false);
         this.bigCircleX = bigCircleX;
         this.bigCircleY = bigCircleY;
@@ -48,7 +47,6 @@ public class Ball {
         this.defaultBall = false;
         this.forFirstOpponent = forFirstOpponent;
         this.stopDistance = stopDistance;
-        this.color = color;
     }
 
     public Ball(double bigCircleX, double bigCircleY, int numBalls, int ballNumber, double ballRotateSpeed, double stopDistance, Color color) {
@@ -65,7 +63,6 @@ public class Ball {
         this.defaultBall = true;
         this.forFirstOpponent = true;
         this.stopDistance = stopDistance;
-        this.color = color;
     }
 
     private boolean isConnected() {
@@ -174,7 +171,7 @@ public class Ball {
         return defaultBall;
     }
 
-    public Color getColor() {
-        return color;
+    public boolean isForFirstOpponent() {
+        return forFirstOpponent;
     }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static com.example.demo.model.Dimension.*;
 
-public class GameBoard {
+public class GameBoard implements Cloneable{
 
     private final ArrayList<Ball> allBalls;
 
@@ -31,7 +31,7 @@ public class GameBoard {
 
 
     public GameBoard(int ballNumber, double windRange, double rotateSpeed,
-                     int iceProgressTime, int numberOfDefaultBalls, boolean isTwosomeGame, double stopDistance, boolean isBlackAndWhite) {
+                     int iceProgressTime, int numberOfDefaultBalls, boolean isTwosomeGame, double stopDistance) {
         this.magicForceDegree = 0;
         this.ballNumber = ballNumber;
         this.wind = new Wind(windRange);
@@ -42,7 +42,7 @@ public class GameBoard {
         this.centerBall = new CenterBall();
         this.nextRotationSecond = 0;
         this.ballRotationSpeed = rotateSpeed;
-        this.iceProgress = new IceProgress(iceProgressTime, this);
+        this.iceProgress = new IceProgress(iceProgressTime);
         this.allBalls = new ArrayList<>();
         this.isTwosomeGame = isTwosomeGame;
 
@@ -58,13 +58,8 @@ public class GameBoard {
 
         this.firstOpponentGameBalls = new Ball[ballNumber];
         for (int i = 0; i < ballNumber; i++) {
-            Color color;
-            if (isBlackAndWhite)
-                color = Color.BLACK;
-            else
-                color = Color.BLUE;
             firstOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                    rotateSpeed, ballNumber - i, true, stopDistance, color);
+                    rotateSpeed, ballNumber - i, true, stopDistance);
             allBalls.add(this.firstOpponentGameBalls[i]);
         }
         firstOpponentGameBalls[0].setReadyToLaunch();
@@ -72,13 +67,8 @@ public class GameBoard {
         if (isTwosomeGame) {
             this.secondOpponentGameBalls = new Ball[ballNumber];
             for (int i = 0; i < ballNumber; i++) {
-                Color color;
-                if (isBlackAndWhite)
-                    color = Color.BLACK;
-                else
-                    color = Color.GOLD;
                 secondOpponentGameBalls[i] = new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
-                        rotateSpeed, ballNumber - i, false, stopDistance, color);
+                        rotateSpeed, ballNumber - i, false, stopDistance);
                 allBalls.add(secondOpponentGameBalls[i]);
             }
             secondOpponentGameBalls[0].setReadyToLaunch();
@@ -304,12 +294,20 @@ public class GameBoard {
     }
 
     public void startIceProgress() {
-        if (iceProgress.getIceProgressPercent() == 1)
-            iceProgress.startIceProgress();
+        if (iceProgress.getIceProgressPercent() == 1) {
+            iceProgress.setWhenIceProgressBegins(this.getAllSeconds());
+            iceProgress.setIceProgressPercent(0);
+            this.setBallsIcySpeed();
+            iceProgress.setInIceProgressTime(true);
+        }
     }
 
     public void stopIceProgress() {
-        iceProgress.stopIceProgress();
+        if (iceProgress.isInIceProgressTime())
+            if (this.getAllSeconds() - iceProgress.getWhenIceProgressBegins() > iceProgress.getIceProgressTime()) {
+                this.setBallsNormalSpeed();
+                iceProgress.setInIceProgressTime(false);
+            }
     }
 
     public boolean isTwosomeGame() {
@@ -322,5 +320,10 @@ public class GameBoard {
 
     public ArrayList<Ball> getAllBalls() {
         return allBalls;
+    }
+
+    @Override
+    public GameBoard clone() throws CloneNotSupportedException {
+        return (GameBoard) super.clone();
     }
 }
