@@ -5,7 +5,6 @@ public interface Dimension {
     int WIDTH = 600;
     int BALL_RADIUS = 10;
     double BALL_SPEED = 15;
-    double STOP_DISTANCE = 200;
     double BIG_CIRCLE_RADIUS = 90;
     double LINE_WIDTH = 3;
 }

@@ -66,7 +66,7 @@ public class Ball {
     }
 
     private boolean isConnected() {
-        if (Math.sqrt(Math.pow((ballX - bigCircleX), 2) + Math.pow((ballY - bigCircleY), 2)) <= stopDistance) {
+        if (Math.sqrt(Math.pow((ballX - bigCircleX), 2) + Math.pow((ballY - bigCircleY), 2)) <= stopDistance + BALL_RADIUS) {
             isConnect = true;
             return true;
         }
@@ -132,7 +132,7 @@ public class Ball {
             if (forFirstOpponent)
                 ballY = HEIGHT - ballRadius - 80;
             else
-                ballY = ballRadius;
+                ballY = ballRadius + 80;
             this.setVisible(true);
             this.readyToLaunch = true;
         }

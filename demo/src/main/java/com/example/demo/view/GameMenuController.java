@@ -82,10 +82,6 @@ public class GameMenuController {
         return GameController.getInstance().isGameOver();
     }
 
-    public boolean isWin() {
-        return GameController.getInstance().isWin();
-    }
-
     public double getIceProgressPercent() {
         return GameController.getInstance().getIceProgressPercent();
     }
@@ -146,6 +142,10 @@ public class GameMenuController {
         return GameController.getInstance().isTwoSomeGame();
     }
 
+    public KeyCode getStopKey() {
+        return GameController.getInstance().getStopKey();
+    }
+
     public Paint getFirstPlayerBallsRemainColor() {
         return GameController.getInstance().getFirstPlayerBallsRemainColor();
     }
@@ -160,5 +160,13 @@ public class GameMenuController {
 
     public String getSecondPlayerBallsRemain() {
         return GameController.getInstance().getSecondPlayerBallsRemain();
+    }
+
+    public boolean isWin() {
+        return GameController.getInstance().isWin();
+    }
+
+    public String getPlayerScore(boolean isFirstPlayer) {
+        return GameController.getInstance().getPlayerScore(isFirstPlayer);
     }
 }

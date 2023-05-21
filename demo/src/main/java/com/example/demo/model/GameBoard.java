@@ -30,10 +30,15 @@ public class GameBoard{
     private int nextRotationSecond;
     private final double ballRotationSpeed;
     private final IceProgress iceProgress;
+    private final String yourRivalUsername;
+    private final int difficulty;
+    private int firstPlyerScore;
+    private int secondPlayerScore;
 
 
     public GameBoard(int ballNumber, double windRange, double rotateSpeed,
-                     int iceProgressTime, int numberOfDefaultBalls, boolean isTwosomeGame, double stopDistance) {
+                     int iceProgressTime, int numberOfDefaultBalls, boolean isTwosomeGame,
+                     double stopDistance, String yourRivalUsername) {
         this.magicForceDegree = 0;
         this.ballNumber = ballNumber;
         this.wind = new Wind(windRange);
@@ -49,7 +54,18 @@ public class GameBoard{
         this.isTwosomeGame = isTwosomeGame;
         this.defaultBallNumber = numberOfDefaultBalls;
         this.firstPlayerBallsRemain = this.secondPlayerBallsRemain = ballNumber;
+        this.yourRivalUsername = yourRivalUsername;
 
+
+        if (rotateSpeed >= 0.11 || ballNumber > 30) {
+            this.difficulty = 3;
+        } else if (rotateSpeed >= 0.07 || ballNumber > 15) {
+            this.difficulty = 2;
+        } else
+            this.difficulty = 1;
+
+        this.firstPlyerScore = 0;
+        this.secondPlayerScore = 0;
 
         for (int i = 0; i < ballNumber; i++) {
             allBalls.add(new Ball(centerBall.getCircleCenterX(), centerBall.getCircleCenterY(),
@@ -90,106 +106,10 @@ public class GameBoard{
         this.nextRotationSecond = nextRotationSecond;
     }
 
-    public Ball getBall(boolean forFirstOpponent) {
-        if (forFirstOpponent) {
-            for (int i = 0; i < ballNumber; i++)
-                if (!allBalls.get(i).isShot() && allBalls.get(i).isReadyToLaunch())
-                    return allBalls.get(i);
-        } else {
-            if (isTwosomeGame) {
-                for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++) {
-                    if (!allBalls.get(i).isShot() && allBalls.get(i).isReadyToLaunch())
-                        return allBalls.get(i);
-                }
-            }
-        }
-        return null;
-    }
-
-    public Ball setBallReadyToLaunch(boolean forFirstOpponent) {
-        if (forFirstOpponent) {
-            for (int i = 0; i < ballNumber; i++)
-                if (!allBalls.get(i).isShot())
-                    return allBalls.get(i);
-        } else {
-            if (isTwosomeGame) {
-                for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++) {
-                    if (!allBalls.get(i).isShot())
-                        return allBalls.get(i);
-                }
-            }
-        }
-        return null;
-    }
-
-    public void moveBalls() {
-        for (Ball ball : allBalls) {
-            if (ball.isShot() || ball.isDefaultBall()) {
-                ball.ballMoving(getWindSpeed());
-            }
-        }
-    }
-
-    private boolean hasIntersectedBalls() {
-        for (Ball ball1 : allBalls) {
-            if (ball1.isShot())
-                for (Ball ball2 : allBalls) {
-                    if (ball1.equals(ball2))
-                        continue;
-                    if (!ball2.isShot() && !ball2.isDefaultBall())
-                        continue;
-                    if (distanceBetweenTwoBalls(ball1, ball2) < ball1.getBallRadius() + ball2.getBallRadius()) {
-                        return true;
-                    }
-                }
-        }
-        return false;
-    }
-
     public void setBallsRadius(double ballRadius) {
         for (Ball ball : allBalls) {
             ball.setBallRadius(ballRadius);
         }
-    }
-
-    private double distanceBetweenTwoBalls(Ball ball1, Ball ball2) {
-        return Math.sqrt((Math.pow((ball1.getBallX() - ball2.getBallX()), 2)) + (Math.pow((ball1.getBallY() - ball2.getBallY()), 2)));
-    }
-
-    private boolean hasCollapseBall() {
-        for (Ball ball : allBalls)
-            if (ball.getBallY() > HEIGHT || ball.getBallY() < 0 ||
-                    ball.getBallX() > WIDTH || ball.getBallX() < 0) {
-                return true;
-            }
-        return false;
-    }
-
-    public boolean isLost() {
-        return hasCollapseBall() || hasIntersectedBalls() || getMinutes() > 2 || secondPlayerWin();
-    }
-
-    private boolean secondPlayerWin() {
-        if (isTwosomeGame)
-            for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++)
-                if (!allBalls.get(i).isConnect())
-                    return false;
-        return true;
-    }
-
-    public boolean isWin() {
-        for (int i = 0; i < ballNumber; i++)
-            if (!allBalls.get(i).isConnect())
-                return false;
-        return true;
-    }
-
-    public boolean isGameOver() {
-        if (isLost() || isWin()) {
-            setVisible(true);
-            return true;
-        }
-        return false;
     }
 
     public double getMagicForceDegree() {
@@ -238,32 +158,6 @@ public class GameBoard{
         return BALL_RADIUS;
     }
 
-    public void shootBall(boolean firstOpponentShoot) {
-        if (firstOpponentShoot)
-            firstPlayerBallsRemain--;
-        else
-            secondPlayerBallsRemain--;
-        iceProgress.addIceProgressPercent();
-        ballsShot++;
-        Ball thisBall = getBall(firstOpponentShoot);
-        thisBall.shootBall(this.magicForceDegree);
-        thisBall.setVisible(this.visibilityMode);
-        if (firstOpponentShoot) {
-            for (int i = 0; i < ballNumber; i++)
-                if (!allBalls.get(i).isShot()) {
-                    allBalls.get(i).setReadyToLaunch();
-                    return;
-                }
-        } else {
-            if (isTwosomeGame)
-                for (int i = ballNumber + defaultBallNumber; i < allBalls.size(); i++)
-                    if (!allBalls.get(i).isShot()) {
-                        allBalls.get(i).setReadyToLaunch();
-                        return;
-                    }
-        }
-    }
-
     public void getReverse() {
         for (Ball ball : allBalls) {
             ball.setBallRotateSpeed(ball.getBallRotateSpeed() * -1);
@@ -291,37 +185,12 @@ public class GameBoard{
         return fourthFazeBegins;
     }
 
-    public void setVisible(boolean visibility) {
-        this.visibilityMode = visibility;
-        for (Ball ball : allBalls) {
-            if (ball.isShot() || ball.isDefaultBall())
-                ball.setVisible(visibility);
-        }
-    }
-
     public void setBallsIcySpeed() {
         setBallsSpeed(ballRotationSpeed / 2);
     }
 
     public void setBallsNormalSpeed() {
         setBallsSpeed(ballRotationSpeed);
-    }
-
-    public void startIceProgress() {
-        if (iceProgress.getIceProgressPercent() == 1) {
-            iceProgress.setWhenIceProgressBegins(this.getAllSeconds());
-            iceProgress.setIceProgressPercent(0);
-            this.setBallsIcySpeed();
-            iceProgress.setInIceProgressTime(true);
-        }
-    }
-
-    public void stopIceProgress() {
-        if (iceProgress.isInIceProgressTime())
-            if (this.getAllSeconds() - iceProgress.getWhenIceProgressBegins() > iceProgress.getIceProgressTime()) {
-                this.setBallsNormalSpeed();
-                iceProgress.setInIceProgressTime(false);
-            }
     }
 
     public boolean isTwosomeGame() {
@@ -346,5 +215,72 @@ public class GameBoard{
 
     public int getSecondPlayerBallsRemain() {
         return secondPlayerBallsRemain;
+    }
+
+    public void setFirstPlayerBallsRemain(int firstPlayerBallsRemain) {
+        this.firstPlayerBallsRemain = firstPlayerBallsRemain;
+    }
+
+    public void setSecondPlayerBallsRemain(int secondPlayerBallsRemain) {
+        this.secondPlayerBallsRemain = secondPlayerBallsRemain;
+    }
+
+    public int getBallsShot() {
+        return ballsShot;
+    }
+
+    public void setBallsShot(int ballsShot) {
+        this.ballsShot = ballsShot;
+    }
+
+    public boolean isVisibilityMode() {
+        return visibilityMode;
+    }
+
+    public void setVisibilityMode(boolean visibilityMode) {
+        this.visibilityMode = visibilityMode;
+    }
+
+    public IceProgress getIceProgress() {
+        return iceProgress;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public int getFirstPlyerScore() {
+        return firstPlyerScore;
+    }
+
+    public int getSecondPlayerScore() {
+        return secondPlayerScore;
+    }
+
+    public void addPlayerScore(boolean isFirstPlayer) {
+        int variable;
+        if (fourthFazeBegins)
+            variable = 80;
+        else if (thirdFazeBegins)
+            variable = 40;
+        else if (twiceFazeBegins)
+            variable = 20;
+        else
+            variable = 10;
+        if (isFirstPlayer)
+            firstPlyerScore += difficulty * variable;
+        else
+            secondPlayerScore += difficulty * variable;
+    }
+
+    public void addWinGamePrize(boolean isFirstPlayer) {
+        if (isFirstPlayer)
+            firstPlyerScore += difficulty * 100;
+        else
+            secondPlayerScore += difficulty * 100;
+    }
+
+    public String getYourRivalUsername() {
+        return yourRivalUsername;
     }
 }

@@ -38,9 +38,4 @@ public class SettingMenuController {
         SettingController.getInstance().changeThisKeyTo(keyName, code);
         (new Alert(Alert.AlertType.INFORMATION, "key changed successfully")).show();
     }
-
-    public void changeTheMap(int mapNumber) {
-        SettingController.getInstance().changeMap(mapNumber);
-        (new Alert(Alert.AlertType.INFORMATION, "Map changed successfully")).show();
-    }
 }

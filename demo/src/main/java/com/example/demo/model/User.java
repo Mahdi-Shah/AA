@@ -110,10 +110,6 @@ public class User {
         return averageTime;
     }
 
-    public ArrayList<GameScore> getGameScores() {
-        return gameScores;
-    }
-
     public GameBoard getSavedGame() {
         return savedGame;
     }

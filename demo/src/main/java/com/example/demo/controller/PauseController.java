@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.DataBase;
-import com.example.demo.model.GameBoard;
 
 import java.io.IOException;
 

@@ -20,7 +20,6 @@ public class SettingController {
         DataBase.setWindRange(windSpeed);
         DataBase.setIceProgressTime(freezeTime);
         DataBase.setBlackAndWhite(isBlackAndWhite);
-        DataBase.setCurrentGame();
         //TODO: setMute and setLanguage
 //        DataBase.setMute(isMuted);
 //        DataBase.setLanguage(language);
@@ -52,11 +51,5 @@ public class SettingController {
             case "Freeze":
                 DataBase.setIceKey(code);
         }
-    }
-
-    public void changeMap(int mapNumber) {
-        DataBase.setStopDistance(120 + mapNumber * 20);
-        DataBase.setNumberOfDefaultBalls(4 + mapNumber);
-        DataBase.setCurrentGame();
     }
 }

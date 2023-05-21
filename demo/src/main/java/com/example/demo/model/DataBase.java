@@ -18,12 +18,13 @@ public class DataBase {
 
     private static int ballNumber = 10;
     private static double windRange = 1.5;
-    private static double rotateSpeed = 0.07;
+    private static double rotateSpeed = 0.05;
     private static int iceProgressTime = 5;
-    private static int numberOfDefaultBalls = 3;
-    private static boolean isTwosomeGame = true;
+    private static int numberOfDefaultBalls = 5;
+    private static boolean isTwosomeGame = false;
     private static double stopDistance = 180;
-    private static boolean blackAndWhite = true;
+    private static boolean blackAndWhite = false;
+    private static String rivalUsername = null;
 
     private static KeyCode stopGameKeyCode = KeyCode.ESCAPE;
     private static KeyCode goRightFirstOpponent = KeyCode.RIGHT;
@@ -34,7 +35,7 @@ public class DataBase {
     private static KeyCode shootBallSecondOpponent = KeyCode.ENTER;
     private static KeyCode iceKey = KeyCode.TAB;
 
-    private static GameBoard currentGame = new GameBoard(ballNumber, windRange,rotateSpeed, iceProgressTime, 1, isTwosomeGame, stopDistance);
+    private static GameBoard currentGame = new GameBoard(ballNumber, windRange,rotateSpeed, iceProgressTime, numberOfDefaultBalls, isTwosomeGame, stopDistance, rivalUsername);
 
     private static User currentUser;
 
@@ -51,7 +52,6 @@ public class DataBase {
         Gson gson = new Gson();
         String json = gson.toJson(users);
         FileWriter writer = new FileWriter(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/usersdatabase/users.json")).getFile());
-        System.out.println(1);
         writer.write(json);
         writer.close();
     }
@@ -80,7 +80,7 @@ public class DataBase {
     }
 
     public static void setCurrentGame() {
-        DataBase.currentGame = new GameBoard(ballNumber, windRange, rotateSpeed, iceProgressTime, numberOfDefaultBalls, isTwosomeGame, stopDistance);
+        DataBase.currentGame = new GameBoard(ballNumber, windRange, rotateSpeed, iceProgressTime, numberOfDefaultBalls, isTwosomeGame, stopDistance, rivalUsername);
     }
 
     public static void addUser(User user) throws IOException {
@@ -192,10 +192,7 @@ public class DataBase {
         DataBase.iceKey = iceKey;
     }
 
-    public static User getUserByUserName(String name) {
-        for (User user : users)
-            if (user.getUsername().equals(name))
-                return user;
-        return null;
+    public static void setRivalUsername(String rivalUsername) {
+        DataBase.rivalUsername = rivalUsername;
     }
 }

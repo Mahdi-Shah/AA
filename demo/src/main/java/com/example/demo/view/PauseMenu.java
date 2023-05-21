@@ -6,13 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static com.example.demo.view.SomeFields.handleButtonColor;
+import static com.example.demo.view.SomeFields.setRegisterAndLoginBackground;
 
 public class PauseMenu extends Application {
     @Override
@@ -25,7 +26,10 @@ public class PauseMenu extends Application {
         ChoiceBox<Integer> musicChoiceBox = new ChoiceBox<>();
         Button exitButton = new Button("Exit");
 
-        handleButtonColor(restartButton, 1);
+        musicChoiceBox.getItems().addAll(1, 2, 3);
+        musicChoiceBox.setValue(2);
+
+        handleButtonColor(resumeButton, 1);
         handleButtonColor(restartButton, 2);
         handleButtonColor(saveGameButton, 3);
         handleButtonColor(exitButton, 4);
@@ -48,7 +52,7 @@ public class PauseMenu extends Application {
 
         exitButton.setOnMouseClicked(event -> {
             try {
-                (new MainMenu()).start(primaryStage);
+                PauseMenuController.getInstance().back(primaryStage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -64,9 +68,14 @@ public class PauseMenu extends Application {
             }
         });
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(resumeButton, restartButton, saveGameButton, exitButton);
+        vBox.getChildren().addAll(resumeButton, restartButton, saveGameButton,
+                muteCheckBox, musicChoiceBox, exitButton);
+        vBox.setSpacing(20);
 
         Scene scene = new Scene(vBox);
+        scene.getStylesheets().add(Objects.requireNonNull(
+                getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
+        setRegisterAndLoginBackground(vBox);
         primaryStage.setScene(scene);
         primaryStage.show();
 

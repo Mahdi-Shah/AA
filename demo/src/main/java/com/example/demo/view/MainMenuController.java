@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.controller.MainController;
+import com.example.demo.model.DataBase;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ public class MainMenuController {
     }
 
     public void exit(Stage stage) throws Exception {
+        MainController.getInstance().exit();
         (new RegisterMenu()).start(stage);
     }
 
@@ -29,8 +31,7 @@ public class MainMenuController {
     }
 
     public void playNewGame(Stage stage) throws Exception {
-        GameMenu gameMenu = new GameMenu();
-        gameMenu.start(stage);
+        (new StartMenu()).start(stage);
     }
 
     public void goToSettingMenu(Stage stage) throws FileNotFoundException {

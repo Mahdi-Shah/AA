@@ -24,4 +24,11 @@ public class PauseMenuController {
     public void saveGame() throws CloneNotSupportedException, IOException {
         PauseController.getInstance().saveGame();
     }
+
+    public void back(Stage stage) throws Exception {
+        if (GameController.getInstance().haveCurrentUser())
+            (new MainMenu()).start(stage);
+        else
+            (new RegisterMenu()).start(stage);
+    }
 }

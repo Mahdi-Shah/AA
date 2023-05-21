@@ -2,7 +2,6 @@ package com.example.demo.view;
 
 
 import com.example.demo.model.Ball;
-import com.example.demo.model.DataBase;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -71,7 +69,7 @@ public class GameMenu extends Application {
                     stop();
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
                         try {
-                            (new MainMenu()).start(stage);
+                            (new ScoreMenu()).start(stage);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -80,7 +78,7 @@ public class GameMenu extends Application {
                 }
 
                 scene.setOnKeyPressed(event -> {
-                    if (event.getCode() == KeyCode.ESCAPE) {
+                    if (event.getCode() == GameMenuController.getInstance().getStopKey()) {
                         controller.stopTimer();
                         stop();
                         try {
@@ -182,12 +180,16 @@ public class GameMenu extends Application {
         context.fillText("Time= " + String.format("%02d", controller.getMinutes()) + ":" +
                 String.format("%02d", controller.getSeconds()), 10, 120);
         context.fillText("Magic Force Degree : " + String.format("%02.2f", controller.getMagicForceDegree()) + "°", 10, 150);
-        context.fillText("First player\nballs remain = ", 10, 180);
+        context.fillText("First Player\nballs remain = ", 10, 180);
+        context.fillText("First Player Score", 400, 120);
+        context.fillText(controller.getPlayerScore(true), 560, 120);
         context.setFill(controller.getFirstPlayerBallsRemainColor());
         context.fillText(controller.getFirstPlayerBallsRemain(), 140, 206);
         if (controller.isTwoSomeGame()) {
             context.setFill(Color.BLACK);
-            context.fillText("Second player\nballs remain = ", 10, 240);
+            context.fillText("Second Player\nballs remain = ", 10, 240);
+            context.fillText("Second Player Score", 380, 150);
+            context.fillText(controller.getPlayerScore(false), 560, 150);
             context.setFill(controller.getSecondPlayerBallsRemainColor());
             context.fillText(controller.getSecondPlayerBallsRemain(), 140, 270);
         }

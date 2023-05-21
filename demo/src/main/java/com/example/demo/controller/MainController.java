@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.DataBase;
 
+import java.io.IOException;
+
 public class MainController {
     private static MainController controller = null;
 
@@ -18,5 +20,10 @@ public class MainController {
                 return true;
             }
         return false;
+    }
+
+    public void exit() throws IOException {
+        DataBase.setCurrentUser(null);
+        DataBase.writeDataToBase();
     }
 }

@@ -30,8 +30,6 @@ public class SettingMenu extends Application {
 
     private String keyName = "Stop";
 
-    private int mapsNumber = 1;
-
     @Override
     public void start(Stage stage) throws FileNotFoundException {
         Slider ballCountSlider = new Slider(0, 80, ballCount);
@@ -42,7 +40,6 @@ public class SettingMenu extends Application {
         CheckBox blackAndWhiteCheckBox = new CheckBox("Black & White");
         ChoiceBox<String> languageChoiceBox = new ChoiceBox<>();
         ChoiceBox<String> keyChoiceBox = new ChoiceBox<>();
-        ChoiceBox<Integer> mapNumber = new ChoiceBox<>();
         Button submitButton = new Button("Submit");
         Button backButton = new Button("Back to Main Menu");
 
@@ -58,8 +55,7 @@ public class SettingMenu extends Application {
         keyChoiceBox.getStyleClass().add("choice-box");
         keyChoiceBox.setValue(keyName);
 
-        mapNumber.getItems().addAll(1, 2, 3);
-        mapNumber.setValue(2);
+
 
 
         ballCountSlider.setShowTickLabels(true);
@@ -118,11 +114,6 @@ public class SettingMenu extends Application {
             SettingMenuController.getInstance().changeThisKey(keyName, event.getCode());
         });
 
-        mapNumber.setOnAction(event -> {
-            mapsNumber = mapNumber.getValue();
-            SettingMenuController.getInstance().changeTheMap(mapsNumber);
-        });
-
         handleButtonColor(backButton, 1);
         backButton.setMinWidth(200);
         backButton.setOnMouseClicked(event -> {
@@ -161,7 +152,7 @@ public class SettingMenu extends Application {
 
 
         VBox vBox = new VBox(20, gridPane, muteCheckBox, blackAndWhiteCheckBox, languageChoiceBox,
-                keyChoiceBox,mapNumber, submitButton, backButton);
+                keyChoiceBox, submitButton, backButton);
         vBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("vbox");
 

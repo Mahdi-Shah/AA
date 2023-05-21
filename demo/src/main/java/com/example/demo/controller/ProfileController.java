@@ -33,4 +33,9 @@ public class ProfileController {
         DataBase.getUsers().remove(DataBase.getCurrentUser());
         DataBase.writeDataToBase();
     }
+
+    public void logout() throws IOException {
+        DataBase.setCurrentUser(null);
+        DataBase.writeDataToBase();
+    }
 }

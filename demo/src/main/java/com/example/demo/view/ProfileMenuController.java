@@ -41,6 +41,7 @@ public class ProfileMenuController {
     }
 
     public void logout(Stage stage) throws Exception {
+        ProfileController.getInstance().logout();
         (new RegisterMenu()).start(stage);
     }
 
