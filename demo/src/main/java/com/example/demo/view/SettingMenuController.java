@@ -1,10 +1,11 @@
 package com.example.demo.view;
 
-import com.example.demo.controller.GameController;
 import com.example.demo.controller.SettingController;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
 
 public class SettingMenuController {
     private static SettingMenuController menuController = null;
@@ -16,17 +17,19 @@ public class SettingMenuController {
     }
 
 
-    public void submit(int ballCount, int rotationSpeed, double windSpeed, int freezeTime, boolean isMuted, boolean isBlackAndWhite, String language) {
+    public void submit(int ballCount, int rotationSpeed, double windSpeed, int freezeTime, boolean isMuted,
+                       boolean isBlackAndWhite, String language, Stage stage) throws FileNotFoundException {
         if (ballCount == 0) {
-            (new Alert(Alert.AlertType.ERROR, "number of balls can't be zero")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.NUMBER_OF_BALLS_CANT_BE_ZERO))).show();
             return;
         }
         if (rotationSpeed == 0) {
-            (new Alert(Alert.AlertType.ERROR, "Rotation speed can't be zero")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.ROTATION_SPEED_CANT_BE_ZERO))).show();
             return;
         }
         SettingController.getInstance().submit(ballCount, rotationSpeed, windSpeed, freezeTime, isMuted, isBlackAndWhite, language);
-        (new Alert(Alert.AlertType.INFORMATION, "Changes saved successfully")).show();
+        (new SettingMenu()).start(stage);
+        (new Alert(Alert.AlertType.INFORMATION, Labels.getLabel(Labels.CHANGES_SAVED_SUCCESSFULLY))).show();
     }
 
     public void back(Stage stage) throws Exception {
@@ -36,6 +39,6 @@ public class SettingMenuController {
 
     public void changeThisKey(String keyName, KeyCode code) {
         SettingController.getInstance().changeThisKeyTo(keyName, code);
-        (new Alert(Alert.AlertType.INFORMATION, "key changed successfully")).show();
+        (new Alert(Alert.AlertType.INFORMATION, Labels.getLabel(Labels.KEY_CHANGED_SUCCESSFULLY))).show();
     }
 }

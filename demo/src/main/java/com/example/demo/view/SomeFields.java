@@ -23,13 +23,13 @@ public interface SomeFields {
     int WIDTH = 600;
 
     static void addName(VBox vBox) {
-        Label nameLabel = new Label("Name:");
+        Label nameLabel = new Label(Labels.getLabel(Labels.NAME));
         nameLabel.getStyleClass().add("label");
 
 
         TextField nameField = new TextField();
         nameField.getStyleClass().add("text-field");
-        nameField.setPromptText("Enter your name");
+        nameField.setPromptText(Labels.getLabel(Labels.ENTER_YOUR_NAME));
         nameField.setMaxWidth(250);
 
         vBox.getChildren().add(nameLabel);
@@ -43,13 +43,13 @@ public interface SomeFields {
     }
 
     static void addPassword(VBox vBox) {
-        Label passwordLabel = new Label("Password:");
+        Label passwordLabel = new Label(Labels.getLabel(Labels.PASSWORD));
         passwordLabel.getStyleClass().add("label");
 
 
         PasswordField passwordField = new PasswordField();
         passwordField.getStyleClass().add("password-field");
-        passwordField.setPromptText("Enter your password");
+        passwordField.setPromptText(Labels.getLabel(Labels.ENTER_YOUR_PASSWORD));
         passwordField.setFont(Font.font("Lato", FontWeight.NORMAL, 14));
         passwordField.setMaxWidth(250);
 
@@ -82,60 +82,36 @@ public interface SomeFields {
     static void handleButtonColor(Button button, int code) {
         setButtonSetting(button);
         switch (code) {
-            case 1:
+            case 1 -> {
                 button.setBackground(new Background(new BackgroundFill(Color.web("#3498db"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#2980b9"), new CornerRadii(5), null)));
-                });
-                button.setOnMouseExited(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#3498db"), new CornerRadii(5), null)));
-                });
-                break;
-            case 2:
+                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2980b9"), new CornerRadii(5), null))));
+                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#3498db"), new CornerRadii(5), null))));
+            }
+            case 2 -> {
                 button.setBackground(new Background(new BackgroundFill(Color.web("#2ecc71"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#27ae60"), new CornerRadii(5), null)));
-                });
-                button.setOnMouseExited(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#2ecc71"), new CornerRadii(5), null)));
-                });
-                break;
-            case 3:
+                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#27ae60"), new CornerRadii(5), null))));
+                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2ecc71"), new CornerRadii(5), null))));
+            }
+            case 3 -> {
                 button.setBackground(new Background(new BackgroundFill(Color.web("#e74c3c"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#c0392b"), new CornerRadii(5), null)));
-                });
-                button.setOnMouseExited(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#e74c3c"), new CornerRadii(5), null)));
-                });
-                break;
-            case 4:
+                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#c0392b"), new CornerRadii(5), null))));
+                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#e74c3c"), new CornerRadii(5), null))));
+            }
+            case 4 -> {
                 button.setBackground(new Background(new BackgroundFill(Color.web("#34495e"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#2c3e50"), new CornerRadii(5), null)));
-                });
-                button.setOnMouseExited(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#34495e"), new CornerRadii(5), null)));
-                });
-                break;
-            case 5:
+                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2c3e50"), new CornerRadii(5), null))));
+                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#34495e"), new CornerRadii(5), null))));
+            }
+            case 5 -> {
                 button.setBackground(new Background(new BackgroundFill(Color.web("#fde93b"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#cfbe31"), new CornerRadii(5), null)));
-                });
-                button.setOnMouseExited(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#fde93b"), new CornerRadii(5), null)));
-                });
-                break;
-            case 6:
+                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#cfbe31"), new CornerRadii(5), null))));
+                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#fde93b"), new CornerRadii(5), null))));
+            }
+            case 6 -> {
                 button.setBackground(new Background(new BackgroundFill(Color.web("#7c20a1"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#561771"), new CornerRadii(5), null)));
-                });
-                button.setOnMouseExited(event -> {
-                    button.setBackground(new Background(new BackgroundFill(Color.web("#7c20a1"), new CornerRadii(5), null)));
-                });
-                break;
+                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#561771"), new CornerRadii(5), null))));
+                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#7c20a1"), new CornerRadii(5), null))));
+            }
         }
     }
 

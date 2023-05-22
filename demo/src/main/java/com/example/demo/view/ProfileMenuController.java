@@ -19,25 +19,25 @@ public class ProfileMenuController {
 
     public void changeName(TextField textField) {
         if (textField.getText().isEmpty()) {
-            (new Alert(Alert.AlertType.ERROR, "Enter correct name")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.ENTER_CORRECT_NAME))).show();
             return;
         }
         if (ProfileController.getInstance().canChangeName(textField.getText())) {
-            (new Alert(Alert.AlertType.INFORMATION, "Your name changed successfully")).show();
+            (new Alert(Alert.AlertType.INFORMATION, Labels.getLabel(Labels.CHANGES_SAVED_SUCCESSFULLY))).show();
         } else {
-            (new Alert(Alert.AlertType.ERROR, "Your name is repetitive")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOUR_USERNAME_IS_REPETITIVE))).show();
         }
     }
 
     public void changePassword(PasswordField passwordField) {
         if (passwordField.getText().isEmpty()) {
-            (new Alert(Alert.AlertType.ERROR, "password field can't be empty")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.PASSWORD_FIELD_CANT_BE_EMPTY))).show();
             return;
         }
         if (ProfileController.getInstance().canChangePassword(passwordField.getText())) {
-            (new Alert(Alert.AlertType.CONFIRMATION, "Your password changed successfully")).show();
+            (new Alert(Alert.AlertType.INFORMATION, Labels.getLabel(Labels.CHANGES_SAVED_SUCCESSFULLY))).show();
         } else
-            (new Alert(Alert.AlertType.ERROR, "Your password is invalid")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOUR_PASSWORD_IS_INVALID))).show();
     }
 
     public void logout(Stage stage) throws Exception {

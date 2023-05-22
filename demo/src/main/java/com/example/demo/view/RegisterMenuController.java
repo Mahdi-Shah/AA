@@ -1,7 +1,5 @@
 package com.example.demo.view;
 
-import com.example.demo.controller.GameController;
-import com.example.demo.controller.MainController;
 import com.example.demo.controller.RegisterController;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,17 +16,17 @@ public class RegisterMenuController {
 
     public void handleSubmitButtonAction(TextField nameField, PasswordField passwordField, ImageView imageView, Stage stage) throws Exception {
         if(nameField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "please enter your name");
+            Alert alert = new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.PLEASE_ENTER_YOUR_NAME));
             alert.show();
             return;
         }
         if(passwordField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "please enter your password");
+            Alert alert = new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.PLEASE_ENTER_YOUR_PASSWORD));
             alert.show();
             return;
         }
         if (imageView == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "please choose your avatar");
+            Alert alert = new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.please_choose_your_avatar));
             alert.show();
             return;
         }
@@ -36,7 +34,7 @@ public class RegisterMenuController {
         if (controller.canRegister(nameField.getText(), passwordField.getText(), imageView)) {
             (new MainMenu()).start(stage);
         } else
-            (new Alert(Alert.AlertType.ERROR, "your username is repetitive")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOUR_USERNAME_IS_REPETITIVE))).show();
     }
 
     public void goToLoginMenu(Stage stage) throws Exception {

@@ -17,18 +17,18 @@ public class LoginMenuController {
 
     public void login(TextField textField, PasswordField passwordField, Stage stage) throws Exception {
         if (textField.getText().isEmpty()) {
-            (new Alert(Alert.AlertType.ERROR, "your username is empty")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.USERNAME_FIELD_CANT_BE_EMPTY))).show();
             return;
         }
         if (passwordField.getText().isEmpty()) {
-            (new Alert(Alert.AlertType.ERROR, "your password is empty")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.PASSWORD_FIELD_CANT_BE_EMPTY))).show();
             return;
         }
         LoginController controller = LoginController.getInstance();
         if (controller.canLogin(textField.getText(), passwordField.getText())) {
             (new MainMenu()).start(stage);
         } else
-            (new Alert(Alert.AlertType.ERROR, "your username or password is wrong")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOUR_USERNAME_OR_PASSWORD_IS_WRONG))).show();
     }
 
     public static LoginMenuController getInstance() {

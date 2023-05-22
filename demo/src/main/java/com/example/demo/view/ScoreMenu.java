@@ -23,9 +23,9 @@ public class ScoreMenu extends Application {
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(20);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
-        addFormName(vBox, "Scores");
+        addFormName(vBox, Labels.getLabel(Labels.SCORES));
 
-        Button backButton = new Button("Back");
+        Button backButton = new Button(Labels.getLabel(Labels.BACK));
         handleButtonColor(backButton, 1);
 
         backButton.setOnMouseClicked(event -> {
@@ -37,7 +37,7 @@ public class ScoreMenu extends Application {
         });
 
 
-        Label timeLabel = new Label("time : " + LocalTime.of(0, GameController.getInstance().getMinutes(),
+        Label timeLabel = new Label(Labels.getLabel(Labels.TIME) + " : " + LocalTime.of(0, GameController.getInstance().getMinutes(),
                 GameController.getInstance().getSeconds()));
         vBox.getChildren().add(timeLabel);
 
@@ -46,12 +46,12 @@ public class ScoreMenu extends Application {
 
 
         if (GameMenuController.getInstance().isTwoSomeGame()) {
-            Label firstPlayerScore = new Label("First Player Score = " + GameMenuController.getInstance().getPlayerScore(true));
-            Label secondPlayerScore = new Label("Second Player Score = " + GameMenuController.getInstance().getPlayerScore(false));
+            Label firstPlayerScore = new Label(Labels.getLabel(Labels.FIRST_PLAYER_SCORE) + " = " + GameMenuController.getInstance().getPlayerScore(true));
+            Label secondPlayerScore = new Label(Labels.getLabel(Labels.SECOND_PLAYER_SCORE) + " = " + GameMenuController.getInstance().getPlayerScore(false));
             vBox.getChildren().addAll(firstPlayerScore, secondPlayerScore);
 
         } else {
-            Label playerScore = new Label("Player Score = " + GameController.getInstance().getPlayerScore(true));
+            Label playerScore = new Label(Labels.getLabel(Labels.PLAYER_SCORE) + " = " + GameController.getInstance().getPlayerScore(true));
             vBox.getChildren().add(playerScore);
         }
 

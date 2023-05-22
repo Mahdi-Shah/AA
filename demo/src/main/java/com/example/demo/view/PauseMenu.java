@@ -19,12 +19,12 @@ public class PauseMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         VBox vBox = new VBox();
-        Button resumeButton = new Button("Resume");
-        Button restartButton = new Button("Restart");
-        Button saveGameButton = new Button("Save Game");
-        CheckBox muteCheckBox = new CheckBox("Mute");
+        Button resumeButton = new Button(Labels.getLabel(Labels.RESUME));
+        Button restartButton = new Button(Labels.getLabel(Labels.RESTART));
+        Button saveGameButton = new Button(Labels.getLabel(Labels.SAVE_GAME));
+        CheckBox muteCheckBox = new CheckBox(Labels.getLabel(Labels.MUTE));
         ChoiceBox<Integer> musicChoiceBox = new ChoiceBox<>();
-        Button exitButton = new Button("Exit");
+        Button exitButton = new Button(Labels.getLabel(Labels.EXIT));
 
         musicChoiceBox.getItems().addAll(1, 2, 3);
         musicChoiceBox.setValue(2);

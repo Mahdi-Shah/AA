@@ -21,7 +21,7 @@ public class GameMenuController {
         if (GameController.getInstance().hasNotShotBall(forFirstOpponent))
             GameController.getInstance().shootBall(forFirstOpponent);
         else {
-            (new Alert(Alert.AlertType.ERROR, "You haven't another ball")).show();
+            (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOU_HAVE_NOT_ANOTHER_BALL))).show();
         }
     }
 

@@ -25,6 +25,7 @@ public class DataBase {
     private static double stopDistance = 180;
     private static boolean blackAndWhite = false;
     private static String rivalUsername = null;
+    private static String language = "english";
 
     private static KeyCode stopGameKeyCode = KeyCode.ESCAPE;
     private static KeyCode goRightFirstOpponent = KeyCode.RIGHT;
@@ -194,5 +195,13 @@ public class DataBase {
 
     public static void setRivalUsername(String rivalUsername) {
         DataBase.rivalUsername = rivalUsername;
+    }
+
+    public static String getLanguage() {
+        return language;
+    }
+
+    public static void setLanguage(String language) {
+        DataBase.language = language;
     }
 }

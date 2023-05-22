@@ -30,8 +30,9 @@ public class ProfileMenu extends Application {
     private Scene setScene(Stage stage) throws FileNotFoundException {
         VBox vBox = new VBox();
         Scene scene = new Scene(vBox);
-        stage.setTitle("Main Menu");
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
+        stage.setTitle(Labels.getLabel(Labels.PROFILE_MENU));
+        scene.getStylesheets().add(Objects.requireNonNull(
+                getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
         setVBOX(vBox, stage);
         return scene;
     }
@@ -43,25 +44,25 @@ public class ProfileMenu extends Application {
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(20);
         setRegisterAndLoginBackground(vBox);
-        addFormName(vBox, "Wellcome to Profile menu");
+        addFormName(vBox, Labels.getLabel(Labels.PROFILE_MENU));
         addButtons(vBox, stage);
     }
 
     private void addButtons(VBox vBox, Stage stage) {
 
-        Button changeName = new Button("Change Username");
+        Button changeName = new Button(Labels.getLabel(Labels.CHANGE_USERNAME));
         handleButtonColor(changeName, 1);
 
-        Button changePassword = new Button("Change Password");
+        Button changePassword = new Button(Labels.getLabel(Labels.CHANGE_PASSWORD));
         handleButtonColor(changePassword, 2);
 
-        Button logoutButton = new Button("Logout");
+        Button logoutButton = new Button(Labels.getLabel(Labels.LOGOUT));
         handleButtonColor(logoutButton, 3);
 
-        Button deleteAccountButton = new Button("Delete Account");
+        Button deleteAccountButton = new Button(Labels.getLabel(Labels.DELETE_ACCOUNT));
         handleButtonColor(deleteAccountButton, 4);
 
-        Button backButton = new Button("Back");
+        Button backButton = new Button(Labels.getLabel(Labels.BACK));
         handleButtonColor(backButton, 5);
 
         changeName.setOnMouseClicked(event -> ProfileMenuController.getInstance().changeName(((TextField) vBox.getChildren().get(2))));

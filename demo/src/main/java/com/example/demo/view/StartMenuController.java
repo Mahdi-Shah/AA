@@ -1,6 +1,5 @@
 package com.example.demo.view;
 
-import com.example.demo.controller.SettingController;
 import com.example.demo.controller.StartController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -20,7 +19,7 @@ public class StartMenuController {
     public void playGame(CheckBox twosomeGame, TextField nameField, ChoiceBox<Integer> mapNumber, Stage stage) throws Exception {
         if (twosomeGame.isSelected())
             if (!StartController.getInstance().isCorrectName(nameField.getText())) {
-                (new Alert(Alert.AlertType.ERROR, "Your rival name is incorrect")).show();
+                (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOUR_RIVAL_NAME_IS_INCORRECT))).show();
                 return;
             }
 

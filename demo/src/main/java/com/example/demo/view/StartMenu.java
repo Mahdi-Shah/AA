@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+import static com.example.demo.view.Labels.getLabel;
 import static com.example.demo.view.SomeFields.*;
 
 public class StartMenu extends Application {
@@ -19,14 +20,14 @@ public class StartMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        CheckBox twosomeGame = new CheckBox("Twosome Game");
+        CheckBox twosomeGame = new CheckBox(getLabel(Labels.TWOSOME_GAME));
         twosomeGame.setSelected(false);
         twosomeGame.setAlignment(Pos.CENTER);
         twosomeGame.getStyleClass().add("checkbox");
 
         TextField nameField = new TextField();
         nameField.getStyleClass().add("text-field");
-        nameField.setPromptText("Enter your rival name");
+        nameField.setPromptText(getLabel(Labels.ENTER_RIVAL_NAME));
         nameField.setMaxWidth(250);
 
 
@@ -34,7 +35,7 @@ public class StartMenu extends Application {
         mapNumber.getItems().addAll(1, 2, 3);
         mapNumber.setValue(2);
 
-        Button playGameButton = new Button("Play Game");
+        Button playGameButton = new Button(getLabel(Labels.PLAY_GAME));
         handleButtonColor(playGameButton, 1);
 
         playGameButton.setOnMouseClicked(event -> {
@@ -57,7 +58,7 @@ public class StartMenu extends Application {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
 
 
-        primaryStage.setTitle("Start Game");
+        primaryStage.setTitle(getLabel(Labels.START_GAME));
         primaryStage.setScene(scene);
         primaryStage.show();
     }

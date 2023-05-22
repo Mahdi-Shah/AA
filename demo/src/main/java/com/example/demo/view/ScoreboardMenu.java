@@ -15,8 +15,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.time.LocalTime;
 import java.util.Objects;
 
 import static com.example.demo.view.SomeFields.handleButtonColor;
@@ -30,15 +28,15 @@ public class ScoreboardMenu extends Application {
         TableView<User> table = new TableView<>();
 
 
-        TableColumn<User, String> usernameCol = new TableColumn<>("Username");
-        TableColumn<User, Integer> scoreCol = new TableColumn<>("Score");
-        TableColumn<User, Integer> easyScoreCol = new TableColumn<>("easy");
-        TableColumn<User, Integer> middleScoreCol = new TableColumn<>("middle");
-        TableColumn<User, Integer> hardScoreCol = new TableColumn<>("hard");
-        TableColumn<User, Integer> timeCol = new TableColumn<>("Time");
-        TableColumn<User, Integer> easyTimeCol = new TableColumn<>("easy");
-        TableColumn<User, Integer> middleTimeCol = new TableColumn<>("middle");
-        TableColumn<User, Integer> hardTimeCol = new TableColumn<>("hard");
+        TableColumn<User, String> usernameCol = new TableColumn<>(Labels.getLabel(Labels.USERNAME));
+        TableColumn<User, Integer> scoreCol = new TableColumn<>(Labels.getLabel(Labels.SCORE));
+        TableColumn<User, Integer> easyScoreCol = new TableColumn<>(Labels.getLabel(Labels.EASY));
+        TableColumn<User, Integer> middleScoreCol = new TableColumn<>(Labels.getLabel(Labels.MIDDLE));
+        TableColumn<User, Integer> hardScoreCol = new TableColumn<>(Labels.getLabel(Labels.HARD));
+        TableColumn<User, Integer> timeCol = new TableColumn<>(Labels.getLabel(Labels.TIME));
+        TableColumn<User, Integer> easyTimeCol = new TableColumn<>(Labels.getLabel(Labels.EASY));
+        TableColumn<User, Integer> middleTimeCol = new TableColumn<>(Labels.getLabel(Labels.MIDDLE));
+        TableColumn<User, Integer> hardTimeCol = new TableColumn<>(Labels.getLabel(Labels.HARD));
 
 
         table.getColumns().addAll(usernameCol, scoreCol, easyScoreCol, middleScoreCol, hardScoreCol,
@@ -90,7 +88,7 @@ public class ScoreboardMenu extends Application {
             };
         });
 
-        Button backButton = new Button("Back");
+        Button backButton = new Button(Labels.getLabel(Labels.BACK));
         handleButtonColor(backButton, 1);
 
         backButton.setOnMouseClicked(event -> {

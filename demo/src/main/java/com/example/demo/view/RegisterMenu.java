@@ -36,7 +36,7 @@ public class RegisterMenu extends Application {
         VBox vBox = new VBox();
         Scene scene = new Scene(scrollPane);
         scrollPane.setContent(vBox);
-        stage.setTitle("Register Menu");
+        stage.setTitle(Labels.getLabel(Labels.REGISTER_MENU));
 
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
         setVBOX(vBox, stage);
@@ -53,7 +53,7 @@ public class RegisterMenu extends Application {
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(20);
         setRegisterAndLoginBackground(vBox);
-        addFormName(vBox, "Wellcome to Register menu");
+        addFormName(vBox, Labels.getLabel(Labels.REGISTER_MENU));
         addName(vBox);
         addPassword(vBox);
         addImage(vBox, stage);
@@ -62,21 +62,21 @@ public class RegisterMenu extends Application {
 
 
     private void addButtons(VBox vBox, Stage stage) {
-        Button submitButton = new Button("Submit");
-        handleButtonColor(submitButton, 1);
+        Button signUpButton = new Button(Labels.getLabel(Labels.SIGN_UP));
+        handleButtonColor(signUpButton, 1);
 
-        Button loginButton = new Button("Go to login menu");
+        Button loginButton = new Button(Labels.getLabel(Labels.GO_TO_LOGIN_MENU));
         handleButtonColor(loginButton, 2);
 
-        Button skipButton = new Button("Skip");
+        Button skipButton = new Button(Labels.getLabel(Labels.SKIP));
         handleButtonColor(skipButton, 3);
 
-        Button exitButton = new Button("Exit");
+        Button exitButton = new Button(Labels.getLabel(Labels.EXIT));
         handleButtonColor(exitButton, 4);
 
 
 // Button hover effects
-        submitButton.setOnMouseClicked(mouseEvent -> {
+        signUpButton.setOnMouseClicked(mouseEvent -> {
             try {
                 RegisterMenuController.getInstance().handleSubmitButtonAction(((TextField) vBox.getChildren().get(2)),
                         ((PasswordField) vBox.getChildren().get(4)), imageView, stage);
@@ -106,7 +106,7 @@ public class RegisterMenu extends Application {
         exitButton.setOnMouseClicked(mouseEvent -> RegisterMenuController.getInstance().exit(stage));
 
 
-        vBox.getChildren().add(submitButton);
+        vBox.getChildren().add(signUpButton);
         vBox.getChildren().add(loginButton);
         vBox.getChildren().add(skipButton);
         vBox.getChildren().add(exitButton);
@@ -115,7 +115,7 @@ public class RegisterMenu extends Application {
 
     private void addImage(VBox vBox, Stage stage) {
 
-        Label avatarLabel = new Label("Avatar:");
+        Label avatarLabel = new Label(Labels.getLabel(Labels.AVATAR));
         avatarLabel.getStyleClass().add("label");
 
         Image icon = new Image(Objects.requireNonNull(getClass().getResource("/com/example/demo/images/Converted/5.jpg")).toExternalForm());
@@ -131,11 +131,11 @@ public class RegisterMenu extends Application {
 
         stage.getIcons().add(icon);
         // Create a GridPane and add the ImageViews to it
-        Button uploadButton = new Button("Upload\nAvatar");
+        Button uploadButton = new Button(Labels.getLabel(Labels.UPLOAD_AVATAR));
         handleButtonColor(uploadButton, 5);
         uploadButton.setOnMouseClicked(mouseEvent -> RegisterMenuController.getInstance().uploadImage(this, stage));
 
-        Button randomButton = new Button("Random\nAvatar");
+        Button randomButton = new Button(Labels.getLabel(Labels.RANDOM_AVATAR));
         handleButtonColor(randomButton, 6);
         randomButton.setOnMouseClicked(mouseEvent -> RegisterMenuController.getInstance().setRandomImage(this));
 

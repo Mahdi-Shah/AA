@@ -20,9 +20,9 @@ public class SettingController {
         DataBase.setWindRange(windSpeed);
         DataBase.setIceProgressTime(freezeTime);
         DataBase.setBlackAndWhite(isBlackAndWhite);
-        //TODO: setMute and setLanguage
+        //TODO: setMute
 //        DataBase.setMute(isMuted);
-//        DataBase.setLanguage(language);
+        DataBase.setLanguage(language);
 
 
     }

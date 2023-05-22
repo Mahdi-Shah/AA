@@ -178,19 +178,19 @@ public class GameMenu extends Application {
     private void writeDetails(GraphicsContext context) {
         context.setFill(Color.BLACK);
         context.setFont(Font.font(20));
-        context.fillText("Wind Speed: " + String.format("%.1f", controller.getWindSpeed()), 10, 90);
-        context.fillText("Time= " + String.format("%02d", controller.getMinutes()) + ":" +
+        context.fillText(Labels.getLabel(Labels.WIND_SPEED) + ": " + String.format("%.1f", controller.getWindSpeed()), 10, 90);
+        context.fillText(Labels.getLabel(Labels.TIME) + "= " + String.format("%02d", controller.getMinutes()) + ":" +
                 String.format("%02d", controller.getSeconds()), 10, 120);
-        context.fillText("Magic Force Degree : " + String.format("%02.2f", controller.getMagicForceDegree()) + "°", 10, 150);
-        context.fillText("First Player\nballs remain = ", 10, 180);
-        context.fillText("First Player Score", 400, 120);
+        context.fillText(Labels.getLabel(Labels.MAGIC_FORCE_DEGREE) + " : " + String.format("%02.2f", controller.getMagicForceDegree()) + "°", 10, 150);
+        context.fillText(Labels.getLabel(Labels.FIRST_PLAYER_BALLS_REMAIN)  + " = ", 10, 180);
+        context.fillText(Labels.getLabel(Labels.FIRST_PLAYER_SCORE), 400, 120);
         context.fillText(controller.getPlayerScore(true), 560, 120);
         context.setFill(controller.getFirstPlayerBallsRemainColor());
         context.fillText(controller.getFirstPlayerBallsRemain(), 140, 206);
         if (controller.isTwoSomeGame()) {
             context.setFill(Color.BLACK);
-            context.fillText("Second Player\nballs remain = ", 10, 240);
-            context.fillText("Second Player Score", 380, 150);
+            context.fillText(Labels.getLabel(Labels.SECOND_PLAYER_BALLS_REMAIN) + " = ", 10, 240);
+            context.fillText(Labels.getLabel(Labels.SECOND_PLAYER_SCORE), 380, 150);
             context.fillText(controller.getPlayerScore(false), 560, 150);
             context.setFill(controller.getSecondPlayerBallsRemainColor());
             context.fillText(controller.getSecondPlayerBallsRemain(), 140, 270);

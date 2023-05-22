@@ -27,7 +27,7 @@ public class LoginMenu extends Application {
     private Scene setScene(Stage stage) throws FileNotFoundException {
         VBox vBox = new VBox();
         Scene scene = new Scene(vBox);
-        stage.setTitle("Login Menu");
+        stage.setTitle(Labels.getLabel(Labels.LOGIN_MENU));
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
         setVBOX(vBox, stage);
         return scene;
@@ -47,17 +47,17 @@ public class LoginMenu extends Application {
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(20);
         setBackground(vBox);
-        addFormName(vBox, "Wellcome to Login menu");
+        addFormName(vBox, Labels.getLabel(Labels.LOGIN_MENU));
         addName(vBox);
         addPassword(vBox);
         addButtons(vBox, stage);
     }
 
     private void addButtons(VBox vBox, Stage stage) {
-        Button loginButton = new Button("Login");
+        Button loginButton = new Button(Labels.getLabel(Labels.LOGIN));
         handleButtonColor(loginButton, 1);
 
-        Button backButton = new Button("Back");
+        Button backButton = new Button(Labels.getLabel(Labels.BACK));
         handleButtonColor(backButton, 2);
 
         loginButton.setOnMouseClicked(event -> {

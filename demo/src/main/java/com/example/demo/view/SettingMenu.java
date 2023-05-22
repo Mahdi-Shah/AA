@@ -36,12 +36,12 @@ public class SettingMenu extends Application {
         Slider rotationSpeedSlider = new Slider(0, 20, rotationSpeed);
         Slider windSpeedSlider = new Slider(0, 3, windSpeed);
         Slider freezeTimeSlider = new Slider(0, 10, freezeTime);
-        CheckBox muteCheckBox = new CheckBox("Mute");
-        CheckBox blackAndWhiteCheckBox = new CheckBox("Black & White");
+        CheckBox muteCheckBox = new CheckBox(Labels.getLabel(Labels.MUTE));
+        CheckBox blackAndWhiteCheckBox = new CheckBox(Labels.getLabel(Labels.BLACK_WHITE));
         ChoiceBox<String> languageChoiceBox = new ChoiceBox<>();
         ChoiceBox<String> keyChoiceBox = new ChoiceBox<>();
-        Button submitButton = new Button("Submit");
-        Button backButton = new Button("Back to Main Menu");
+        Button submitButton = new Button(Labels.getLabel(Labels.SUBMIT));
+        Button backButton = new Button(Labels.getLabel(Labels.BACK));
 
 
 
@@ -50,8 +50,10 @@ public class SettingMenu extends Application {
         languageChoiceBox.setValue(language);
 
 
-        keyChoiceBox.getItems().addAll("Stop", "Right (1st player)", "Left (1st player)",
-                "Right (2th player)", "Left (2th player)", "Shoot (1st player)", "Shoot (2th player)", "Freeze");
+        keyChoiceBox.getItems().addAll(Labels.getLabel(Labels.STOP), Labels.getLabel(Labels.RIGHT_FIRST),
+                Labels.getLabel(Labels.LEFT_FIRST), Labels.getLabel(Labels.RIGHT_SECOND),
+                Labels.getLabel(Labels.LEFT_SECOND), Labels.getLabel(Labels.SHOOT_FIRST),
+                Labels.getLabel(Labels.SHOOT_SECOND), Labels.getLabel(Labels.FREEZE));
         keyChoiceBox.getStyleClass().add("choice-box");
         keyChoiceBox.setValue(keyName);
 
@@ -126,14 +128,20 @@ public class SettingMenu extends Application {
 
         handleButtonColor(submitButton, 2);
         submitButton.setMinWidth(200);
-        submitButton.setOnMouseClicked(event -> SettingMenuController.getInstance().submit(ballCount,
-                rotationSpeed, windSpeed, freezeTime, isMuted, isBlackAndWhite, language));
+        submitButton.setOnMouseClicked(event -> {
+            try {
+                SettingMenuController.getInstance().submit(ballCount,
+                        rotationSpeed, windSpeed, freezeTime, isMuted, isBlackAndWhite, language, stage);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
-        Label ballCountLabel = new Label("Ball Count:");
-        Label rotationSpeedLabel = new Label("Rotation Speed:");
-        Label windSpeedLabel = new Label("Wind Speed:");
-        Label freezeTimeLabel = new Label("Freeze Time:");
+        Label ballCountLabel = new Label(Labels.getLabel(Labels.BALL_COUNT));
+        Label rotationSpeedLabel = new Label(Labels.getLabel(Labels.ROTATION_SPEED));
+        Label windSpeedLabel = new Label(Labels.getLabel(Labels.WIND_SPEED));
+        Label freezeTimeLabel = new Label(Labels.getLabel(Labels.FREEZE_TIME));
 
         ballCountLabel.getStyleClass().add("slider-label");
         rotationSpeedLabel.getStyleClass().add("slider-label");
@@ -159,10 +167,11 @@ public class SettingMenu extends Application {
         Scene scene = new Scene(vBox, WIDTH, HEIGHT);
 
 
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
+        scene.getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
 
 
-        stage.setTitle("Settings");
+        stage.setTitle(Labels.getLabel(Labels.SETTINGS));
         stage.setScene(scene);
         stage.show();
     }

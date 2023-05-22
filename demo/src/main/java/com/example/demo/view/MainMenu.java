@@ -32,7 +32,7 @@ public class MainMenu extends Application {
     private Scene setScene(Stage stage) throws FileNotFoundException {
         VBox vBox = new VBox();
         Scene scene = new Scene(vBox);
-        stage.setTitle("Main Menu");
+        stage.setTitle(Labels.getLabel(Labels.MAIN_MENU));
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
         setVBOX(vBox, stage);
         return scene;
@@ -45,27 +45,27 @@ public class MainMenu extends Application {
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(20);
         setRegisterAndLoginBackground(vBox);
-        addFormName(vBox, "Wellcome to Main menu");
+        addFormName(vBox, Labels.getLabel(Labels.MAIN_MENU));
         addButtons(vBox, stage);
     }
 
     private void addButtons(VBox vBox, Stage stage) {
-        Button newGameButton = new Button("New Game");
+        Button newGameButton = new Button(Labels.getLabel(Labels.NEW_GAME));
         handleButtonColor(newGameButton, 1);
 
-        Button continueButton = new Button("Continue Game");
+        Button continueButton = new Button(Labels.getLabel(Labels.CONTINUE_GAME));
         handleButtonColor(continueButton, 2);
 
-        Button profileButton = new Button("Profile Menu");
+        Button profileButton = new Button(Labels.getLabel(Labels.PROFILE_MENU));
         handleButtonColor(profileButton, 3);
 
-        Button scoreboardButton = new Button("Scoreboard");
+        Button scoreboardButton = new Button(Labels.getLabel(Labels.SCOREBOARD));
         handleButtonColor(scoreboardButton, 4);
 
-        Button settingButton = new Button("Setting");
+        Button settingButton = new Button(Labels.getLabel(Labels.SETTINGS));
         handleButtonColor(settingButton, 5);
 
-        Button exitButton = new Button("Exit");
+        Button exitButton = new Button(Labels.getLabel(Labels.EXIT));
         handleButtonColor(exitButton, 6);
 
 
