@@ -25,8 +25,13 @@ public class RegisterMenu extends Application {
 
     private ImageView imageView;
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        startSong();
+
         setScene(primaryStage);
         primaryStage.show();
     }

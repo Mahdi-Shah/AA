@@ -101,7 +101,7 @@ public enum Labels {
     static String getLabel(Labels label) {
         for (Labels label1 : Labels.values()) {
             if (label1.equals(label)) {
-                if (DataBase.getLanguage().equals("english"))
+                if (DataBase.getLanguage().equals("English"))
                     return label.english;
                 else
                     return label.persian;

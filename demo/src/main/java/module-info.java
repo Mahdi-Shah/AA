@@ -2,6 +2,7 @@ module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
+    requires javafx.media;
 
     exports com.example.demo.model;
     opens com.example.demo.model to com.google.gson;

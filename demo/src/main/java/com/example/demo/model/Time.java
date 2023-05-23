@@ -47,4 +47,6 @@ public class Time {
     public double getAllSecondsDouble() {
         return allSecondsDouble;
     }
+
+
 }

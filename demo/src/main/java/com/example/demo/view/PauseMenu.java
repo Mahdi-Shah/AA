@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -25,6 +26,21 @@ public class PauseMenu extends Application {
         CheckBox muteCheckBox = new CheckBox(Labels.getLabel(Labels.MUTE));
         ChoiceBox<Integer> musicChoiceBox = new ChoiceBox<>();
         Button exitButton = new Button(Labels.getLabel(Labels.EXIT));
+
+        Label stopKeyLabel = new Label(Labels.getLabel(Labels.STOP) + " = " +
+                GameMenuController.getInstance().getStopKey().getName());
+        Label rightFirsKeytLabel = new Label(Labels.getLabel(Labels.RIGHT_FIRST) + " = " +
+                GameMenuController.getInstance().getRightFirstKey().getName());
+        Label leftFirstKeyLabel = new Label(Labels.getLabel(Labels.LEFT_FIRST) + " = " +
+                GameMenuController.getInstance().getLeftFirstKey().getName());
+        Label rightSecondKeyLabel = new Label(Labels.getLabel(Labels.RIGHT_SECOND) + " = " +
+                GameMenuController.getInstance().getRightSecondKey().getName());
+        Label leftSecondKeyLabel = new Label(Labels.getLabel(Labels.LEFT_SECOND) + " = " +
+                GameMenuController.getInstance().getLeftSecondKey().getName());
+        Label shootFirstKeyLabel = new Label(Labels.getLabel(Labels.SHOOT_FIRST) + " = " +
+                GameMenuController.getInstance().getShootFirstKey().getName());
+        Label shootSecondKeyLabel = new Label(Labels.getLabel(Labels.SHOOT_SECOND) + " = " +
+                GameMenuController.getInstance().getShootSecondKey().getName());
 
         musicChoiceBox.getItems().addAll(1, 2, 3);
         musicChoiceBox.setValue(2);
@@ -67,8 +83,14 @@ public class PauseMenu extends Application {
                 throw new RuntimeException(e);
             }
         });
+
+        muteCheckBox.setOnAction(event -> {
+
+        });
+
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(resumeButton, restartButton, saveGameButton,
+        vBox.getChildren().addAll(resumeButton, restartButton, saveGameButton, stopKeyLabel, rightFirsKeytLabel,
+                leftFirstKeyLabel, rightSecondKeyLabel, leftSecondKeyLabel, shootFirstKeyLabel, shootSecondKeyLabel,
                 muteCheckBox, musicChoiceBox, exitButton);
         vBox.setSpacing(20);
 

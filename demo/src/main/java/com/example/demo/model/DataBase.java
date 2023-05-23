@@ -19,13 +19,15 @@ public class DataBase {
     private static int ballNumber = 10;
     private static double windRange = 1.5;
     private static double rotateSpeed = 0.05;
-    private static int iceProgressTime = 5;
+    private static int iceProgressTime = 4;
     private static int numberOfDefaultBalls = 5;
     private static boolean isTwosomeGame = false;
     private static double stopDistance = 180;
     private static boolean blackAndWhite = false;
     private static String rivalUsername = null;
-    private static String language = "english";
+    private static String language = "English";
+    private static boolean muteMenu = false;
+    private static boolean muteGame = false;
 
     private static KeyCode stopGameKeyCode = KeyCode.ESCAPE;
     private static KeyCode goRightFirstOpponent = KeyCode.RIGHT;
@@ -42,7 +44,8 @@ public class DataBase {
 
     public static void readDataFromBase() throws IOException {
         Gson gson = new Gson();
-        FileReader reader = new FileReader(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/usersdatabase/users.json")).getFile());
+        FileReader reader = new FileReader(Objects.requireNonNull(RegisterMenu.class.getResource(
+                "/com/example/demo/usersdatabase/users.json")).getFile());
         List<User> loadedUser = gson.fromJson(reader, new TypeToken<List<User>>() {}.getType());
         reader.close();
         if (loadedUser != null && !loadedUser.isEmpty())
@@ -203,5 +206,21 @@ public class DataBase {
 
     public static void setLanguage(String language) {
         DataBase.language = language;
+    }
+
+    public static boolean isMuteMenu() {
+        return muteMenu;
+    }
+
+    public static void setMuteMenu(boolean muteMenu) {
+        DataBase.muteMenu = muteMenu;
+    }
+
+    public static boolean isMuteGame() {
+        return muteGame;
+    }
+
+    public static void setMuteGame(boolean muteGame) {
+        DataBase.muteGame = muteGame;
     }
 }

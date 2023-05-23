@@ -18,7 +18,7 @@ public class SettingController {
         rotateSpeed /= 100;
         DataBase.setRotateSpeed(rotateSpeed);
         DataBase.setWindRange(windSpeed);
-        DataBase.setIceProgressTime(freezeTime);
+        DataBase.setIceProgressTime(freezeTime - 1);
         DataBase.setBlackAndWhite(isBlackAndWhite);
         //TODO: setMute
 //        DataBase.setMute(isMuted);

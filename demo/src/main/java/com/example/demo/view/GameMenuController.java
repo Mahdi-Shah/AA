@@ -4,6 +4,8 @@ import com.example.demo.controller.GameController;
 import com.example.demo.model.Ball;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
@@ -18,9 +20,12 @@ public class GameMenuController {
     }
 
     public void shootBall(boolean forFirstOpponent) {
-        if (GameController.getInstance().hasNotShotBall(forFirstOpponent))
+        if (GameController.getInstance().hasNotShotBall(forFirstOpponent)) {
             GameController.getInstance().shootBall(forFirstOpponent);
-        else {
+            Media media = new Media(getClass().getResource("/com/example/demo/media/exp4.wav").toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setAutoPlay(true);
+        } else {
             (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOU_HAVE_NOT_ANOTHER_BALL))).show();
         }
     }
@@ -176,5 +181,25 @@ public class GameMenuController {
 
     public void moveLostGameBalls() {
         GameController.getInstance().moveLostGameBalls();
+    }
+
+    public boolean isIceProgressTime() {
+        return GameController.getInstance().isIceProgressTime();
+    }
+
+    public double getTimesRemainToEndIceProgress() {
+        return GameController.getInstance().getTimesRemainToEndIceProgress();
+    }
+
+    public double getIceProgressTime() {
+        return GameController.getInstance().getIceProgressTime();
+    }
+
+    public boolean isSecondPlayerWin() {
+        return GameController.getInstance().secondPlayerWin();
+    }
+
+    public void moveSecondPlayerGameWinBalls(double now) {
+        GameController.getInstance().moveSecondPlayerGameWinBalls(now);
     }
 }

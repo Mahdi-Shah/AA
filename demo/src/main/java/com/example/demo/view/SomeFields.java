@@ -1,5 +1,6 @@
 package com.example.demo.view;
 
+import com.example.demo.model.DataBase;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -10,17 +11,32 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 public interface SomeFields {
 
     int HEIGHT = 700;
     int WIDTH = 600;
+
+    Media gameMedia = new Media(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/media/GTA.mp3")).toString());
+    MediaPlayer gameMediaPlayer = new MediaPlayer(gameMedia);
+
+    Media gameSong1 = new Media(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/media/gameSong1.mp3")).toString());
+    Media gameSong2 = new Media(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/media/gameSong2.mp3")).toString());
+    Media gameSong3 = new Media(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/media/gameSong3.mp3")).toString());
+
+    MediaPlayer gameSongPlayer1 = new MediaPlayer(gameSong1);
+    MediaPlayer gameSongPlayer2 = new MediaPlayer(gameSong2);
+    MediaPlayer gameSongPlayer3 = new MediaPlayer(gameSong3);
+
 
     static void addName(VBox vBox) {
         Label nameLabel = new Label(Labels.getLabel(Labels.NAME));
@@ -120,5 +136,41 @@ public interface SomeFields {
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         return imageView;
+    }
+
+    static void playSong() {
+        gameMediaPlayer.setAutoPlay(false);
+
+    }
+    static void startSong() {
+        gameMediaPlayer.setAutoPlay(true);
+    }
+
+    static void stopDefaultSong() {
+        gameMediaPlayer.setMute(true);
+    }
+
+    static void startGameSong(int songNumber) {
+        switch (songNumber) {
+            case 1 -> {
+                gameSongPlayer1.setAutoPlay(true);
+            } case 2 -> {
+                gameSongPlayer2.setAutoPlay(true);
+            } case 3 -> {
+                gameSongPlayer3.setAutoPlay(true);
+            }
+        }
+    }
+
+    static void stopGameSong(int songNumber) {
+        switch (songNumber) {
+            case 1 -> {
+                gameSongPlayer1.setMute(true);
+            } case 2 -> {
+                gameSongPlayer2.setMute(true);
+            } case 3 -> {
+                gameSongPlayer3.setMute(true);
+            }
+        }
     }
 }

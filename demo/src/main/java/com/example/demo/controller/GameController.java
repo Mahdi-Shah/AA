@@ -310,7 +310,7 @@ public class GameController {
         return false;
     }
 
-    private boolean secondPlayerWin() {
+    public boolean secondPlayerWin() {
         GameBoard gameBoard = DataBase.getCurrentGame();
         if (gameBoard.isTwosomeGame()) {
             for (int i = gameBoard.getBallNumber() + gameBoard.getDefaultBallNumber(); i < gameBoard.getAllBalls().size(); i++)
@@ -459,6 +459,41 @@ public class GameController {
                 ball.setBallY(ball.getBallY() + OUTGOING_VELOCITY);
             }
         }
+    }
+
+    public boolean isIceProgressTime() {
+        return DataBase.getCurrentGame().getIceProgress().isInIceProgressTime();
+    }
+
+    public double getTimesRemainToEndIceProgress() {
+        return  - DataBase.getCurrentGame().getAllSecondsDouble() +
+                DataBase.getCurrentGame().getIceProgress().getWhenIceProgressBegins() +
+                DataBase.getCurrentGame().getIceProgress().getIceProgressTime() + 1;
+    }
+
+    public void moveSecondPlayerGameWinBalls(double now) {
+        double temp = now;
+        while (temp > 250000000)
+            temp -= 250000000;
+        int up = 1;
+        if (temp > 125000000)
+            up = -1;
+        GameBoard gameBoard = DataBase.getCurrentGame();
+        gameBoard.setBallsRotateSpeed(0.07);
+        moveBalls();
+        for (Ball ball : gameBoard.getAllBalls()) {
+            if (ball.isConnect()) {
+                double deltaX = controller.getCircleCenterX() - ball.getBallX();
+                double deltaY = controller.getCircleCenterY() - ball.getBallY();
+                double angle = Math.atan2(deltaY, deltaX);
+                ball.setBallX(ball.getBallX() - up * OUTGOING_VELOCITY * Math.cos(angle) / 4);
+                ball.setBallY(ball.getBallY() - up * OUTGOING_VELOCITY * Math.sin(angle) / 4);
+            }
+        }
+    }
+
+    public double getIceProgressTime() {
+        return DataBase.getCurrentGame().getIceProgress().getIceProgressTime();
     }
 }
 

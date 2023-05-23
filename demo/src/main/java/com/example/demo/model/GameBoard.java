@@ -170,6 +170,12 @@ public class GameBoard{
         }
     }
 
+    public void setBallsRotateSpeed(double v) {
+        for (Ball ball : allBalls) {
+            ball.setBallRotateSpeed(v);
+        }
+    }
+
     public boolean isTwiceFazeBegins() {
         if (ballsShot > 0)
             if (twiceFazeBegins || ballNumber / ballsShot <= 4)
