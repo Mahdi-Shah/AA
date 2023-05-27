@@ -3,6 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.model.DataBase;
 import javafx.scene.input.KeyCode;
 
+import java.io.IOException;
+
+import static com.example.demo.view.SomeFields.playSong;
+
 public class SettingController {
     private static SettingController controller = null;
     
@@ -12,7 +16,7 @@ public class SettingController {
         return controller;
     }
 
-    public void submit(int ballCount, int rotationSpeed, double windSpeed, int freezeTime, boolean isMuted, boolean isBlackAndWhite, String language) {
+    public void submit(int ballCount, int rotationSpeed, double windSpeed, int freezeTime, boolean isMuted, boolean isBlackAndWhite, String language) throws IOException {
         DataBase.setBallNumber(ballCount);
         double rotateSpeed = rotationSpeed;
         rotateSpeed /= 100;
@@ -20,10 +24,10 @@ public class SettingController {
         DataBase.setWindRange(windSpeed);
         DataBase.setIceProgressTime(freezeTime - 1);
         DataBase.setBlackAndWhite(isBlackAndWhite);
-        //TODO: setMute
-//        DataBase.setMute(isMuted);
+        DataBase.setMuteMenu(isMuted);
         DataBase.setLanguage(language);
-
+        DataBase.saveSettings();
+        playSong();
 
     }
 

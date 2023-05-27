@@ -7,10 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Objects;
 
@@ -78,19 +76,5 @@ public class LoginMenu extends Application {
 
         vBox.getChildren().add(loginButton);
         vBox.getChildren().add(backButton);
-    }
-
-
-    private void setBackground(VBox vBox) throws FileNotFoundException {
-
-        FileInputStream inputStream = new FileInputStream("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\background.jpg");
-        Image image = new Image(inputStream);
-        BackgroundImage backgroundimage = new BackgroundImage(image,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundimage);
-        vBox.setBackground(background);
     }
 }

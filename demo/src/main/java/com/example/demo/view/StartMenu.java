@@ -52,7 +52,7 @@ public class StartMenu extends Application {
         vBox.getStyleClass().add("vbox");
 
         Scene scene = new Scene(vBox, WIDTH, HEIGHT);
-        setRegisterAndLoginBackground(vBox);
+        setBackground(vBox);
 
 
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());

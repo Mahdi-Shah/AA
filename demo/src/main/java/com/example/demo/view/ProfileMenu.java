@@ -43,7 +43,7 @@ public class ProfileMenu extends Application {
         vBox.setMinWidth(WIDTH);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(20);
-        setRegisterAndLoginBackground(vBox);
+        setBackground(vBox);
         addFormName(vBox, Labels.getLabel(Labels.PROFILE_MENU));
         addButtons(vBox, stage);
     }

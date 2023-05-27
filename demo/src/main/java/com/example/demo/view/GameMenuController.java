@@ -2,6 +2,7 @@ package com.example.demo.view;
 
 import com.example.demo.controller.GameController;
 import com.example.demo.model.Ball;
+import com.example.demo.model.DataBase;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
@@ -9,6 +10,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
+
+import static com.example.demo.view.SomeFields.playGameSong;
+import static com.example.demo.view.SomeFields.stopGameSong;
 
 public class GameMenuController {
     private static GameMenuController menuController = null;
@@ -22,9 +26,7 @@ public class GameMenuController {
     public void shootBall(boolean forFirstOpponent) {
         if (GameController.getInstance().hasNotShotBall(forFirstOpponent)) {
             GameController.getInstance().shootBall(forFirstOpponent);
-            Media media = new Media(getClass().getResource("/com/example/demo/media/exp4.wav").toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setAutoPlay(true);
+            playMedia();
         } else {
             (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.YOU_HAVE_NOT_ANOTHER_BALL))).show();
         }
@@ -201,5 +203,23 @@ public class GameMenuController {
 
     public void moveSecondPlayerGameWinBalls(double now) {
         GameController.getInstance().moveSecondPlayerGameWinBalls(now);
+    }
+
+    public void setGameMute(boolean selected) {
+
+        GameController.getInstance().setGameMute(selected);
+    }
+
+    public void setGameSongNumber(Integer value) {
+        GameController.getInstance().setGameSongNumber(value);
+        stopGameSong();
+        playGameSong();
+    }
+
+    private void playMedia() {
+        Media media = new Media(getClass().getResource("/com/example/demo/media/exp4.wav").toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        if (!GameController.getInstance().isMuteGame())
+            mediaPlayer.setAutoPlay(true);
     }
 }

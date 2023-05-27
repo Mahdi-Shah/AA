@@ -29,8 +29,8 @@ public class RegisterMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        startSong();
+        stopGameSong();
+        playSong();
 
         setScene(primaryStage);
         primaryStage.show();
@@ -43,7 +43,7 @@ public class RegisterMenu extends Application {
         scrollPane.setContent(vBox);
         stage.setTitle(Labels.getLabel(Labels.REGISTER_MENU));
 
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/Style.css")).toExternalForm());
         setVBOX(vBox, stage);
 
         stage.setScene(scene);
@@ -57,7 +57,7 @@ public class RegisterMenu extends Application {
         vBox.setMinWidth(WIDTH);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(20);
-        setRegisterAndLoginBackground(vBox);
+        setBackground(vBox);
         addFormName(vBox, Labels.getLabel(Labels.REGISTER_MENU));
         addName(vBox);
         addPassword(vBox);
@@ -177,6 +177,7 @@ public class RegisterMenu extends Application {
 
     public static void main(String[] args) throws IOException {
         DataBase.readDataFromBase();
+        DataBase.readSettings();
         launch(args);
     }
 

@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import javafx.scene.input.KeyCode;
 public class DataBase {
     private static ArrayList<User> users = new ArrayList<>();
 
+    private static Settings settings = new Settings();
+
     private static int ballNumber = 10;
     private static double windRange = 1.5;
     private static double rotateSpeed = 0.05;
@@ -28,6 +31,7 @@ public class DataBase {
     private static String language = "English";
     private static boolean muteMenu = false;
     private static boolean muteGame = false;
+    private static int gameSongNumber = 2;
 
     private static KeyCode stopGameKeyCode = KeyCode.ESCAPE;
     private static KeyCode goRightFirstOpponent = KeyCode.RIGHT;
@@ -94,18 +98,22 @@ public class DataBase {
 
     public static void setBallNumber(int ballNumber) {
         DataBase.ballNumber = ballNumber;
+        settings.setBallNumber(ballNumber);
     }
 
     public static void setWindRange(double windRange) {
         DataBase.windRange = windRange;
+        settings.setWindRange(windRange);
     }
 
     public static void setRotateSpeed(double rotateSpeed) {
         DataBase.rotateSpeed = rotateSpeed;
+        settings.setRotateSpeed(rotateSpeed);
     }
 
     public static void setIceProgressTime(int iceProgressTime) {
         DataBase.iceProgressTime = iceProgressTime;
+        settings.setIceProgressTime(iceProgressTime);
     }
 
     public static void setNumberOfDefaultBalls(int numberOfDefaultBalls) {
@@ -122,6 +130,7 @@ public class DataBase {
 
     public static void setBlackAndWhite(boolean blackAndWhite) {
         DataBase.blackAndWhite = blackAndWhite;
+        settings.setBlackAndWhite(blackAndWhite);
     }
 
     public static void setCurrentGame(GameBoard currentGame) {
@@ -138,6 +147,7 @@ public class DataBase {
 
     public static void setStopGameKeyCode(KeyCode stopGameKeyCode) {
         DataBase.stopGameKeyCode = stopGameKeyCode;
+        settings.setStopGameKeyCode(stopGameKeyCode);
     }
 
     public static KeyCode getGoRightFirstOpponent() {
@@ -146,6 +156,7 @@ public class DataBase {
 
     public static void setGoRightFirstOpponent(KeyCode goRightFirstOpponent) {
         DataBase.goRightFirstOpponent = goRightFirstOpponent;
+        settings.setGoRightFirstOpponent(goRightFirstOpponent);
     }
 
     public static KeyCode getGoLeftFirstOpponent() {
@@ -154,6 +165,7 @@ public class DataBase {
 
     public static void setGoLeftFirstOpponent(KeyCode goLeftFirstOpponent) {
         DataBase.goLeftFirstOpponent = goLeftFirstOpponent;
+        settings.setGoLeftFirstOpponent(goLeftFirstOpponent);
     }
 
     public static KeyCode getGoRightSecondOpponent() {
@@ -162,6 +174,7 @@ public class DataBase {
 
     public static void setGoRightSecondOpponent(KeyCode goRightSecondOpponent) {
         DataBase.goRightSecondOpponent = goRightSecondOpponent;
+        settings.setGoRightSecondOpponent(goRightSecondOpponent);
     }
 
     public static KeyCode getGoLeftSecondOpponent() {
@@ -170,6 +183,7 @@ public class DataBase {
 
     public static void setGoLeftSecondOpponent(KeyCode goLeftSecondOpponent) {
         DataBase.goLeftSecondOpponent = goLeftSecondOpponent;
+        settings.setGoLeftSecondOpponent(goLeftSecondOpponent);
     }
 
     public static KeyCode getShootBallFirstOpponent() {
@@ -178,6 +192,7 @@ public class DataBase {
 
     public static void setShootBallFirstOpponent(KeyCode shootBallFirstOpponent) {
         DataBase.shootBallFirstOpponent = shootBallFirstOpponent;
+        settings.setShootBallFirstOpponent(shootBallFirstOpponent);
     }
 
     public static KeyCode getShootBallSecondOpponent() {
@@ -186,6 +201,7 @@ public class DataBase {
 
     public static void setShootBallSecondOpponent(KeyCode shootBallSecondOpponent) {
         DataBase.shootBallSecondOpponent = shootBallSecondOpponent;
+        settings.setShootBallSecondOpponent(shootBallSecondOpponent);
     }
 
     public static KeyCode getIceKey() {
@@ -194,6 +210,7 @@ public class DataBase {
 
     public static void setIceKey(KeyCode iceKey) {
         DataBase.iceKey = iceKey;
+        settings.setIceKey(iceKey);
     }
 
     public static void setRivalUsername(String rivalUsername) {
@@ -206,6 +223,7 @@ public class DataBase {
 
     public static void setLanguage(String language) {
         DataBase.language = language;
+        settings.setLanguage(language);
     }
 
     public static boolean isMuteMenu() {
@@ -214,13 +232,61 @@ public class DataBase {
 
     public static void setMuteMenu(boolean muteMenu) {
         DataBase.muteMenu = muteMenu;
+        settings.setMuteMenu(muteMenu);
     }
 
     public static boolean isMuteGame() {
         return muteGame;
     }
 
+    public static int getGameSongNumber() {
+        return gameSongNumber;
+    }
+
+    public static void setGameSongNumber(int gameSongNumber) {
+        DataBase.gameSongNumber = gameSongNumber;
+        settings.setGameSongNumber(gameSongNumber);
+    }
+
     public static void setMuteGame(boolean muteGame) {
         DataBase.muteGame = muteGame;
+        settings.setMuteGame(muteGame);
     }
+
+    public static void readSettings() throws IOException {
+        Gson gson = new Gson();
+        FileReader reader = new FileReader(Objects.requireNonNull(RegisterMenu.class.getResource(
+                "/com/example/demo/usersdatabase/settings.json")).getFile());
+        Settings setting = gson.fromJson(reader, new TypeToken<Settings>() {}.getType());
+        reader.close();
+        if (setting == null)
+            return;
+        setBallNumber(setting.getBallNumber());
+        setWindRange(setting.getWindRange());
+        setRotateSpeed(setting.getRotateSpeed());
+        setIceProgressTime(setting.getIceProgressTime());
+        setBlackAndWhite(setting.isBlackAndWhite());
+        setLanguage(setting.getLanguage());
+        setMuteMenu(setting.isMuteMenu());
+        setMuteGame(setting.isMuteGame());
+        setGameSongNumber(setting.getGameSongNumber());
+
+        setStopGameKeyCode(setting.getStopGameKeyCode());
+        setGoRightFirstOpponent(setting.getGoRightFirstOpponent());
+        setGoLeftFirstOpponent(setting.getGoLeftFirstOpponent());
+        setGoRightSecondOpponent(setting.getGoRightSecondOpponent());
+        setGoLeftSecondOpponent(setting.getGoLeftSecondOpponent());
+        setShootBallFirstOpponent(setting.getShootBallFirstOpponent());
+        setShootBallSecondOpponent(setting.getShootBallSecondOpponent());
+        setIceKey(setting.getIceKey());
+    }
+
+    public static void saveSettings() throws IOException {
+        Gson gson = new Gson();
+        String json = gson.toJson(settings);
+        FileWriter writer = new FileWriter(Objects.requireNonNull(RegisterMenu.class.getResource("/com/example/demo/usersdatabase/settings.json")).getFile());
+        writer.write(json);
+        writer.close();
+    }
+
 }

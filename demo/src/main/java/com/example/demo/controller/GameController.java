@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.example.demo.model.Dimension.*;
+import static com.example.demo.view.SomeFields.*;
+import static com.example.demo.view.SomeFields.HEIGHT;
 import static com.example.demo.view.SomeFields.WIDTH;
 
 public class GameController {
@@ -494,6 +496,23 @@ public class GameController {
 
     public double getIceProgressTime() {
         return DataBase.getCurrentGame().getIceProgress().getIceProgressTime();
+    }
+
+    public void setGameMute(boolean selected) {
+        DataBase.setMuteGame(selected);
+        playGameSong();
+    }
+
+    public int getSongNumber() {
+        return DataBase.getGameSongNumber();
+    }
+
+    public void setGameSongNumber(Integer value) {
+        DataBase.setGameSongNumber(value);
+    }
+
+    public boolean isMuteGame() {
+        return DataBase.isMuteGame();
     }
 }
 

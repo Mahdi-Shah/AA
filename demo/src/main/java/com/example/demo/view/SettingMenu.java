@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Objects;
 
 import static com.example.demo.view.SomeFields.*;
@@ -134,6 +135,8 @@ public class SettingMenu extends Application {
                         rotationSpeed, windSpeed, freezeTime, isMuted, isBlackAndWhite, language, stage);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
 
@@ -163,6 +166,7 @@ public class SettingMenu extends Application {
                 keyChoiceBox, submitButton, backButton);
         vBox.setAlignment(Pos.CENTER);
         vBox.getStyleClass().add("vbox");
+        setBackground(vBox);
 
         Scene scene = new Scene(vBox, WIDTH, HEIGHT);
 

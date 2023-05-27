@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import static com.example.demo.view.SomeFields.handleButtonColor;
-import static com.example.demo.view.SomeFields.setRegisterAndLoginBackground;
+import static com.example.demo.view.SomeFields.setBackground;
 
 public class PauseMenu extends Application {
     @Override
@@ -85,7 +85,11 @@ public class PauseMenu extends Application {
         });
 
         muteCheckBox.setOnAction(event -> {
+            GameMenuController.getInstance().setGameMute(muteCheckBox.isSelected());
+        });
 
+        musicChoiceBox.setOnAction(event -> {
+            GameMenuController.getInstance().setGameSongNumber(musicChoiceBox.getValue());
         });
 
         vBox.setAlignment(Pos.CENTER);
@@ -97,7 +101,7 @@ public class PauseMenu extends Application {
         Scene scene = new Scene(vBox);
         scene.getStylesheets().add(Objects.requireNonNull(
                 getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
-        setRegisterAndLoginBackground(vBox);
+        setBackground(vBox);
         primaryStage.setScene(scene);
         primaryStage.show();
 

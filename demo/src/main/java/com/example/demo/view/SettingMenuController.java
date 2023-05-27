@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class SettingMenuController {
     private static SettingMenuController menuController = null;
@@ -18,7 +19,7 @@ public class SettingMenuController {
 
 
     public void submit(int ballCount, int rotationSpeed, double windSpeed, int freezeTime, boolean isMuted,
-                       boolean isBlackAndWhite, String language, Stage stage) throws FileNotFoundException {
+                       boolean isBlackAndWhite, String language, Stage stage) throws IOException {
         if (ballCount == 0) {
             (new Alert(Alert.AlertType.ERROR, Labels.getLabel(Labels.NUMBER_OF_BALLS_CANT_BE_ZERO))).show();
             return;

@@ -82,9 +82,15 @@ public interface SomeFields {
         button.setMaxWidth(180);
     }
 
-    static void setRegisterAndLoginBackground(VBox vBox) throws FileNotFoundException {
+    static void setBackground(VBox vBox) throws FileNotFoundException {
+        FileInputStream inputStream;
+        if (!DataBase.isBlackAndWhite())
+            inputStream = new FileInputStream(
+                    "C:\\Users\\Mahdi\\Documents\\GitHub\\project-group-12\\Maitn\\AA\\demo\\target\\classes\\com\\example\\demo\\images\\background.png");
+        else
+            inputStream = new FileInputStream(
+                    "C:\\Users\\Mahdi\\Documents\\GitHub\\project-group-12\\Maitn\\AA\\demo\\target\\classes\\com\\example\\demo\\images\\bwbackground.jpg");
 
-        FileInputStream inputStream = new FileInputStream("C:\\Users\\Mahdi\\Desktop\\Class\\Term 2\\AP\\2\\demo\\src\\main\\resources\\com\\example\\demo\\images\\background.jpg");
         Image image = new Image(inputStream);
         BackgroundImage backgroundimage = new BackgroundImage(image,
                 BackgroundRepeat.NO_REPEAT,
@@ -97,38 +103,43 @@ public interface SomeFields {
 
     static void handleButtonColor(Button button, int code) {
         setButtonSetting(button);
-        switch (code) {
-            case 1 -> {
-                button.setBackground(new Background(new BackgroundFill(Color.web("#3498db"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2980b9"), new CornerRadii(5), null))));
-                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#3498db"), new CornerRadii(5), null))));
+        if (DataBase.isBlackAndWhite()) {
+            button.setBackground(new Background(new BackgroundFill(Color.web("#000"), new CornerRadii(5), null)));
+            button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#333"), new CornerRadii(5), null))));
+            button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#000"), new CornerRadii(5), null))));
+        } else
+            switch (code) {
+                case 1 -> {
+                    button.setBackground(new Background(new BackgroundFill(Color.web("#3498db"), new CornerRadii(5), null)));
+                    button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2980b9"), new CornerRadii(5), null))));
+                    button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#3498db"), new CornerRadii(5), null))));
+                }
+                case 2 -> {
+                    button.setBackground(new Background(new BackgroundFill(Color.web("#2ecc71"), new CornerRadii(5), null)));
+                    button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#27ae60"), new CornerRadii(5), null))));
+                    button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2ecc71"), new CornerRadii(5), null))));
+                }
+                case 3 -> {
+                    button.setBackground(new Background(new BackgroundFill(Color.web("#e74c3c"), new CornerRadii(5), null)));
+                    button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#c0392b"), new CornerRadii(5), null))));
+                    button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#e74c3c"), new CornerRadii(5), null))));
+                }
+                case 4 -> {
+                    button.setBackground(new Background(new BackgroundFill(Color.web("#34495e"), new CornerRadii(5), null)));
+                    button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2c3e50"), new CornerRadii(5), null))));
+                    button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#34495e"), new CornerRadii(5), null))));
+                }
+                case 5 -> {
+                    button.setBackground(new Background(new BackgroundFill(Color.web("#fde93b"), new CornerRadii(5), null)));
+                    button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#cfbe31"), new CornerRadii(5), null))));
+                    button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#fde93b"), new CornerRadii(5), null))));
+                }
+                case 6 -> {
+                    button.setBackground(new Background(new BackgroundFill(Color.web("#7c20a1"), new CornerRadii(5), null)));
+                    button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#561771"), new CornerRadii(5), null))));
+                    button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#7c20a1"), new CornerRadii(5), null))));
+                }
             }
-            case 2 -> {
-                button.setBackground(new Background(new BackgroundFill(Color.web("#2ecc71"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#27ae60"), new CornerRadii(5), null))));
-                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2ecc71"), new CornerRadii(5), null))));
-            }
-            case 3 -> {
-                button.setBackground(new Background(new BackgroundFill(Color.web("#e74c3c"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#c0392b"), new CornerRadii(5), null))));
-                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#e74c3c"), new CornerRadii(5), null))));
-            }
-            case 4 -> {
-                button.setBackground(new Background(new BackgroundFill(Color.web("#34495e"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#2c3e50"), new CornerRadii(5), null))));
-                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#34495e"), new CornerRadii(5), null))));
-            }
-            case 5 -> {
-                button.setBackground(new Background(new BackgroundFill(Color.web("#fde93b"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#cfbe31"), new CornerRadii(5), null))));
-                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#fde93b"), new CornerRadii(5), null))));
-            }
-            case 6 -> {
-                button.setBackground(new Background(new BackgroundFill(Color.web("#7c20a1"), new CornerRadii(5), null)));
-                button.setOnMouseEntered(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#561771"), new CornerRadii(5), null))));
-                button.setOnMouseExited(event -> button.setBackground(new Background(new BackgroundFill(Color.web("#7c20a1"), new CornerRadii(5), null))));
-            }
-        }
     }
 
     static ImageView createImageView(String path) {
@@ -139,38 +150,49 @@ public interface SomeFields {
     }
 
     static void playSong() {
-        gameMediaPlayer.setAutoPlay(false);
-
+        if (DataBase.isMuteMenu()) {
+            stopMenuSong();
+        } else {
+            gameMediaPlayer.setMute(false);
+            gameMediaPlayer.setAutoPlay(true);
+            gameMediaPlayer.setCycleCount(-1);
+        }
     }
-    static void startSong() {
-        gameMediaPlayer.setAutoPlay(true);
-    }
 
-    static void stopDefaultSong() {
+    static void stopMenuSong() {
         gameMediaPlayer.setMute(true);
     }
 
     static void startGameSong(int songNumber) {
         switch (songNumber) {
             case 1 -> {
+                gameSongPlayer1.setMute(false);
                 gameSongPlayer1.setAutoPlay(true);
-            } case 2 -> {
+                gameSongPlayer1.setCycleCount(-1);
+            }
+            case 2 -> {
+                gameSongPlayer2.setMute(false);
                 gameSongPlayer2.setAutoPlay(true);
-            } case 3 -> {
+                gameSongPlayer2.setCycleCount(-1);
+            }
+            case 3 -> {
+                gameSongPlayer3.setMute(false);
                 gameSongPlayer3.setAutoPlay(true);
+                gameSongPlayer3.setCycleCount(-1);
             }
         }
     }
 
-    static void stopGameSong(int songNumber) {
-        switch (songNumber) {
-            case 1 -> {
-                gameSongPlayer1.setMute(true);
-            } case 2 -> {
-                gameSongPlayer2.setMute(true);
-            } case 3 -> {
-                gameSongPlayer3.setMute(true);
-            }
-        }
+    static void stopGameSong() {
+        gameSongPlayer1.setMute(true);
+        gameSongPlayer2.setMute(true);
+        gameSongPlayer3.setMute(true);
+    }
+
+    static void playGameSong() {
+        if (DataBase.isMuteGame())
+            stopGameSong();
+        else
+            startGameSong(DataBase.getGameSongNumber());
     }
 }

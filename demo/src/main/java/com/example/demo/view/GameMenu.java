@@ -18,9 +18,7 @@ import javafx.scene.shape.FillRule;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
-import static com.example.demo.view.SomeFields.HEIGHT;
-import static com.example.demo.view.SomeFields.WIDTH;
+import static com.example.demo.view.SomeFields.*;
 
 
 public class GameMenu extends Application {
@@ -30,6 +28,8 @@ public class GameMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stopMenuSong();
+        playGameSong();
 
         BorderPane root = new BorderPane();
 

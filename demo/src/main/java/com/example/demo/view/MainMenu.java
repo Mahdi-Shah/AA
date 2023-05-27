@@ -19,6 +19,8 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stopGameSong();
+        playSong();
         setStage(stage);
     }
 
@@ -44,7 +46,7 @@ public class MainMenu extends Application {
         vBox.setMinWidth(WIDTH);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(20);
-        setRegisterAndLoginBackground(vBox);
+        setBackground(vBox);
         addFormName(vBox, Labels.getLabel(Labels.MAIN_MENU));
         addButtons(vBox, stage);
     }

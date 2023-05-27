@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 import static com.example.demo.view.SomeFields.handleButtonColor;
-import static com.example.demo.view.SomeFields.setRegisterAndLoginBackground;
+import static com.example.demo.view.SomeFields.setBackground;
 
 public class ScoreboardMenu extends Application {
 
@@ -111,7 +111,7 @@ public class ScoreboardMenu extends Application {
         root.getChildren().addAll(table, backButton);
         Scene scene = new Scene(root, 400, 400);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
-        setRegisterAndLoginBackground(root);
+        setBackground(root);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

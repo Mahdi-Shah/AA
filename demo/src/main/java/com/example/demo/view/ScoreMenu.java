@@ -19,7 +19,7 @@ public class ScoreMenu extends Application {
     public void start(Stage primaryStage) throws Exception {
         VBox vBox = new VBox();
         Scene scene = new Scene(vBox);
-        setRegisterAndLoginBackground(vBox);
+        setBackground(vBox);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(20);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/demo/css/style.css")).toExternalForm());
