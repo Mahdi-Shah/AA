@@ -83,22 +83,22 @@ public interface SomeFields {
     }
 
     static void setBackground(VBox vBox) throws FileNotFoundException {
-        FileInputStream inputStream;
-        if (!DataBase.isBlackAndWhite())
-            inputStream = new FileInputStream(
-                    "C:\\Users\\Mahdi\\Documents\\GitHub\\project-group-12\\Maitn\\AA\\demo\\target\\classes\\com\\example\\demo\\images\\background.png");
-        else
-            inputStream = new FileInputStream(
-                    "C:\\Users\\Mahdi\\Documents\\GitHub\\project-group-12\\Maitn\\AA\\demo\\target\\classes\\com\\example\\demo\\images\\bwbackground.jpg");
-
-        Image image = new Image(inputStream);
-        BackgroundImage backgroundimage = new BackgroundImage(image,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundimage);
-        vBox.setBackground(background);
+//        FileInputStream inputStream;
+//        if (!DataBase.isBlackAndWhite())
+//            inputStream = new FileInputStream(
+//                    "C:\\Users\\Mahdi\\Documents\\GitHub\\project-group-12\\Maitn\\AA\\demo\\target\\classes\\com\\example\\demo\\images\\background.png");
+//        else
+//            inputStream = new FileInputStream(
+//                    "C:\\Users\\Mahdi\\Documents\\GitHub\\project-group-12\\Maitn\\AA\\demo\\target\\classes\\com\\example\\demo\\images\\bwbackground.jpg");
+//
+//        Image image = new Image(inputStream);
+//        BackgroundImage backgroundimage = new BackgroundImage(image,
+//                BackgroundRepeat.NO_REPEAT,
+//                BackgroundRepeat.NO_REPEAT,
+//                BackgroundPosition.DEFAULT,
+//                BackgroundSize.DEFAULT);
+//        Background background = new Background(backgroundimage);
+//        vBox.setBackground(background);
     }
 
     static void handleButtonColor(Button button, int code) {
